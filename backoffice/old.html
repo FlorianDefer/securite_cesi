@@ -1,0 +1,1304 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+header('Content-Type: text/html; charset=UTF-8');
+?>
+
+<html>	
+<head>
+  <title>Outil Gestion Roadmap</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/bootstrap-4.5.0-dist/css/bootstrap.min.css"  crossorigin="anonymous">
+  <link href="assets/css/bootstrap-datepicker.css"rel="stylesheet">
+  <link href="assets/css/service_colors1.css"rel="stylesheet">
+  <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/fontawesome-pro-5.8.2-web/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/fontawesome-pro-5.8.2-web/css/brands.css" >
+  <link rel="stylesheet" href="assets/fontawesome-pro-5.8.2-web/css/solid.css">
+  <link  rel = "stylesheet"  href = "assets/css/quill.snow.css" > 
+  <link  rel = "stylesheet"  href = "assets/print_js/print.min.css" > 
+  <link  rel = "stylesheet"
+  href = "assets/dropzone/dropzone.min.css" > 
+ 
+<style>
+.ql-container div{
+    height: auto;
+}
+.ql-snow {
+   height: auto;
+}
+.alert {
+     margin-bottom: 0rem;
+}
+
+@font-face {
+font-family: 'Courier';
+src: url('Courier.woff2') format('woff2'),
+
+font-weight: normal;
+font-style: normal;
+}
+
+.ql-font-Courier {
+  font-family: "Courier";
+}
+
+#toolbar-container .ql-font span[data-label="Courier"]::before {
+  font-family: "Courier";
+}
+
+
+
+
+
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+	top : 30px;
+} 
+
+.navbar-expand-sm .navbar-nav .dropdown-menu {
+    position: absolute;
+    top: 30px;
+}
+
+
+
+
+
+.dropdown-submenu {
+    position:relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top:0;
+    left:100%;
+    margin-top:-6px;
+	top : 30px;
+}
+
+.btn-primary{
+	outline: none !important;
+     box-shadow: none !important;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+     box-shadow: none !important;
+}
+
+
+#table label {
+	
+    margin-bottom: 0px;
+    margin-top: 6px;
+
+}
+#select_option {
+		 display: inline-block;
+}
+#select_mixage , #select_color, #table_length, #table_search{
+	 width:auto;
+	 display: inline-block;
+	 height : 24 px;
+	 padding-top:   0.rem;
+	 padding-right: 0.rem;
+     padding-bottom:0.rem;
+     padding-left:  0.rem;
+}
+#table_id_filter {
+	display: inline-block;
+}
+
+fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+	background-color: white;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+    box-shadow:  0px 0px 0px 0px #000;
+}
+
+
+
+
+td 
+{
+	word-break: break-word;
+    text-align: auto; 
+    vertical-align: middle;
+	padding: 0px 0px; 
+}
+
+
+
+container {
+    max-width: 1756px;
+}
+media (min-width: 1200px)
+.container {
+    max-width: 1756px;
+}
+
+
+#play_sound{
+  background: rgba(0,0,0,0.8);
+  margin-bottom: 10px;
+}
+.modal-content {
+
+   top : 30%;
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+
+
+// .modal-open {
+    // overflow: hiddden;
+// }
+
+#visualizations-player {
+  padding: 1rem;
+  background-color: #000;
+  border-radius: .25em;
+}
+
+.timing {
+  display: flex;
+  justify-content: space-between
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#pre-load-img-container {
+  display: none;
+}
+
+.control-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amplitude-prev {
+  margin-right: 0.5rem;
+  width: 14px;
+  height: 18px;
+  background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/prev.svg");
+  cursor: pointer;
+  background-size: contain;
+}
+
+.amplitude-play-pause {
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.amplitude-play-pause.amplitude-playing {
+  background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/pause.svg")
+    no-repeat center;
+  background-size: contain;
+}
+
+.amplitude-play-pause.amplitude-paused {
+  
+  background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/play.svg") 
+    no-repeat center; 
+  background-size: contain;
+ 
+}
+
+.volume-container {
+  margin: 0 1.5rem;
+}
+
+.amplitude-next {
+  margin-left: 0.5rem;
+  width: 14px;
+  height: 18px;
+  background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/next.svg");
+  background-size: contain;
+  cursor: pointer;
+}
+
+.meta-data-container {
+  margin-top: 150px;
+}
+
+.amplitude-wave-form-wrapper {
+  margin: 0 1rem;
+}
+
+.amplitude-wave-form svg {
+	margin-top : 5px;
+  stroke: url(#gradient);
+  height: 150px;
+  width: 100%;
+  
+}
+
+.amplitude-wave-form svg g {
+  stroke: url(#gradient);
+  height: 150px;
+  width: 100%;
+}
+
+div.amplitude-wave-form svg g path {
+	    stroke: #69F5A2;
+
+  height: 150px;
+  width: 100%;
+}
+
+.amplitude-current-time,
+.amplitude-time-remaining {
+  color: white;
+  font-size: 12px;
+}
+
+input[type="range"]#global-large-song-slider {
+	
+  width: 100%;
+  height: 300px;
+  margin-top: -300px;
+  -webkit-appearance: none;
+  z-index: 9999;
+  background-color: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+   outline: none;
+}
+
+input[type="range"]#global-large-song-slider:focus {
+  outline: none;
+  
+}
+
+input[type="range"]#global-large-song-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  
+  cursor: pointer;
+  border-radius: 0px;
+  height: 68px;
+  background-color: rgba(0, 0, 0, 0);
+  -webkit-appearance: none;
+   outline: none;
+}
+
+input[type="range"]#global-large-song-slider::-webkit-slider-thumb {
+	vertical-align: center;
+  margin-top: 10px;
+  width: 4px;
+  height: 200px;
+  background-color: rgba(255,255,255, 0.8);
+  border-radius: 3px;
+  -webkit-appearance: none;
+  transform: translateY(50%)
+   outline: none;
+}
+
+
+.amplitude-song-slider:focus {
+  outline: none;
+  
+}
+input[type="range"]#global-large-song-slider::-moz-range-track {
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+  border-radius: 0px;
+  height: 32x;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+input[type="range"]#global-large-song-slider::-moz-range-thumb {
+  width: 2px;
+  height: 187px;
+  background-color: white;
+  border-radius: 2px;
+  -webkit-appearance: none;
+}
+
+input[type="range"]#global-large-song-slider::-ms-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.25);
+   outline: none;
+}
+
+input[type="range"]#global-large-song-slider::-ms-fill-lower {
+  background: transparent;
+	 outline: none;
+  }
+
+input[type="range"]#global-large-song-slider::-ms-fill-upper {
+  background: transparent;
+   outline: none;
+}
+
+input[type="range"]#global-large-song-slider::-ms-thumb {
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  border-radius: 2px;
+  -webkit-appearance: none;
+   outline: none;
+}
+.slick-slide, .slick-slide *{ outline: none !important; }
+.flex-1 {
+  flex: 1 0 auto;
+}
+@-moz-document url-prefix() { 
+	.flex-1 {
+		flex: auto;
+	}
+	
+input[type="range"]#global-large-song-slider {
+	
+  width: 100%;
+  height: 170px;
+  margin-top: -162px;
+  -webkit-appearance: none;
+  z-index: 9999;
+  background-color: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+   outline: none;
+   position: absolute;
+}
+	
+	
+}
+type="range":focus {
+    outline: none !important;
+	
+}
+.amplitude-time-wrapper {
+  margin-left: 1rem;
+}
+
+
+legend.scheduler-border {
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+}
+
+
+//ajax loder
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 15px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 900px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 900px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 950px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 1000px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 0);
+  }
+}
+
+#retour_data {
+align-content: center;
+    z-index: 999999;
+    position: fixed;
+   
+    padding: 300px 0;
+	margin-left: auto;
+    margin-right: auto;
+	width: auto:
+}
+
+.row {
+	margin-right: 0px;
+}
+.col-2 {
+	padding-right: 0px;
+}
+#tool_container {
+	position: sticky;
+	top:25px;
+}
+#tool_container_archive {
+	// width:auto;
+	// padding-right:0px;
+	position: sticky;
+	top:25px;
+}
+.spinner-border {
+	width: 6rem;
+    height: 6rem;
+	border: .50em solid currentColor;
+	border-right-color: transparent;
+		display: inline-block;
+   
+    vertical-align: text-bottom;
+   
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+}
+
+.box_table_option {
+	background:White;
+	border-width:0px;
+	border-style:outset;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+	border-radius: 10px;
+	align-items: center;
+  justify-content: center;
+  padding-top: 15px;
+}
+.p-2 {
+    padding: 0.5em 1em 0.2em 1em!important;
+}
+.table-fluid {
+	padding-left: 15px;
+}
+
+.table td, .table th {
+   vertical-align: middle;
+}
+
+.table-input {
+  display: inline;
+  width: auto;
+}
+
+.form-control {
+	border: 1px solid #dfe1e5;
+	margin: 0 auto;
+}
+
+.form-control:focus, .form-control:after {
+	border: 2px solid #dfe1e5;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.fa-angle-right {
+	font-size: 2rem;
+}
+
+.p2a{
+	padding :0.5em 2.5em 0.2em 0em!important;
+}
+</style>
+</head>
+<body>
+	<div id="modal_container"></div>
+	<center>
+		<div  id="retour_data" style="" onclick="document.getElementById('retour_data').innerHTML = '' " ></div>
+	</center>
+	<!-- navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="index.php">Accueil</a>
+		<a class="navbar-brand" href="client.php">Client</a>
+	
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
+	
+	
+	<div class="row" id="row_table" style="min-height: 563px;">
+		<div class="col-10"> 
+			<br/>
+			<div class="d-flex bd-highlight">
+				<div class="p-2 flex-grow-1 bd-highlight">
+					<h2 style="margin-left:50px;"><label id="title"></label> </h2>
+				</div>
+				
+				<div class="p-2 bd-highlight">
+					<h2><div class="btn  btn-inline" onclick="verif_all()" id="verif_all"><p class="vertical-center" >Tous les messages correspondent</p></div></h2> 
+				</div>
+				<div class="p-2 bd-highlight">
+					<h2><div class="btn btn-inline" onclick="new_voice()" id="verif_all"><p class="vertical-center">Ajouter</p></div></h2>
+				</div>
+				
+				<div class="p-2 bd-highlight" style=" padding-right:0px!important;">
+					<!--<h2><button class="btn btn-primary" onclick="upload_zone()" id="new_upload">Ajouter plusieurs fichiers</button></h2> -->
+					<h2><div class="btn btn-inline" id="total_roadmap"><p class="vertical-center">Voir Roadmap</p></div></h2>
+				</div>
+			</div>
+	
+			<div class="d-flex bd-highlight mb-4">
+				<div style="margin-left:50px;"  class="p-2 bd-highlight box_table_option"  >	
+					Recherche par mixage 
+					<select onchange="custom_search()" id="select_mixage" class="form-control input-sm">
+							<option value="tous" >Tous</option>
+							<option value="deb_audio=oui" >Jingle</option>
+							<option value="musique=oui" >Musique</option>
+							<option value="fin_audio=FO" >Fade Out</option>
+							<option value="fin_audio=5S" >Musique Saisie</option>
+							<option value="fin_audio=boucle" >Boucle</option>
+							<option value="musique=non" >Voix</option>
+					</select>
+				</div> 
+				<div  class="p-2 bd-highlight">  &nbsp; </div>
+				<div  class="p-2 bd-highlight box_table_option"  >	
+					Recherche par couleur 
+					<select onchange="custom_search()" id="select_color" class="form-control input-sm">
+						<option value="tous"  style="color:black;">Tous</option>
+						<option value="default"  style="color:black;">noir</option>
+						<option value="red"			style="color:red;">rouge</option>
+						<option value="orange"	 style="color:orange;">orange</option>
+						<option value="green"		style="color:green;">vert</option>
+						<option value="blue"	 style="color:blue;">bleue</option>
+						<option value="purple"	 style="color:purple;">violet</option>
+					</select>
+				</div>
+				<div  class="p-2 bd-highlight">  &nbsp; </div>
+				<div  class="ml-auto p-2 bd-highlight box_table_option">	
+					Eléments afficher 
+					<select name="table_id_length" onchange="$('#table_id').DataTable().page.len($(this).val()).draw();" aria-controls="table_id" id="table_length" class="form-control input-sm">
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="-1">tous</option>
+					</select> 
+				</div>
+				<div  class="p-2 bd-highlight">  &nbsp; </div>
+				<div  class="m2-auto p-2 bd-highlight box_table_option" >	
+					<label>
+						Rechercher&nbsp;: 
+						<input type="search" onkeyup="$('#table_id').DataTable().search($(this).val()).draw()" class="form-control input-sm" id="table_search" placeholder="" aria-controls="table_id">
+					</label>
+				</div>	
+			</div>	
+			<div class="table-fluid">
+				<div id="table" ></div>
+				
+			</div>
+			<center id="loader_container" style="margin-top:50px"> </center>
+	
+				
+				
+		</div>
+		<div class="col-2 " id="col_tool_container">
+			<br/>
+			<div id="tool_container" class=" container container-fluid ">
+				<div class="box_table_option" style="display: inline-block; padding-bottom:15px;">
+					<legend>
+					&nbsp; <i class="fas fa-caret-down"></i> SELECTION :  	<span id="nb_select">0</span>		
+					</legend>
+
+				
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped btn-block" id="select_all">Tous selectionner </button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped btn-block" id="select_none">Tous déselectionner </button>
+						</div>
+					</div>
+					
+					<legend>
+						<br/>
+						&nbsp; <i class="fas fa-caret-down"></i> ACTION
+					</legend>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight" style="padding: 0.8em 1em 0.2em 1em!important;">
+							<i style="color:#f97f1b; padding-top:1rem;	font-size: 1.5rem;" class="fal fa-angle-right"></i>
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<div class="btn-action-grouped"  style="display: inline-block;">
+								Couleur : 
+								<select class="form-control" style="width: 120px; display: inline-block;" id="color_roadmap" onchange="change_color(value,'table_id');">
+									<option value="default"  style="color:black;">noir</option>
+									<option value="red"			style="color:red;">rouge</option>
+									<option value="orange"	 style="color:orange;">orange</option>
+									<option value="green"		style="color:green;">vert</option>
+									<option value="blue"	 style="color:blue;">bleue</option>
+									<option value="purple"	 style="color:purple;">violet</option>
+								</select> 
+							</div>  
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped " onclick="btn_roadmap_group('table_id')"id="btn_roadmap_group">Voir la Roadmap de la selection</button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped " onclick="btn_valid_group('table_id')"id="btn_valid_group">Valider la selection </button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">			
+							<button class="btn-action-grouped " onclick="btn_unvalid_group('table_id')"id="btn_unvalid_group">Mettre en conflit la selection</button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped " onclick="btn_archive_group('table_id')"id="btn_archive_group">Archiver la selection </button>
+						</div>
+					</div>
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+		
+	<div class="row">
+		<div class="col-10" id="archive_top_ref"> 
+			<div class="d-flex bd-highlight">
+				<div class="p-2 flex-grow-1 bd-highlight">
+					<h3  style=" margin-left:50px;" > Archiver : </h3>
+				</div>
+			</div>
+			<div class="d-flex bd-highlight mb-2">
+				<div  style="margin-left:50px;" class="p-2 bd-highlight box_table_option">	
+					Eléments afficher 
+					<select name="table_id_length" onchange="$('#table_archive_id').DataTable().page.len($(this).val()).draw();" aria-controls="table_id" id="table_archive_length" class="form-control input-sm table-input">
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="-1">tous</option>
+					</select> 
+				</div>
+		
+				<div  class="ml-auto p-2 bd-highlight box_table_option" >	
+						<label>Rechercher&nbsp;: <input type="search" onkeyup="$('#table_archive_id').DataTable().search($(this).val()).draw()" class="form-control input-sm table-input" id="table_archive_search" placeholder="" aria-controls="table_id"></label>
+				</div>
+			</div>
+		<div class="table-fluid">
+				<div id="table_archive" class="table"></div>
+				
+			</div>
+		</div>
+		
+		<div class="col-2 " id="col_tool_container_archive">
+			<br/>
+			<div id="tool_container_archive" class=" container container-fluid ">
+				<div class="box_table_option" style="display: inline-block; padding-bottom:15px;">
+					<legend>
+					&nbsp; <i class="fas fa-caret-down"></i> SELECTION :  	<span id="nb_select_archive">0</span>		
+					</legend>
+					
+					
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped btn-block" id="select_all_archive">Tous selectionner </button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped btn-block" id="select_none_archive">Tous déselectionner </button>
+						</div>
+					</div>
+					
+					<legend>
+						<br/>
+						&nbsp; <i class="fas fa-caret-down"></i> ACTION
+					</legend>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight" style="padding: 0.8em 1em 0.2em 1em!important;">
+							<i style="color:#f97f1b; padding-top:1rem;	font-size: 1.5rem;" class="fal fa-angle-right"></i>
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<div class="btn-action-grouped"  style="display: inline-block;">
+								Couleur : 
+								<select class="form-control" style="width: 120px; display: inline-block;" id="color_roadmap_archive" onchange="change_color(value,'table_archive_id');">
+									<option value="default"  style="color:black;">noir</option>
+									<option value="red"		 style="color:red;">rouge</option>
+									<option value="orange"	 style="color:orange;">orange</option>
+									<option value="green"	 style="color:green;">vert</option>
+									<option value="blue"	 style="color:blue;">bleue</option>
+									<option value="purple"	 style="color:purple;">violet</option>
+								</select> 
+							</div>  
+						</div>
+					</div>
+					
+					
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped " onclick="btn_valid_group('table_archive_id')"id="btn_valid_group_archive">Valider la selection </button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">			
+							<button class="btn-action-grouped " onclick="btn_unvalid_group('table_archive_id')"id="btn_unvalid_group_archive">Mettre en conflit la selection</button>
+						</div>
+					</div>
+					<div class="d-flex bd-highlight">
+						<div class="p-2 flex-shrink-1 bd-highlight">
+							<i style="color:#f97f1b;	font-size: 1.5rem;" class="fal fa-angle-right"></i> 
+						</div>
+						<div class="p2a w-100 bd-highlight">
+							<button class="btn-action-grouped " onclick="btn_archive_group('table_archive_id')"id="btn_archive_group_archive">Désarchiver la selection </button>
+						</div>
+					</div>
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+			
+	<!--	</div>
+	effectuer des action par rapport au tableau 
+		<div class="col-2 ">	
+			<h2><button class="btn btn-primary btn-block" id="total_roadmap">Roadmap Complète</button></h2> 
+		<br>
+			<h2><button class="btn btn-primary btn-block" onclick="verif_all()" id="verif_all">Tous les messages correspondent</button></h2> 
+		<br>
+			<h2><button class="btn btn-primary btn-block" onclick="new_voice()" id="new_voice">Ajouter un message</button></h2> 
+		<br>
+			<h2><button class="btn btn-primary btn-block" onclick="upload_zone()" id="new_upload">Ajouter plusieurs fichiers</button></h2> 		
+		</div>
+			
+		<div class="col-1 center">
+		</div>
+		
+	</div>
+	-->
+	<!-- Lib -->
+   <script src="assets/js/jquery.js"></script>
+   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/sl-1.3.0/datatables.min.js"></script>
+   <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
+   <script src="assets/js/popper1-14-7.min.js"></script>
+   <script src="assets/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+   <script src="assets/fontawesome-pro-5.8.2-web//js/all.js" data-auto-replace-svg="nest"></script>
+   <script src="assets/js/quill.js" ></script>
+  <script src="assets/js/util.js" ></script>
+ 
+   
+<script src='assets/amplitudejs-5.0.3/dist/amplitude.js'></script>
+<!--<script src='assets/amplitudejs-5.0.3/dist/visualizations/michaelbromley.js'></script>
+
+<script src='https://cdn.jsdelivr.net/npm/amplitudejs@latest/dist/amplitude.min.js'></script>
+-->
+
+<!-- Fonction -->
+ <script src="conflict/check_voice.js"></script>
+ <script src="conflict/multi_roadmap.js"></script>
+   <script src="Js/total_roadmap.js"></script>
+   <script src="Js/roadmap_edition.js"></script>
+<script src="Js/new_voice.js"></script>
+<script src="Js/upload_zone.js"></script>
+<script src="Js/rename_voice.js"></script>
+<script src="Js/replace_audio.js"></script>
+<script>
+function parseURL(url) {
+    var parser = document.createElement('a'),
+        searchObject = {},
+        queries, split, i;
+    // Let the browser do the work
+    parser.href = url;
+    // Convert query string to object
+    queries = parser.search.replace(/^\?/, '').split('&');
+    for( i = 0; i < queries.length; i++ ) {
+        split = queries[i].split('=');
+        searchObject[split[0]] = split[1];
+    }
+    return {
+        protocol: parser.protocol,
+        host: parser.host,
+        hostname: parser.hostname,
+        port: parser.port,
+        pathname: parser.pathname,
+        search: parser.search,
+        searchObject: searchObject,
+        hash: parser.hash
+    };
+}
+
+
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover();   
+  
+  var styleEl = document.createElement('style');
+
+  // Append <style> element to <head>
+  document.head.appendChild(styleEl);
+
+  // Grab style element's sheet
+  var styleSheet = styleEl.sheet;
+  styleSheet.insertRule(".modal-body{  height:"+( window.innerHeight - 160)+"px;  overflow-y: auto; }")
+});
+function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace(
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+// data table
+function refresh_info(){
+	var table = $('#table_id').DataTable();
+	document.getElementById("nb_select").innerHTML = table.rows('.selected').data().length
+	
+	var color_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('color');
+		});
+	color_list = 	Array.from(new Set(color_list));
+	if (color_list.length == 1 && color_list[0] == "undefined" ){
+		$('#color_roadmap').val("default") 
+	}
+	else if (color_list.length == 1){
+		$('#color_roadmap').val(color_list[0]) 
+	}
+	else if (color_list.length == 2 && (color_list[0] == "" || color_list[0] == "default" )&& (color_list[1] == "" || color_list[1] == "default" )) {
+		$('#color_roadmap').val("default") ;
+	}
+	else{
+		$('#color_roadmap').val("") 
+	}
+	// pour la table archive
+	var table = $('#table_archive_id').DataTable();
+	document.getElementById("nb_select_archive").innerHTML = table.rows('.selected').data().length
+	
+	var color_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('color');
+		});
+	color_list = 	Array.from(new Set(color_list));
+	if (color_list.length == 1 && color_list[0] == "undefined" ){
+		$('#color_roadmap_parchive').val("default") 
+	}
+	else if (color_list.length == 1){
+		$('#color_roadmap_archive').val(color_list[0]) 
+	}
+	else if (color_list.length == 2 && (color_list[0] == "" || color_list[0] == "default" )&& (color_list[1] == "" || color_list[1] == "default" )) {
+		$('#color_roadmap_archive').val("default") ;
+	}
+	else{
+		$('#color_roadmap_archive').val("") 
+	}
+	//
+}
+// supprime le resulat sdes regexs
+
+
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+		if (document.getElementById('select_mixage') != undefined && document.getElementById('select_color') != undefined) {
+		mix = document.getElementById('select_mixage').value
+		color = document.getElementById('select_color').value
+		
+		if( (data[9].search(mix) != -1 || mix=='tous') && (data[10].search(color) != -1 || color =='tous')){
+            return true;
+		}
+			
+        return false;
+		}
+		 return true;
+    }
+);
+
+
+ //selectionne la ligne lors du click
+$('#table').on( 'click', 'td', function () {
+	var table = $('#table_id').DataTable();
+	 console.log(this.className);
+	if ($(this).parent().parent()[0].tagName == 'TBODY' && this.className.search('option') == -1 ){
+	 console.log(this);
+        $(this).parent().toggleClass('selected');
+		// table.row( this ).child.hide();
+		// $(this).remove();
+		// $('#table_id').DataTable().clear().draw();
+	}
+	refresh_info();
+    } );
+	
+	// selectionne toutes les lignes
+	$('#select_all').click( function () {
+		var table = $('#table_id').DataTable();
+		table.rows().deselect();
+		refresh_info();
+		table.rows({ search:'applied'}).select();
+		refresh_info();
+	});
+	
+	// deselectionne toutes les lignes
+	$('#select_none').click( function () {
+		var table = $('#table_id').DataTable();
+		table.rows().deselect();
+		refresh_info();
+	});
+	
+	//selectionne la ligne lors du click
+$('#table_archive').on( 'click', 'td', function () {
+	var table = $('#table_archive_id').DataTable();
+	if ($(this).parent().parent()[0].tagName == 'TBODY' && this.className != "option"){
+	 console.log(this);
+        $(this).parent().toggleClass('selected');
+		// table.row( this ).child.hide();
+		// $(this).remove();
+		// $('#table_id').DataTable().clear().draw();
+	}
+	refresh_info();
+    } );
+	
+	// selectionne toutes les lignes
+	$('#select_all_archive').click( function () {
+		var table = $('#table_archive_id').DataTable();
+		table.rows().deselect();
+		refresh_info();
+		table.rows({ search:'applied'}).select();
+		refresh_info();
+	});
+	
+	// deselectionne toutes les lignes
+	$('#select_none_archive').click( function () {
+		var table = $('#table_archive_id').DataTable();
+		table.rows().deselect();
+		refresh_info();
+	});
+	
+	
+	// lien vers les details groupé
+    function change_color(color, id_table) {
+		console.log("color test")
+		var table = $('#'+id_table).DataTable();
+		
+		if (table.rows('.selected').length != 0) {
+			// console.log(table.rows('.selected').data()[5]);
+			
+			var id_list = $.map(table.rows('.selected').nodes(), function (item) {
+				return  $(item)[0].getAttribute('voice_id');
+			});
+			if (confirm('êtes vous sur de vouloir changer la couleur de '+id_list.length+' messages')) {
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-primary" style="margin-bottom:0px;width:'+window.innerWidth+'px;"><div class="row"><div class="col-md-11 "><center><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></center></div><div class="col-md-1"><span onclick="close_modal()" class="close">&times;</span>	</div></div></div>';
+				jQuery.ajax({ url : 'data.php?action_voice=change_color&color_text='+color+'&selected_voices='+JSON.stringify(id_list) }).done(function(data){
+					document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Modification Réussie</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'" class="close">&times;</span>	</div></div></div>';
+					setTimeout(function(){ document.getElementById('retour_data').innerHTML = '' }, 5000);
+					// console.log(data)
+					refresh_table();
+	
+				});
+			}
+		}
+	}
+	
+	function btn_roadmap_group(id_table) {
+		var table = $('#'+id_table).DataTable();
+		
+		// console.log(table.rows('.selected'));
+		// console.log(table.rows('.selected').data()[5]);
+		
+		var id_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('voice_id');
+		});
+		total_roadmap($_GET("id_service"), 'modal_container', "perso" , JSON.stringify( id_list) ) 
+	} 
+	
+	function btn_archive_group(id_table) {
+		var table = $('#'+id_table).DataTable();
+		
+		// console.log(table.rows('.selected'));
+		// console.log(table.rows('.selected').data()[5]);
+		
+		var id_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('voice_id');
+		});
+		if (confirm('êtes vous sur de vouloir archiver '+id_list.length+' messages')) {
+			document.getElementById("retour_data").innerHTML = '<div class="alert alert-primary" style="margin-bottom:0px;width:'+window.innerWidth+'px;"><div class="row"><div class="col-md-11 "><center><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></center></div><div class="col-md-1"><span onclick="close_modal()" class="close">&times;</span>	</div></div></div>';
+			jQuery.ajax({ url : 'data.php?action_voice=archive_group&selected_voices='+JSON.stringify(id_list) }).done(function(data){
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Modification Réussie</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'" class="close">&times;</span>	</div></div></div>';
+				setTimeout(function(){ document.getElementById('retour_data').innerHTML = '' }, 5000);
+				// console.logq(data)
+				refresh_table();
+
+			});
+		}
+	} 
+	function btn_valid_group(id_table) {
+		var table = $('#'+id_table).DataTable();
+		
+		// console.log(table.rows('.selected'));
+		// console.log(table.rows('.selected').data()[5]);
+		
+		var id_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('voice_id');
+		});
+		if (confirm('êtes vous sur de vouloir valider '+id_list.length+' messages')) {
+			document.getElementById("retour_data").innerHTML = '<div class="alert alert-primary" style="margin-bottom:0px;width:'+window.innerWidth+'px;"><div class="row"><div class="col-md-11 "><center><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></center></div><div class="col-md-1"><span onclick="close_modal()" class="close">&times;</span>	</div></div></div>';
+			jQuery.ajax({ url : 'data.php?action_conflit=check_voice_group&selected_voices='+JSON.stringify(id_list) }).done(function(data){
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Modification Réussie</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'" class="close">&times;</span>	</div></div></div>';
+				setTimeout(function(){ document.getElementById('retour_data').innerHTML = '' }, 5000);
+				// console.log(data)
+				refresh_table();
+				
+
+			});
+		}
+	} 
+	
+	function btn_unvalid_group(id_table) {
+		var table = $('#'+id_table).DataTable();
+		
+		var id_list = $.map(table.rows('.selected').nodes(), function (item) {
+			return  $(item)[0].getAttribute('voice_id');
+		});
+		if (confirm('êtes vous sur de vouloir invalider '+id_list.length+' messages')) {
+			document.getElementById("retour_data").innerHTML = '<div class="alert alert-primary" style="margin-bottom:0px;width:'+window.innerWidth+'px;"><div class="row"><div class="col-md-11 "><center><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></center></div><div class="col-md-1"><span onclick="close_modal()" class="close">&times;</span>	</div></div></div>';
+			jQuery.ajax({ url : 'data.php?action_voice=unconfirm_group&selected_voices='+JSON.stringify(id_list) }).done(function(data){
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Modification Réussie</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'" class="close">&times;</span>	</div></div></div>';
+			setTimeout(function(){ document.getElementById('retour_data').innerHTML = '' }, 5000);
+		// console.log(data)
+		refresh_table();
+	});
+		}
+	} 
+	
+	function custom_search(){
+		$('#table_id').DataTable().draw();
+		
+	}
+	
+	
+function refresh_table(){
+	jQuery.ajax({ url : 'data.php?action_service=get_table_service&selected_service='+$_GET("id_service"),
+	beforeSend: function(){
+						console.log($('#table').html());
+						if ($('#table').html() == ""){
+							$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+						}
+					}	}).done(function(data){
+		info = JSON.parse(data)
+		console.log(info)
+		$("#loader_container").html('')
+		$('#table').html(info[0])
+		$('#table_archive').html(info[1])
+	
+		$('#title').html(info[2].toUpperCase());
+		// affiche la roadmap avec toutes les voix
+		
+		$('#total_roadmap').attr('onclick',"total_roadmap('"+$_GET("id_service")+"', 'modal_container') ");
+		 c = 0;
+		$('#verif_all').attr('onclick',"verif_all('"+info[2]+"', '"+info[3]+"', '"+$_GET("id_service")+"') ");
+		
+		$('[data-toggle="popover"]').popover();   
+			
+		$('#table_id').DataTable( {
+			"dom": 'tip',
+			"columnDefs": [{ "width": "12%", "targets": 3 }, {"className": "dt-center", "targets": [0,3,6,7,8] }],
+			stateSave: true,
+			"language": {
+    "sProcessing":     "Traitement en cours...",
+    "sSearch":         "Rechercher&nbsp;:",
+    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    "sInfoPostFix":    "",
+    "sLoadingRecords": "Chargement en cours...",
+    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    "oPaginate": {
+        "sFirst":      "Premier",
+        "sPrevious":   "Pr&eacute;c&eacute;dent",
+        "sNext":       "Suivant",
+        "sLast":       "Dernier"
+    },
+    "oAria": {
+        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    },
+    "select": {
+            "rows": {
+                _: "%d lignes séléctionnées",
+                0: "Aucune ligne séléctionnée",
+                1: "1 ligne séléctionnée"
+            }
+    }
+			}
+	});	
+	
+	
+	// $('#table_id').DataTable().order( [ 2, 'asc' ] )
+	
+	$('#table_archive_id').DataTable( {
+		"dom": 'tip',
+			"columnDefs": [{ "width": "12%", "targets": 3 }, {"className": "dt-center", "targets": [0,3,6,7,8] }],
+		stateSave: true,
+			"language": {
+    "sProcessing":     "Traitement en cours...",
+    "sSearch":         "Rechercher&nbsp;:",
+    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    "sInfoPostFix":    "",
+    "sLoadingRecords": "Chargement en cours...",
+    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    "oPaginate": {
+        "sFirst":      "Premier",
+        "sPrevious":   "Pr&eacute;c&eacute;dent",
+        "sNext":       "Suivant",
+        "sLast":       "Dernier"
+    },
+    "oAria": {
+        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    },
+    "select": {
+            "rows": {
+                _: "%d lignes séléctionnées",
+                0: "Aucune ligne séléctionnée",
+                1: "1 ligne séléctionnée"
+            }
+    }
+			}
+			
+    
+	});	
+	
+	$('#table_id').DataTable().search($('#table_search').val()).draw()
+	$('#table_id').DataTable().page.len($('#table_length').val()).draw();
+	
+	$('#table_archive_id').DataTable().search($('#table_archive_search').val()).draw()
+	$('#table_archive_id').DataTable().page.len($('#table_archive_length').val()).draw();
+	//$('#table_archive_id').DataTable().order( [2, 'asc' ] )
+	refresh_info();
+	});
+}
+	
+// remplie les informations de la table 
+
+refresh_table();
+
+function archive(id_service,id_voice) {
+	jQuery.ajax({ url : 'data.php?action_voice=archive&selected_service='+id_service+'&voice='+id_voice }).done(function(data){
+		// console.log(data)
+		refresh_table();
+	});
+}
+
+
+
+
+function verif_all(name, n,id_service) {
+	if (confirm ('Etes-vous sùr de confirmer la cohérence des '+n+' messages pour le service '+name)){
+		document.getElementById("retour_data").innerHTML = '<div class="alert alert-primary" style="margin-bottom:0px;width:'+window.innerWidth+'px;"><div class="row"><div class="col-md-11 "><center><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></center></div><div class="col-md-1"><span onclick="close_modal()" class="close">&times;</span>	</div></div></div>';
+		jQuery.ajax({ url : 'data.php?action_voice=confirm_all&selected_service='+id_service }).done(function(data){
+		// console.log(data)
+		document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Modification Réussie</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'" class="close">&times;</span>	</div></div></div>';
+		setTimeout(function(){ document.getElementById('retour_data').innerHTML = '' }, 4000);
+		refresh_table();
+	});
+	}
+}
+function unconfirm(name,id){
+		jQuery.ajax({ url : 'data.php?action_voice=unconfirm&voice='+id }).done(function(data){
+		// console.log(data)
+		refresh_table();
+	});
+	}
+$.fn.dataTable.ext.errMode = 'none';
+
+// $('#table_id').on( 'error.dt', function ( e, settings, techNote, message ) {
+// console.log( 'An error has been reported by DataTables: ', message );
+// } ).DataTable();
+// $('#table_archive_id').on( 'error.dt', function ( e, settings, techNote, message ) {
+// console.log( 'An error has been reported by DataTables: ', message );
+// } ).DataTable();
+</script>
+
+</body>
+	
+</html>

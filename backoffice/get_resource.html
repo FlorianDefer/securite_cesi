@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <title>BackOffice</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
+
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700">
+   <style>
+
+#retour_data {
+align-content: center;
+    z-index: 999999;
+    position: fixed;
+   
+    padding: 300px 0;
+	margin-left: auto;
+    margin-right: auto;
+	width: auto;
+}
+
+#content {
+	border: solid;
+}
+</style>
+
+	 
+</head>
+<body>
+	<div id="modal_container"></div>
+	<center>
+		<div  id="retour_data" style="" onclick="document.getElementById('retour_data').innerHTML = '' " ></div>
+	</center>
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="index.html">Utilisateur</a>
+	<a class="navbar-brand" href="resources.html">Ressources</a>
+	<a class="navbar-brand" href="category.html">Categorie</a>
+	<a class="navbar-brand" href="user_account.html">Mon Compte</a>
+	<a class="navbar-brand" href="connexion.html">connexion</a>
+
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+</nav>
+
+	<div class="container">
+		<br/><br/>
+		<div class="d-flex bd-highlight">
+			<div class="p-2 flex-grow-1 bd-highlight">
+				<button class="btn btn-outline-secondary" onclick="remove_favorite()" id="is_not_favorite_btn"> Retirer des Favories</button>
+				<button class="btn btn-outline-secondary" onclick="add_favorite()" id="is_favorite_btn"> Ajouter aux favories</button>
+			</div>
+				<div class="p-2 bd-highlight">
+					auteur :  <b id="auteur"> </b>
+				</div>
+	
+				<div class="p-2 bd-highlight">
+					date de création <b id="date"></b>
+				</div>
+		</div>
+		<h3 id="title"></h3><br/><br/>
+		<div id="description"></div>
+		<div id="form_add_comment">	
+			Ecrire un commentaire <br/>		
+			
+				<textarea type="text" class="form-control" id="input_add_comment"></textarea> 
+				<button class="btn btn-outline-secondary" onclick="send_comment()">Envoyer</button>
+		</div>
+		<div id="form_update_comment" style="display:none;">	
+			Modifier mon commentaire <br/>		
+			
+				<textarea type="text" class="form-control" id="input_update_comment"></textarea> 
+				<button class="btn btn-outline-warning" onclick="refresh_form_comment()">Annuler</button>
+				<button class="btn btn-outline-success" id="send_modif_btn" onclick="send_comment()">Modifier</button>
+		</div>
+		<div class="container" id="comment_container">
+		</div>
+	</div>
+		
+			<center id="loader_container" style="margin-top:50px"> </center>
+		<!-- Lib -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+ <script src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+ <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script>
+   
+  
+
+ <!--   <script src="js/add_account.js"></script>
+   <script src="js/connexion.js"></script>  -->
+   <script>
+console.log(Cookies.get('id_account'))
+console.log(Cookies.get('access_token'))
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '').replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+
+function parseURL(url) {
+    var parser = document.createElement('a'),
+        searchObject = {},
+        queries, split, i;
+    // Let the browser do the work
+    parser.href = url;
+    // Convert query string to object
+    queries = parser.search.replace(/^\?/, '').split('&');
+    for( i = 0; i < queries.length; i++ ) {
+        split = queries[i].split('=');
+        searchObject[split[0]] = split[1];
+    }
+    return {
+        protocol: parser.protocol,
+        host: parser.host,
+        hostname: parser.hostname,
+        port: parser.port,
+        pathname: parser.pathname,
+        search: parser.search,
+        searchObject: searchObject,
+        hash: parser.hash
+    };
+}
+
+//jQuery.ajax({ url : 'http://localhost:3000/resources/mytest/',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+//	beforeSend: function(){
+//			console.log($('#table').html());
+//				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+//		
+//		}	}).done(function(resource){
+//			console.log(resource)
+//	});	
+
+
+function get_resource() {
+	jQuery.ajax({ url : 'http://localhost:3000/resources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	beforeSend: function(){
+				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+		
+		}	}).done(function(resource){
+			console.log(resource)
+			$("#title").html(resource.title)
+			$("#description").html()
+			$("#comment_container").html()
+			$("#auteur").html(resource.account.firstName)
+			$("#date").html(new Date(resource.datePublished).toLocaleString())
+			editor = new EditorJS({
+        holder: 'description',
+		readOnly: true,
+        /** 
+             * Available Tools list. 
+             * Pass Tool's class or Settings object for each Tool you want to use 
+             */
+           tools:{
+               header:Header,
+               delimiter: Delimiter,
+               paragraph: {
+                class: Paragraph,
+                inlineToolbar: true,
+              },
+              embed: Embed,
+              image: SimpleImage,
+           },
+           data: JSON.parse(resource.description)
+            
+        
+        });
+		jQuery.ajax({ url : 'http://localhost:3000/favorite/'+$_GET('id'), headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}
+	}).done(function(favorite){
+		console.log('favorite' , favorite);
+           if (favorite[0] == undefined) {
+			$("#is_favorite_btn").css('display','block')
+			$("#is_not_favorite_btn").css('display','none')
+
+		   }
+		   else {
+			$("#is_favorite_btn").css('display','none')
+			$("#is_not_favorite_btn").css('display','block')
+		   }
+	});	
+		get_comment()
+			console.log(resource)
+	});	
+}
+function get_comment() {
+	jQuery.ajax({ url : 'http://localhost:3000/comment/byResources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	beforeSend: function(){
+				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+		
+		}	}).done(function(comments){
+			console.log(comments)
+			html = ''
+			comments.forEach(function(comment){
+				element_date = new Date(comment.dateCreated);
+                element_date = element_date.toLocaleString()
+				date = 
+				html += '<div id="'+comment._id+'"> <b>'+comment.userName+'</b> '+element_date+' <div id="content" ><testarea disabled>'+comment.content.replace('\n' , '<br/>')+'</testarea></div> </div><br/>'
+				if (comment._userId == Cookies.get('id_account') ) {
+					html += '<button class="btn btn-outline-success" onclick="get_my_comment(\''+comment._id+'\')">Modifier</button>'
+					html += '<button class="btn btn-warning" onclick="delete_my_comment(\''+comment._id+'\')">Supprimer</button><br/>'
+				}
+			})
+			
+			$("#comment_container").html(html)
+
+	});	
+}
+
+get_resource();
+get_comment();
+
+function get_my_comment(id){
+	jQuery.ajax({ url : 'http://localhost:3000/comment/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	beforeSend: function(){
+				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+		
+		}	}).done(function(comment){
+			console.log(comment)
+			html = ''
+			$('#send_modif_btn').attr('onclick' , 'send_comment(\''+comment._id+'\')')
+			$('#input_add_comment').val('')
+	$('#input_update_comment').val(comment.content)
+	$('#form_add_comment').css('display','none')
+	$('#form_update_comment').css('display','block')
+
+	});	
+}
+
+function send_comment(id ="") {
+	var XHR = new XMLHttpRequest();
+	var urlEncodedData = "";
+	var urlEncodedDataPairs = [];
+    var name;
+    // Configurez la requêtes
+    if (id == ""){
+		content = $('#input_add_comment').val()
+        XHR.open('POST', 'http://localhost:3000/comment/');
+    }
+    else {
+		content = $('#input_update_comment').val()
+        XHR.open('PUT' ,'http://localhost:3000/comment/'+id);
+    }
+	console.log(content)
+	my_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+	urlEncodedDataPairs.push(encodeURIComponent('_resourceId') + '=' + encodeURIComponent($_GET('id')));
+	urlEncodedDataPairs.push(encodeURIComponent('dateCreated') + '=' + encodeURIComponent(my_date));
+	urlEncodedDataPairs.push(encodeURIComponent('content') + '=' + encodeURIComponent(content));
+
+  // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+  // des soumissions de formulaires de navigateur.
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  // Définissez ce qui se passe en cas de succès de soumission de données
+  XHR.addEventListener('load', function(event) {
+    if (XHR.readyState === XHR.DONE) {
+        data = JSON.parse(XHR.response).message;
+      
+            
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            refresh_table()
+			refresh_form_comment();
+
+            close_modal()
+       
+    }
+    
+  });
+
+  // Définissez ce qui arrive en cas d'erreur
+  XHR.addEventListener('error', function(event) {
+    alert('Oups! Quelque chose s\'est mal passé.');
+  });
+
+  
+ 
+
+  // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+  // Finalement, envoyez les données.
+  XHR.send(urlEncodedData);
+  
+}
+
+function refresh_form_comment() {
+	console.log('eee')
+	$('#input_add_comment').val('')
+	$('#input_update_comment').val('')
+	$('#form_add_comment').css('display','block')
+	$('#form_update_comment').css('display','none')
+
+}
+function delete_my_comment(id) {
+	if (confirm('êtes vous sur de vouloir supprimer ce commentaire')) {
+		var url = "http://localhost:3000/comment/"+id;
+		var xhr = new XMLHttpRequest();
+		xhr.open("DELETE", url);
+		xhr.onload = function () {
+			if (xhr.readyState === xhr.DONE) {
+     		   data = JSON.parse(xhr.response).message;
+       			 if (data.search('Deleted!') != -1 ) {
+
+       			     document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+       			     refresh_table()
+       			     close_modal()
+       			 }
+       			 else {
+       			     document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+       			                     // document.getElementById("myModal").style.display = "block"
+       			 }
+  			}
+		}
+		xhr.send(null);
+	}
+}
+
+function add_favorite() {
+	var XHR = new XMLHttpRequest();
+	var urlEncodedData = "";
+	var urlEncodedDataPairs = [];
+    var name;
+    // Configurez la requêtes
+    XHR.open('POST', "http://localhost:3000/favorite/"+$_GET('id'));
+   
+	console.log(content)
+	my_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+	urlEncodedDataPairs.push(encodeURIComponent('resourceName') + '=' + encodeURIComponent($("#title").html()));
+
+  // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+  // des soumissions de formulaires de navigateur.
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  // Définissez ce qui se passe en cas de succès de soumission de données
+  XHR.addEventListener('load', function(event) {
+    if (XHR.readyState === XHR.DONE) {
+        data = JSON.parse(XHR.response).message;
+      
+            
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            refresh_table()
+			refresh_form_comment();
+
+            close_modal()
+       
+    }
+    
+  });
+
+  // Définissez ce qui arrive en cas d'erreur
+  XHR.addEventListener('error', function(event) {
+    alert('Oups! Quelque chose s\'est mal passé.');
+  });
+
+  
+ 
+
+  // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+  // Finalement, envoyez les données.
+  XHR.send(urlEncodedData);
+  
+}
+function remove_favorite() {
+	if (confirm('êtes vous sur de vouloir enlever la ressource des favories')) {
+		var url = "http://localhost:3000/favorite/"+$_GET('id');
+		var xhr = new XMLHttpRequest();
+		xhr.open("DELETE", url);
+		xhr.onload = function () {
+			if (xhr.readyState === xhr.DONE) {
+     		   data = JSON.parse(xhr.response).message;
+       			 if (data.search('Deleted!') != -1 ) {
+
+       			     document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+       			     refresh_table()
+       			     close_modal()
+       			 }
+       			 else {
+       			     document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+       			                     // document.getElementById("myModal").style.display = "block"
+       			 }
+  			}
+		}
+		xhr.send(null);
+	}
+}
+
+
+</script>
+
+</body>
+	
+</html>

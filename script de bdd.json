@@ -1,0 +1,19 @@
+db.createCollection("categories", { autoIndexId : true});
+db.categories.insert({"_id":"601cbddfb09f841cb8af1108","name":"Communication","__v":0}),
+db.categories.insert({"_id":"601cc1138bf5a513f82db872","name":"Cultures","__v":0}),
+db.categories.insert({"_id":"601cc12a8bf5a513f82db873","name":"Développement Personnel","__v":0}),
+db.categories.insert({"_id":"601cc1398bf5a513f82db874","name":"intelligence émotionnelle","__v":0}),
+db.categories.insert({"_id":"601cc1438bf5a513f82db875","name":"loisirs","__v":0}),
+db.categories.insert({"_id":"601cc15d8bf5a513f82db876","name":"monde professionnel","__v":0}),
+db.categories.insert({"_id":"601cc1668bf5a513f82db877","name":"parentalité","__v":0}),
+db.categories.insert({"_id":"601cc1788bf5a513f82db878","name":"qualité de vie","__v":0}),
+db.categories.insert({"_id":"601cc1828bf5a513f82db879","name":"recherche de sens","__v":0}),
+db.categories.insert({"_id":"601cc1938bf5a513f82db87a","name":"santé physique","__v":0}),
+db.categories.insert({"_id":"601cc19b8bf5a513f82db87b","name":"santé psychique","__v":0}),
+db.categories.insert({"_id":"601cc1a78bf5a513f82db87c","name":"spiritualité","__v":0}),
+db.categories.insert({"_id":"601cc1bd8bf5a513f82db87d","name":"vie affective","__v":0});
+db.createCollection("users", { autoIndexId : true});
+db.users.insert({"_id":"601c960324f94c115042d220","type":"Admin","email":"paces","password":"$2b$10$TbvoFpm1cyFyYVjzf1QfK./fBz3D7H7.rdSAPoKlQf6txPF9Bicc.","surname":"pass","nickname":"pass","name":"pass","geographicalZone":"pass","socialSituation":"Employé","__v":0}),
+db.createCollection("resources", { autoIndexId : true});
+db.resources.insert({"_id":"601cec57b7b4c6431471fb0c","type":"undefined","relation":["professionnelle"],"title":"dcdc","description":"dcd","categoryid":{"$oid":"601cbddfb09f841cb8af1108"},"datePublished":{"$date":"2021-02-05T00:00:00.000Z"},"userId":{"$oid":"601c03ec4daec91d88daea3a"},"__v":0}),
+db.resources.insert({"_id":"601cec8db7b4c6431471fb0d","type":"undefined","relation":["professionnelle,amis,inconnus"],"title":"test","description":"eed","categoryid":{"$oid":"601cbddfb09f841cb8af1108"},"datePublished":{"$date":"2021-02-05T00:00:00.000Z"},"userId":{"$oid":"601c03ec4daec91d88daea3a"},"__v":0},

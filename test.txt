@@ -1,0 +1,17 @@
+to init
+
+npn init
+
+npm install -g nodemon
+
+npm install --save express
+
+npm install --save body-parser
+
+npm install --save mongoose
+
+npm install --save mongoose-unique-validator
+
+npm install --save bcrypt
+
+npm install --save jsonwebtoken

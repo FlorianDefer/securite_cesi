@@ -1,0 +1,226 @@
+
+
+<html>	
+<head>
+  <title>BackOffice</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+ 
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700">
+ 
+</head>
+<body>
+	<div id="modal_container"></div>
+	<center>
+		<div  id="retour_data" style="" onclick="document.getElementById('retour_data').innerHTML = '' " ></div>
+	</center>
+	<!-- navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="index.php">Accueil</a>
+		<a class="navbar-brand" href="client.php">Client</a>
+		<a class="navbar-brand" onclick="connexion()" href="#">connexion</a>
+	
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
+	<div class="d-flex bd-highlight">
+		<div class="p-2 flex-grow-1 bd-highlight">
+			<h2 style="margin-left:50px;"><label id="title">Compte Utilisateur</label> </h2>
+		</div>
+		
+		
+		<div class="p-2 bd-highlight">
+			<h2><div class="btn btn-inline" onclick="new_account()" id="verif_all"><p class="vertical-center">Ajouter</p></div></h2>
+		</div>
+		
+		
+	</div>
+	
+			<div class="table-fluid">
+				<div id="table" ></div>
+				
+			</div>
+			<center id="loader_container" style="margin-top:50px"> </center>
+	<!-- -----------------------------ADD ACCOUNT  -------------------------------------------- -->
+			<div class="modal fade" id="new_account_Modal">
+				<div class="modal-dialog modal-xl" style="max-width: 1300px;">
+				  <div class="modal-content">
+				  
+					<!-- Modal Header -->
+					<div class="modal-header">
+							<!-- Titre  -->
+					  <h4 class="modal-title"  > <label id="_Modal_title">Ajouter un compte </label></h4>
+					</div>
+					
+					
+					<div class="modal-body">
+				   
+				
+			
+				 <div class="container">
+				 
+				<div id="myModal" class="modal"></div>
+					
+					
+					  <div class="form-group">
+									<h5>Nom du message <h6>(sans l'extension '.pcm')</h6> </h5>
+									<input type="text" class="form-control" name="name" id="name"  >
+					</div>
+					 
+				<div class="row">
+				  <button class="btn btn-success" onclick="submit_account()" >Terminer</button>
+			   
+				</div>
+				</div>
+				</div>
+				 <div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+			<!-- -----------------------------connexion  -------------------------------------------- -->			
+			<div class="modal fade" id="connexion_Modal">
+				<div class="modal-dialog modal-xl" style="max-width: 1300px;">
+				  <div class="modal-content">
+				  
+					<!-- Modal Header -->
+					<div class="modal-header">
+							<!-- Titre  -->
+					  <h4 class="modal-title"  > <label id="_Modal_title">Ajouter un compte </label></h4>
+					</div>
+					
+					
+					<div class="modal-body">
+				   
+				
+			
+				 <div class="container">
+				 
+				<div id="myModal" class="modal"></div>
+					
+					
+					  <div class="form-group">
+									<h5>Email </h5>
+									<input type="text" class="form-control" name="email" id="email"  >
+					</div>
+					<div class="form-group">
+						<h5>Mot de passe </h5>
+						<input type="text" class="form-control" name="password" id="password"  >
+			</div>
+			
+				<div class="row">
+				  <button class="btn btn-success" onclick="submit_connexion()" >Terminer</button>
+			   
+				</div>
+				</div>
+				</div>
+				 <div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<button type="button" onclick="sendData({email:'ok'})">Cliquez ici !</button>
+	<!-- Lib -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/sl-1.3.0/datatables.min.js"></script>
+   <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
+   <script src="js/add_account.js"></script>
+   <script src="js/connexion.js"></script>
+   <script>
+function parseURL(url) {
+    var parser = document.createElement('a'),
+        searchObject = {},
+        queries, split, i;
+    // Let the browser do the work
+    parser.href = url;
+    // Convert query string to object
+    queries = parser.search.replace(/^\?/, '').split('&');
+    for( i = 0; i < queries.length; i++ ) {
+        split = queries[i].split('=');
+        searchObject[split[0]] = split[1];
+    }
+    return {
+        protocol: parser.protocol,
+        host: parser.host,
+        hostname: parser.hostname,
+        port: parser.port,
+        pathname: parser.pathname,
+        search: parser.search,
+        searchObject: searchObject,
+        hash: parser.hash
+    };
+}
+
+
+	
+function refresh_table(){
+	jQuery.ajax({ url : 'http://localhost:3000/api/resources/get',
+	beforeSend: function(){
+						console.log($('#table').html());
+						if ($('#table').html() == ""){
+							$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+						}
+					}	}).done(function(data){
+
+		
+		console.log(data)
+
+		
+	});	
+}
+
+refresh_table();
+
+function sendData(data) {
+  var XHR = new XMLHttpRequest();
+  var urlEncodedData = "";
+  var urlEncodedDataPairs = [];
+  var name;
+
+  // Transformez l'objet data en un tableau de paires clé/valeur codées URL.
+  for(name in data) {
+    urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+  }
+
+  // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+  // des soumissions de formulaires de navigateur.
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  // Définissez ce qui se passe en cas de succès de soumission de données
+  XHR.addEventListener('load', function(event) {
+    alert('Ouais ! Données envoyées et réponse chargée.');
+  });
+
+  // Définissez ce qui arrive en cas d'erreur
+  XHR.addEventListener('error', function(event) {
+    alert('Oups! Quelque chose s\'est mal passé.');
+  });
+
+  // Configurez la requêtes
+  XHR.open('POST', 'http://localhost:3000/api/auth/signup');
+
+  // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+  // Finalement, envoyez les données.
+  XHR.send(urlEncodedData);
+}
+
+
+
+</script>
+
+</body>
+	
+</html>

@@ -1,0 +1,13 @@
+﻿{
+    "connectionString": "mongodb://localhost/node-mongo-signup-verification-api",
+    "secret": "ibBv690MWkKclc1YgtZLxQ9Bzw91zMBEied2htlXq6rAUZPCQibEgEiEZAle_2oLsggCB9-xcnnUulN8g7lvjp6QkvxvLqkEbUyiSx1y6hw5dgt1uUq4vR-0W8R5ylF6dlRABNTBCCxaK0SBpkpcnkRE9AJeiMPn5X8Eic7LRSAK77Jgkt1uHaRnVEurl6CPU1aliQWcVRUHeOtUWQ5LpMSD-gsg",
+    "emailFrom": "info@node-mongo-signup-verification-api.com",
+    "smtpOptions": {
+        "host": "[ENTER YOUR OWN SMTP OPTIONS OR CREATE FREE TEST ACCOUNT IN ONE CLICK AT https://ethereal.email/]",
+        "port": 587,
+        "auth": {
+            "user": "",
+            "pass": ""
+        }
+    }
+}

@@ -1,0 +1,403 @@
+
+<!doctype html>
+<html lang="fr">
+    <head>
+      <title>BackOffice</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
+    
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700">
+       <style>
+    
+    #retour_data {
+    align-content: center;
+        z-index: 999999;
+        position: fixed;
+       
+        padding: 300px 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+    }
+    </style>
+    
+         
+    </head>
+    <body>
+        <div id="modal_container"></div>
+        
+        <div  id="retour_data" style="text-align: center;" onclick="document.getElementById('retour_data').innerHTML = '' " ></div>
+        
+       <!-- navbar -->
+       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">Utilisateur</a>
+        <a class="navbar-brand" href="resources.html">Ressources</a>
+        <a class="navbar-brand" href="category.html">Categorie</a>
+        <a class="navbar-brand" href="user_account.html">Mon Compte</a>
+        <a class="navbar-brand" href="connexion.html">connexion</a>
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    
+        <div class="container">
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1 bd-highlight">
+                <h2 style="margin-left:50px;"><label id="title">Categorie </label> </h2>
+            </div>
+            
+            
+            <div class="p-2 bd-highlight">
+                <h2><div class="btn btn-inline" onclick="new_category()" id="verif_all"><p class="vertical-center">Ajouter</p></div></h2>
+            </div>
+            
+            
+        </div>
+        
+                <div class="table-fluid">
+                    <div id="table" ></div>
+                    
+                </div>
+            </div>
+                <center id="loader_container" style="margin-top:50px"> </center>
+        <!-- -----------------------------ADD ACCOUNT  -------------------------------------------- -->
+                <div class="modal fade" id="new_category_Modal">
+                    <div class="modal-dialog modal-xl" style="max-width: 1300px;">
+                      <div class="modal-content">
+                      
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                                <!-- Titre  -->
+                          <h4 class="modal-title"  > <label id="_Modal_title">Ajouter un compte </label></h4>
+                        </div>
+                        
+                        
+                        <div class="modal-body">
+                       
+                    
+                
+                     <div class="container">
+                     
+                    <div id="myModal" class="modal"></div>
+                        <div class="form-group">
+                            <h5>nom</h5>
+                            <input type="text" class="form-control" name="name" id="name"  >
+                        </div>
+                        
+                    
+                    <div class="row">
+                      <button class="btn btn-success"id="category_form_btn" onclick="submit_category()" >Terminer</button>
+                   
+                    </div>
+                    </div>
+                    </div>
+                     <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                <!-- -----------------------------connexion  -------------------------------------------- -->			
+                <div class="modal fade" id="connexion_Modal">
+                    <div class="modal-dialog modal-xl" style="max-width: 1300px;">
+                      <div class="modal-content">
+                      
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                                <!-- Titre  -->
+                          <h4 class="modal-title"  > <label id="_Modal_title">Ajouter un compte </label></h4>
+                        </div>
+                        
+                        
+                        <div class="modal-body">
+                       
+                    
+                
+                     <div class="container">
+                     
+                    <div id="myModal" class="modal"></div>
+                        
+                        
+                          <div class="form-group">
+                                        <h5>Email </h5>
+                                        <input type="text" class="form-control" name="email" id="email"  >
+                        </div>
+                        <div class="form-group">
+                            <h5>Mot de passe </h5>
+                            <input type="text" class="form-control" name="password" id="password"  >
+                </div>
+                
+                    <div class="row">
+                      <button class="btn btn-success" onclick="submit_connexion()" >Terminer</button>
+                   
+                    </div>
+                    </div>
+                    </div>
+                     <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                <button type="button" onclick="sendData({email:'ok'})">Cliquez ici !</button>
+        <!-- Lib -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+     <script  src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+       <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
+       
+       <script>
+    
+    
+    function $_GET(param) {
+        var vars = {};
+        window.location.href.replace( location.hash, '').replace( 
+            /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+            function( m, key, value ) { // callback
+                vars[key] = value !== undefined ? value : '';
+            }
+        );
+        if ( param ) {
+            return vars[param] ? vars[param] : null;	
+        }
+        return vars;
+    }
+    
+    function parseURL(url) {
+        var parser = document.createElement('a'),
+            searchObject = {},
+            queries, split, i;
+        // Let the browser do the work
+        parser.href = url;
+        // Convert query string to object
+        queries = parser.search.replace(/^\?/, '').split('&');
+        for( i = 0; i < queries.length; i++ ) {
+            split = queries[i].split('=');
+            searchObject[split[0]] = split[1];
+        }
+        return {
+            protocol: parser.protocol,
+            host: parser.host,
+            hostname: parser.hostname,
+            port: parser.port,
+            pathname: parser.pathname,
+            search: parser.search,
+            searchObject: searchObject,
+            hash: parser.hash
+        };
+    }
+    
+    
+        
+    function refresh_table(){
+        jQuery.ajax({ url : 'http://localhost:3000/category/table',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+        beforeSend: function(){
+                            console.log($('#table').html());
+                            if ($('#table').html() == ""){
+                                $("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+                            }
+                        }	}).done(function(data){
+                            console.log(data)	
+                            
+            $("#loader_container").html('')
+            $('#table').html(data.message)		
+            $('#table_id').DataTable( {
+                "language": {
+        "sProcessing":     "Traitement en cours...",
+        "sSearch":         "Rechercher&nbsp;:",
+        "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+        "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+        "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+        "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+        "sInfoPostFix":    "",
+        "sLoadingRecords": "Chargement en cours...",
+        "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+        "oPaginate": {
+            "sFirst":      "Premier",
+            "sPrevious":   "Pr&eacute;c&eacute;dent",
+            "sNext":       "Suivant",
+            "sLast":       "Dernier"
+        },
+        "oAria": {
+            "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+        },
+        "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+        }
+                }
+            
+        });	
+    });	
+    }
+    
+    refresh_table();
+    
+    function close_modal() {
+    
+    document.getElementById("retour_data").innerHTML == ""
+        $('#new_category_Modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
+    function delete_category(email, id) {
+        if (confirm('êtes vous sur de vouloir supprimer le comptes : '+email)) {
+            var url = "http://localhost:3000/category/remove/"+id;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", url);
+            xhr.onload = function () {
+                if (xhr.readyState === xhr.DONE) {
+                    data = JSON.parse(xhr.response).message;
+                        if (data.search('catégorie supprimée') != -1 ) {
+    
+                            document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                            refresh_table()
+                            close_modal()
+                        }
+                        else {
+                            document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                                            // document.getElementById("myModal").style.display = "block"
+                        }
+        }
+            }
+            xhr.send(null);
+        }
+    }
+
+//affiche la fenetre ajouter un message
+//path = chemin vers le servicer
+function new_category() {
+    $('#_Modal_title').html('Ajouter un compte')
+    $('#category_form_btn').attr('onclick','submit_category()');
+		$('#new_category_Modal').modal('show')
+
+}
+function update_category(id) {
+
+    $('#category_form_btn').attr('onclick','submit_category(\''+id+'\')');
+
+    $('#_Modal_title').html('Modfier un compte')
+    $('#new_category_Modal').modal('show')
+
+
+    jQuery.ajax({ url : 'http://localhost:3000/category/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
+        console.log(data)	
+        $('#name').val(data.name)
+    });
+    $('#new_category_Modal').modal('show')
+}
+// ferme le modal de resultat de la page
+// function close_modal() {
+	  // console.log('1');
+
+	// console.log(document.getElementById("myModal").innerHTML);
+	// si l'action est réussite ferme la page de modification
+	// if (document.getElementById("myModal").innerHTML.search("Modification Réussi") != -1) {
+			// console.log('2');
+	// document.getElementById("myModal").style.display = "none";
+		// $('#total_roadmap_Modal').modal('hide');
+		// refresh_table();
+	// }
+	// else {
+			// console.log('1');
+
+		// document.getElementById("myModal").style.display = "none";
+	// }
+// }
+// When the category clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+	// console.log('0');
+  // if (event.target == document.getElementById("myModal")) {
+	  // console.log('1');
+	  // si l'action est réussite ferme la page de modification
+	// if (document.getElementById("myModal").innerHTML.search("Modification Réussi") != -1) {
+		// console.log('2');
+		// document.getElementById("myModal").style.display = "none";
+		// $('#total_roadmap_Modal').modal('hide');
+		// refresh_table();
+		// console.log('3');
+
+	// }
+	// else {
+		// console.log('1');
+		// document.getElementById("myModal").style.display = "none";
+	// }
+  // }
+// }
+
+
+//envoie du formulaire 
+
+
+function submit_category(id=""){
+	var XHR = new XMLHttpRequest();
+	var urlEncodedData = "";
+	var urlEncodedDataPairs = [];
+    var name;
+    // Configurez la requêtes
+    if (id == ""){
+        XHR.open('POST', 'http://localhost:3000/category/create');
+    }
+    else {
+        XHR.open('PUT' ,'http://localhost:3000/category/get/'+id);
+    }
+	
+	urlEncodedDataPairs.push(encodeURIComponent('name') + '=' + encodeURIComponent($('#name').val()));
+	
+  // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+  // des soumissions de formulaires de navigateur.
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  // Définissez ce qui se passe en cas de succès de soumission de données
+  XHR.addEventListener('load', function(event) {
+    if (XHR.readyState === XHR.DONE) {
+        data = JSON.parse(XHR.response).message;
+        if (data.search('Catégorie créé') != -1 || data.search('catégorie modifiée') != -1) {
+            
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            refresh_table()
+            close_modal()
+        }
+        else {
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                            // document.getElementById("myModal").style.display = "block"
+        }
+    }
+    
+  });
+
+  // Définissez ce qui arrive en cas d'erreur
+  XHR.addEventListener('error', function(event) {
+    alert('Oups! Quelque chose s\'est mal passé.');
+  });
+
+  
+ 
+
+  // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+  // Finalement, envoyez les données.
+  XHR.send(urlEncodedData);
+}
+
+    </script>
+    
+    </body>
+        
+    </html>

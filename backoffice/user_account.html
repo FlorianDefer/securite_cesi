@@ -1,0 +1,837 @@
+
+
+
+<html>	
+    <head>
+      <title>BackOffice</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
+    
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700">
+       <style>
+    
+    #retour_data {
+    align-content: center;
+        z-index: 999999;
+        position: fixed;
+       
+        padding: 300px 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto:
+    }
+    </style>
+    
+         
+    </head>
+    <body>
+        <div id="modal_container"></div>
+        <center>
+            <div  id="retour_data" style="" onclick="document.getElementById('retour_data').innerHTML = '' " ></div>
+        </center>
+        <!-- navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.html">Utilisateur</a>
+            <a class="navbar-brand" href="resources.html">Ressources</a>
+            <a class="navbar-brand" href="category.html">Categorie</a>
+            <a class="navbar-brand" href="user_account.html">Mon Compte</a>
+            <a class="navbar-brand" href="connexion.html">connexion</a>
+        
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    
+        <div class="container">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="private-tab" onclick="show_private('', '')" data-toggle="tab" href="#private" role="tab" aria-controls="private" aria-selected="true">Privée</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link " id="public-tab"  onclick="show_public()" data-toggle="tab" href="#public" role="tab" aria-controls="public" aria-selected="false">Public</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="waiting-tab" onclick="show_waiting('', '')" data-toggle="tab" href="#waiting" role="tab" aria-controls="waiting" aria-selected="false">En Attente</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <h2><button class="btn btn-inline" onclick="new_resources()" ><p class="vertical-center">Créer une ressource</p></button></h2>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="private" role="tabpanel" aria-labelledby="private-tab">
+                    <br/>
+                    <div class="container">
+                        <div class="row justify-content-between">
+                    <div class="col-10">
+                        <b><h3><div id="ttl_tab_private"> Mes Ressources Privées </div></h3></b>
+                    </div>
+                    <div class="col-2">
+                      <button class="btn  btn-primary right" onclick="show_private()"> Rafraîchir </button>
+                    </div>
+                  </div>
+                            <br/>
+                            <div class="toolbar_table_private"></div>
+                            <div id="table_tab_private"></div>
+                            <div class="toolbar_private"></div>
+                        
+                    </div>
+                    
+                </div>
+            <div class="tab-pane fade " id="public" role="tabpanel" aria-labelledby="public-tab">
+            <br/>
+            <div class="container">
+                <div class="row justify-content-between">
+            <div class="col-10">
+                <b><h3><div id="ttl_tab_public"> Mes Ressources Public </div></h3></b>
+            </div>
+            <div class="col-2">
+              <button class="btn  btn-primary right" onclick="show_public()"> Rafraîchir </button>
+            </div>
+          </div>
+                    <br/>
+                    <div class="toolbar_table_public"></div>
+                    <div id="table_tab_public"></div>
+                    <div class="toolbar_public"></div>
+                
+            </div>
+            
+            </div>
+            <div class="tab-pane fade" id="waiting" role="tabpanel" aria-labelledby="waiting-tab">
+            <br/>
+            <div class="container">
+                <div class="row justify-content-between">
+            <div class="col-10">
+                <b><h3><div id="ttl_tab_waiting"> Mes Ressources en attentes de validation </div></h3></b>
+            </div>
+            <div class="col-2">
+              <button class="btn  btn-primary right" onclick="show_waiting()"> Rafraîchir </button>
+            </div>
+          </div>
+                    <br/>
+                    <div class="toolbar_table_waiting"></div>
+                    <div id="table_tab_waiting"></div>
+                    <div class="toolbar_table_waiting"></div>
+                
+            </div>
+            </div>
+            
+            
+            
+            
+            </div>
+        </div>
+
+	<!-- -----------------------------ADD resources  -------------------------------------------- -->
+    <div class="modal fade" id="new_resources_Modal">
+        <div class="modal-dialog modal-xl" style="max-width: 1300px;">
+          <div class="modal-content">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+                    <!-- Titre  -->
+              <h4 class="modal-title"  > <label id="_Modal_title">Ajouter une ressource </label></h4>
+            </div>
+            
+            
+            <div class="modal-body">
+           
+        
+    
+         <div class="container">
+         
+        <div id="myModal" class="modal"></div>
+            <div class="form-group">
+                <h5>Titre</h5>
+                <input type="text" class="form-control" name="title" id="title"  >
+            </div>
+           
+            <div class="form-group">
+                <h5>Categorie</h5>
+            <select name="category" id="category"></select>
+            </div>
+         
+            <div class="form-group">
+                <h5>Type de Ressources</h5>
+             <select name="type" id="type">
+                <option value="activité">activité / jeu à réaliser</option>
+                <option value="articles">articles</option>
+                 <option value="defi">cartes défi</option>
+                  <option value="cours_pdf">cours au format PDF</option>
+                  <option value="exercices">exercices / ateliers</option>
+                  <option value="fiche_lecture">fiche de lecture</option>
+                  <option value="jeux">Jeux en ligne</option>
+                  <option value="video">vidéo</option>
+            </select>
+            </div>
+            <div class="form-group">
+                <h5>Relation</h5>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="soi" value="soi">
+                  <label class="form-check-label" for="inlineCheckbox1">soi</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="conjoints" value="conjoints">
+                  <label class="form-check-label" for="inlineCheckbox2">conjoints</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="famille" value="famille" >
+                  <label class="form-check-label" for="inlineCheckbox3">famille </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="professionnelle" value="professionnelle">
+                    <label class="form-check-label" for="inlineCheckbox1">professionnelle </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="amis" value="amis">
+                    <label class="form-check-label" for="inlineCheckbox2">amis et communautés</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inconnus" value="inconnus" >
+                    <label class="form-check-label" for="inlineCheckbox3">inconnus </label>
+                  </div>
+              </div>
+              <div class="form-group">
+                <h5>Editer la ressource</h5>
+               
+                <div class="container"style="border: solid;">
+                  <div id="editorjs"></div>
+                 </div>
+              </div>
+        <div class="row">
+          <button class="btn btn-success"id="resources_form_btn" onclick="submit_resouces()" >Terminer</button>
+       
+        </div>
+        </div>
+        </div>
+         <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+        <!-- Lib -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script>
+     
+     <script  src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+       <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
+       <script src="js/add_resources.js"></script>
+       <script src="js/connexion.js"></script>
+     
+     
+     <script>
+    
+    $(document).ready(function(){
+      $('.dropdown-submenu a.test').on("click", function(e){
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+      });
+      last_request_table = {};
+      show_private()
+    });
+    
+    function $_GET(param) {
+        var vars = {};
+        window.location.href.replace( location.hash, '').replace( 
+            /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+            function( m, key, value ) { // callback
+                vars[key] = value !== undefined ? value : '';
+            }
+        );
+        if ( param ) {
+            return vars[param] ? vars[param] : null;	
+        }
+        return vars;
+    }
+    // table 
+    function show_private() {
+    
+    title = 'Mes Ressources Privée'
+    
+    
+    
+    last_request_table.id_container = 'table_tab_private'
+    last_request_table.id_table = 'private_table'
+    
+    
+    jQuery.ajax({ url : 'http://localhost:3000/resources/private/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    beforeSend: function(){
+                
+                    if ($('#table_tab_private').html() == ""){
+                        $("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+                    }
+                }	}).done(function(private_resources){
+                    
+                        
+                        body = '';
+    console.log('thingstable')
+    private_resources.forEach(element => {
+        console.log(element)
+        element_date = new Date(element.datePublished);
+        element_date = element_date.toLocaleString()
+        body += '<tr>'
+            body +=	'<td>'+element.title+'</td><td>'+element.account.firstName+'</td><td>'+element.type+'</td><td>'+element.category+'</td><td>'+element.relation.join(', ')+'</td><td>'+element_date+'</td>'
+        body +='<td><div class="dropdown dropleft">';
+        body +='	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">';
+        body +='		 ';
+        body +='	</button>';
+        body +='	<div class="dropdown-menu">';
+        body +='<a class="dropdown-item" href="#" onclick="update_resources(\''+element._id+'\')" >Modifier</a>';
+        body +='<a class="dropdown-item" href="get_resource.html?id='+element._id+'" target="_blank" >voir ressource</a>';
+        body +='<a class="dropdown-item" onclick="to_waiting(\''+element.title+'\',\''+element._id+'\' ,\'private\' )"href="#" >Passer en attente de validation</a>';
+        body +='	</div>';
+        body +='</div></td></tr>';
+    });
+    
+    html = '<table data-order=\'[[ 1, "desc" ]]\' id="table_private_id" class="display" style="width:100%">'
+    html +=	'		<thead>'
+    html +=	'				<tr>'
+    html +=	'					<th>Nom</th><th>Auteur</th><th>Type</th><th>Catégorie</th><th>Traite de</th><th>Date de création</th><th>Action</th>'
+    html +=	'				</tr>'
+    html +=	'			</thead>'
+    html +=	'			<tbody>'
+    html +=	      body
+    html +=	'			</tbody>'
+    html +=	'			</table>';
+    
+    
+    $("#loader_container").html('')
+    $('#table_tab_private').html(html)		
+    $('#table_private_id').DataTable( {
+        "language": {
+    "sProcessing":     "Traitement en cours...",
+    "sSearch":         "Rechercher&nbsp;:",
+    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    "sInfoPostFix":    "",
+    "sLoadingRecords": "Chargement en cours...",
+    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    "oPaginate": {
+    "sFirst":      "Premier",
+    "sPrevious":   "Pr&eacute;c&eacute;dent",
+    "sNext":       "Suivant",
+    "sLast":       "Dernier"
+    },
+    "oAria": {
+    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    },
+    "select": {
+        "rows": {
+            _: "%d lignes séléctionnées",
+            0: "Aucune ligne séléctionnée",
+            1: "1 ligne séléctionnée"
+        }
+    }
+        }
+    
+    });	
+    
+    });	
+    }
+    
+    function show_waiting() {
+    
+    url = 'data.php?action=waiting_table'
+    title = 'Mes Ressources en attente de validation'
+    
+    
+    
+    last_request_table.url = url
+    last_request_table.id_container = 'table_tab_waiting'
+    last_request_table.id_table = 'waiting_table'
+    
+    
+    jQuery.ajax({ url : 'http://localhost:3000/resources/waiting/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    beforeSend: function(){
+                
+                    if ($('#table_tab_waiting').html() == ""){
+                        $("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+                    }
+                }	}).done(function(waiting_resources){
+                    
+                        
+                        body = '';
+    console.log('thingstable')
+    waiting_resources.forEach(element => {
+        element_date = new Date(element.datePublished);
+        element_date = element_date.toLocaleString()
+        body += '<tr>'
+        body +=	'<td>'+element.title+'</td><td>'+element.account.firstName+'</td><td>'+element.type+'</td><td>'+element.category+'</td><td>'+element.relation.join(', ')+'</td><td>'+element_date+'</td>'
+        body +='<td><div class="dropdown dropleft">';
+        body +='	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">';
+        body +='		 ';
+        body +='	</button>';
+        body +='	<div class="dropdown-menu">';
+        body +='<a class="dropdown-item" href="service" >voir ressource</a>';
+        body +='<a class="dropdown-item" onclick="to_private(\''+element.title+'\',\''+element._id+'\' ,\'waiting\' )"href="#" >Passer en privée</a>';
+        body +='	</div>';
+        body +='</div></td></tr>';
+    });
+    
+    html = '<table data-order=\'[[ 1, "desc" ]]\' id="table_waiting_id" class="display" style="width:100%">'
+    html +=	'		<thead>'
+    html +=	'				<tr>'
+    html +=	'					<th>Nom</th><th>Auteur</th><th>Type</th><th>Catégorie</th><th>Traite de</th><th>Date de création</th><th>Action</th>'
+    html +=	'				</tr>'
+    html +=	'			</thead>'
+    html +=	'			<tbody>'
+    html +=	      body
+    html +=	'			</tbody>'
+    html +=	'			</table>';
+    
+    
+    $("#loader_container").html('')
+    $('#table_tab_waiting').html(html)		
+    $('#table_waiting_id').DataTable( {
+        "language": {
+    "sProcessing":     "Traitement en cours...",
+    "sSearch":         "Rechercher&nbsp;:",
+    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    "sInfoPostFix":    "",
+    "sLoadingRecords": "Chargement en cours...",
+    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    "oPaginate": {
+    "sFirst":      "Premier",
+    "sPrevious":   "Pr&eacute;c&eacute;dent",
+    "sNext":       "Suivant",
+    "sLast":       "Dernier"
+    },
+    "oAria": {
+    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    },
+    "select": {
+        "rows": {
+            _: "%d lignes séléctionnées",
+            0: "Aucune ligne séléctionnée",
+            1: "1 ligne séléctionnée"
+        }
+    }
+        }
+    
+    });	
+    
+    });	
+    }
+    
+    
+    function show_public() {
+    
+    url = 'data.php?action=public_table'
+    title = 'Mes Ressources Public'
+    
+    
+    
+    last_request_table.url = url
+    last_request_table.id_container = 'table_tab_public'
+    last_request_table.id_table = 'public_table'
+    
+    
+    jQuery.ajax({ url : 'http://localhost:3000/resources/public/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    beforeSend: function(){
+                    if ($('#table_tab_public').html() == ""){
+                        $("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
+                    }
+                }	}).done(function(public_resources){
+                    
+                        
+                        body = '';
+    console.log('thingstable')
+    public_resources.forEach(element => {
+        element_date = new Date(element.datePublished);
+        element_date = element_date.toLocaleString()
+        body += '<tr>'
+        body +=	'<td>'+element.title+'</td><td>'+element.account.firstName+'</td><td>'+element.type+'</td><td>'+element.category+'</td><td>'+element.relation.join(', ')+'</td><td>'+element_date+'</td>'
+        body +='<td><div class="dropdown dropleft">';
+        body +='	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">';
+        body +='		 ';
+        body +='	</button>';
+        body +='	<div class="dropdown-menu">';
+        body +='<a class="dropdown-item" href="service" >voir ressource</a>';
+       // body +='<a class="dropdown-item" onclick="to_waiting(\''+element.title+'\',\''+element._id+'\',\'public\' )" href="#" >Passer en attente</a>';
+        body +='<a class="dropdown-item" onclick="to_private(\''+element.title+'\',\''+element._id+'\',\'public\' )" href="#" >Passer en privée</a>';
+        body +='	</div>';
+        body +='</div></td></tr>';
+    });
+    
+    html = '<table data-order=\'[[ 1, "desc" ]]\' id="table_public_id" class="display" style="width:100%">'
+    html +=	'		<thead>'
+    html +=	'				<tr>'
+    html +=	'					<th>Nom</th><th>Auteur</th><th>Type</th><th>Catégorie</th><th>Traite de</th><th>Date de création</th><th>Action</th>'
+    html +=	'				</tr>'
+    html +=	'			</thead>'
+    html +=	'			<tbody>'
+    html +=	      body
+    html +=	'			</tbody>'
+    html +=	'			</table>';
+    
+    
+    $("#loader_container").html('')
+    $('#table_tab_public').html(html)		
+    $('#table_public_id').DataTable( {
+        "language": {
+    "sProcessing":     "Traitement en cours...",
+    "sSearch":         "Rechercher&nbsp;:",
+    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    "sInfoPostFix":    "",
+    "sLoadingRecords": "Chargement en cours...",
+    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    "oPaginate": {
+    "sFirst":      "Premier",
+    "sPrevious":   "Pr&eacute;c&eacute;dent",
+    "sNext":       "Suivant",
+    "sLast":       "Dernier"
+    },
+    "oAria": {
+    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    },
+    "select": {
+        "rows": {
+            _: "%d lignes séléctionnées",
+            0: "Aucune ligne séléctionnée",
+            1: "1 ligne séléctionnée"
+        }
+    }
+        }
+    
+    });	
+    
+    });	
+    }
+    
+    function to_waiting(title , id, actual_table) {
+        if (confirm('êtes vous sur de vouloir passer la ressources '+title+' en attente?')) {
+        
+            var XHR = new XMLHttpRequest();
+            var urlEncodedData = "";
+            var urlEncodedDataPairs = [];
+        
+            XHR.open('PUT' ,'http://localhost:3000/resources/waiting/'+id);
+        
+    
+      // Combinez les paires en une seule chaîne de caractères et remplacez tous
+      // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+      // des soumissions de formulaires de navigateur.
+      urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+    
+      // Définissez ce qui se passe en cas de succès de soumission de données
+      XHR.addEventListener('load', function(event) {
+        if (XHR.readyState === XHR.DONE) {
+            data = JSON.parse(XHR.response).message;
+            if (data.search('réussie') != -1 ) {
+                
+                document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                if (actual_table == 'public') {
+                    show_public();
+                }
+                else {
+                    show_waiting();
+                }
+            }
+            else {
+                document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                                // document.getElementById("myModal").style.display = "block"
+            }
+        }
+        
+      });
+    
+      // Définissez ce qui arrive en cas d'erreur
+      XHR.addEventListener('error', function(event) {
+        alert('Oups! Quelque chose s\'est mal passé.');
+      });
+    
+      
+     
+      // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+      XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+      // Finalement, envoyez les données.
+      XHR.send(urlEncodedData);
+    
+    
+    
+        }
+    }
+    function to_private(title , id, actual_table) {
+        if (confirm('êtes vous sur de vouloir passer la ressources '+title+' en privée?')) {
+        
+            var XHR = new XMLHttpRequest();
+            var urlEncodedData = "";
+            var urlEncodedDataPairs = [];
+        
+            XHR.open('PUT' ,'http://localhost:3000/resources/private/'+id);
+        
+    
+      // Combinez les paires en une seule chaîne de caractères et remplacez tous
+      // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+      // des soumissions de formulaires de navigateur.
+      urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+    
+      // Définissez ce qui se passe en cas de succès de soumission de données
+      XHR.addEventListener('load', function(event) {
+        if (XHR.readyState === XHR.DONE) {
+            data = JSON.parse(XHR.response).message;
+            if (data.search('réussie') != -1 ) {
+                
+                document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                if (actual_table == 'public') {
+                    show_public();
+                }
+                else {
+                    show_waiting();
+                }
+            }
+            else {
+                document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                                // document.getElementById("myModal").style.display = "block"
+            }
+        }
+        
+      });
+    
+      // Définissez ce qui arrive en cas d'erreur
+      XHR.addEventListener('error', function(event) {
+        alert('Oups! Quelque chose s\'est mal passé.');
+      });
+    
+      
+     
+      // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+      XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+      // Finalement, envoyez les données.
+      XHR.send(urlEncodedData);
+    
+    
+    
+        }
+    }
+    //------------------------- ressouce-------------------------------------------------------------
+        
+
+function new_resources() {
+     editor = new EditorJS({
+    holder: 'editorjs',
+/** 
+     * Available Tools list. 
+     * Pass Tool's class or Settings object for each Tool you want to use 
+     */
+   tools:{
+       header:Header,
+       delimiter: Delimiter,
+       paragraph: {
+        class: Paragraph,
+        inlineToolbar: true,
+      },
+      embed: Embed,
+      image: SimpleImage,
+   }
+}
+);
+    $('#_Modal_title').html('Ajouter un compte')
+    $('#resources_form_btn').attr('onclick','submit_resources()');
+    $('#category').html('');
+    jQuery.ajax({ url : 'http://localhost:3000/category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
+    console.log(data)
+   // info = JSON.parse(data)	
+   data.forEach(function(elem){
+             $('#category').append('<option value="' + elem.name+ '">' +  elem.name + '</option>');
+        })
+    });
+		$('#new_resources_Modal').modal('show')
+
+}
+
+function update_resources(id) {
+
+    $('#resources_form_btn').attr('onclick','submit_resources(\''+id+'\')');
+
+   
+    $('#new_resources_Modal').modal('show')
+
+
+    jQuery.ajax({ url : 'http://localhost:3000/resources/'+id, headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
+        $('#_Modal_title').html('Modfier la ressource '+data.title)
+        console.log(data)	
+        $('#title').val(data.title)
+         editor = new EditorJS({
+        holder: 'editorjs',
+        /** 
+             * Available Tools list. 
+             * Pass Tool's class or Settings object for each Tool you want to use 
+             */
+           tools:{
+               header:Header,
+               delimiter: Delimiter,
+               paragraph: {
+                class: Paragraph,
+                inlineToolbar: true,
+              },
+              embed: Embed,
+              image: SimpleImage,
+           },
+           data: JSON.parse(data.description)
+            
+        
+        });
+
+
+        $('#description').val(data.description)
+        $('#category').val(data.category)
+        $('#geographicalZone').val(data.geographicalZone)
+        $('#type').val(data.type)
+        $('#nickname').val(data.nickname)
+        $('#socialSituation') .val(data.socialSituation)
+        data.relation.forEach(function(elem){
+            $('#'+elem).prop( "checked", true );
+        })
+        $('#category').html('');
+         jQuery.ajax({ url : 'http://localhost:3000/category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
+           console.log(data)
+          // info = JSON.parse(data)	
+          data.forEach(function(elem){
+                    $('#category').append('<option value="' + elem._id+ '">' +  elem.name + '</option>');
+               })
+               $('#new_resources_Modal').modal('show')
+         });
+
+      
+    });
+    $('#new_resources_Modal').modal('show')
+}
+
+function submit_resources(id=""){
+    editor.save().then((output) => {
+        console.log('Data: ', output);
+    
+	var XHR = new XMLHttpRequest();
+	var urlEncodedData = "";
+	var urlEncodedDataPairs = [];
+    var name;
+    // Configurez la requêtes
+    if (id == ""){
+        XHR.open('POST', 'http://localhost:3000/resources/');
+    }
+    else {
+        XHR.open('PUT' ,'http://localhost:3000/resources/'+id);
+    }
+    array_relation = new Array()
+    if ($('#soi').is(":checked"))
+    {
+      array_relation.push("soi")
+    }
+    if ($('#conjoints').is(":checked"))
+    {
+      array_relation.push("conjoints")
+    }
+    if ($('#famille').is(":checked"))
+    {
+      array_relation.push("famille")
+    }
+    if ($('#professionnelle').is(":checked"))
+    {
+      array_relation.push("professionnelle")
+    }
+    if ($('#amis').is(":checked"))
+    {
+      array_relation.push("amis")
+    }
+    if ($('#inconnus').is(":checked"))
+    {
+      array_relation.push("inconnus")
+    }
+   my_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+   
+	urlEncodedDataPairs.push(encodeURIComponent('title') + '=' + encodeURIComponent($('#title').val()));
+	urlEncodedDataPairs.push(encodeURIComponent('description') + '=' + encodeURIComponent(JSON.stringify(output)));
+	urlEncodedDataPairs.push(encodeURIComponent('category') + '=' + encodeURIComponent($('#category').val()));
+	urlEncodedDataPairs.push(encodeURIComponent('type') + '=' + encodeURIComponent($('#type').val()));
+	urlEncodedDataPairs.push(encodeURIComponent('relation') + '=' + encodeURIComponent(array_relation));
+	urlEncodedDataPairs.push(encodeURIComponent('datePublished') + '=' + encodeURIComponent(my_date));
+
+  // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // les espaces codés en % par le caractère'+' ; cela correspond au comportement
+  // des soumissions de formulaires de navigateur.
+  urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+  // Définissez ce qui se passe en cas de succès de soumission de données
+  XHR.addEventListener('load', function(event) {
+    if (XHR.readyState === XHR.DONE) {
+        data = JSON.parse(XHR.response).message;
+        if (data.search('Utilisateur créé !') != -1 || data.search('User updated successfully!') != -1) {
+            
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            refresh_table()
+            close_modal()
+        }
+        else {
+            document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                            // document.getElementById("myModal").style.display = "block"
+        }
+    }
+    
+  });
+
+  // Définissez ce qui arrive en cas d'erreur
+  XHR.addEventListener('error', function(event) {
+    alert('Oups! Quelque chose s\'est mal passé.');
+  });
+
+  
+ 
+
+  // Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+  XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  XHR.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
+  // Finalement, envoyez les données.
+  XHR.send(urlEncodedData);
+  
+    }).catch((error) => {
+        console.log('Saving failed: ', error)
+    });
+}
+    
+function close_modal() {
+    
+    document.getElementById("retour_data").innerHTML == ""
+        $('#new_resouces_Modal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
+    
+    
+    
+    
+    </script>
+    
+    </body>
+        
+    </html>
