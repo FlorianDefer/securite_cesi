@@ -166,8 +166,8 @@ function submit_registertest(){
             if (isJson(data)) {
                 info = JSON.parse(data)
 			    if (info.message == undefined) {
-                    Cookies.set('access_token', info.jwtToken)
-                    Cookies.set('id_account', info.id)
+                    Cookies.set('access_token', info.jwtToken, { expires: 7 })
+                    Cookies.set('id_account', info.id, { expires: 7 })
                     
 			    	document.location.href='index.html';
 			    }else {

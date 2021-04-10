@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var morgan = require('morgan');
+
 //test
 // les models
 //const Resources = require('./models/ressourceModel');
@@ -31,6 +33,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(cookieParser());
+
+app.use(morgan('combined'));
 
 mongoose.connect('mongodb://localhost:27017',
   { useNewUrlParser: true,

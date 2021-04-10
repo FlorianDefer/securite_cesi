@@ -36,13 +36,11 @@
         <a class="navbar-brand" href="resources.html">Ressources</a>
         <a class="navbar-brand" href="category.html">Categorie</a>
         <a class="navbar-brand" href="user_account.html">Mon Compte</a>
-        <a class="navbar-brand" href="connexion.html">connexion</a>
     
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+		<button style="right: 0;" onclick="deconnection()" class="btn btn-danger ml-auto mr-1">Déconnection</button>
+		
     </nav>
-    
+
         <div class="container">
         <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
@@ -157,7 +155,17 @@
        
        <script>
     
-    
+    console.log(Cookies.get('id_account'))
+console.log(Cookies.get('access_token'))
+if (Cookies.get('id_account') == '' || Cookies.get('id_account') == undefined || Cookies.get('access_token') == '' || Cookies.get('access_token') == undefined) {
+	deconnection();
+}
+
+function deconnection(){
+	Cookies.remove('id_account')
+	Cookies.remove('access_token')
+	window.location = '/connexion.html';
+}
     function $_GET(param) {
         var vars = {};
         window.location.href.replace( location.hash, '').replace( 
