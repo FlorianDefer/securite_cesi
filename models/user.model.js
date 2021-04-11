@@ -203,7 +203,7 @@ UserSchema.statics.hasRefreshTokenExpired = (expiresAt) => {
 // Before a user document is saved, this code runs
 UserSchema.pre('save', function (next) {
     let user = this;
-    let costFactor = 10;
+    let costFactor = 30;
 
     if (user.isModified('password')) {
         // if the password field has been edited/changed then run this code.
