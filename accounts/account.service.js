@@ -85,6 +85,25 @@ async function register(params, origin = 'origin') {
         // return await sendAlreadyRegisteredEmail(params.email, origin);
     }
 
+    // Validate For **Strong Password**
+    let intendedPassword = params.password;
+    let intendedPasswordLength = intendedPassword.length;
+
+    if (intendedPasswordLength <= 10) {
+      throw 'The Input Password is less than or equal to 10 characters long. ' + 
+      'Please choose a password of more than 10 characters.';
+    }
+
+    var regex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{11,}$');
+    // Test to see if intendedPassword follows the regex pattern
+    if (regex.test(intendedPassword)) {
+       console.log("Valid");
+    } else {
+        throw 'The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
+        + 'at least one lowercase letter, at least one number and at least one special character. ' + 
+        'Please choose a password that fulfills the above criteria for maximum password protection.';;
+}
+
     // create account object
     const account = new db.Account(params);
 
