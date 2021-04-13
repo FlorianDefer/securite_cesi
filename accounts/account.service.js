@@ -96,8 +96,8 @@ async function register(params, origin = 'origin') {
     // if (isFirstAccount) {account.role = Role.SuperAdmin;}
     // account.verificationToken = randomTokenString();
 
-    // hash password
-    account.passwordHash = hash(params.password);
+    // salt and hash password
+    account.passwordHash = saltAndHash(params.password);
 
     // save account
     await account.save();
@@ -152,7 +152,7 @@ async function resetPassword({ token, password }) {
     if (!account) throw 'Invalid token';
 
     // update password and remove reset token
-    account.passwordHash = hash(password);
+    account.passwordHash = saltAndHash(password);
     account.passwordReset = Date.now();
     account.resetToken = undefined;
     await account.save();
@@ -177,8 +177,8 @@ async function create(params) {
     const account = new db.Account(params);
     account.verified = Date.now();
 
-    // hash password
-    account.passwordHash = hash(params.password);
+    // salt and hash password
+    account.passwordHash = saltAndHash(params.password);
 
     // save account
     await account.save();
@@ -194,9 +194,9 @@ async function update(id, params) {
         throw 'Email "' + params.email + '" is already taken';
     }
 
-    // hash password if it was entered
+    // salt and hash password if it was entered
     if (params.password) {
-        params.passwordHash = hash(params.password);
+        params.passwordHash = saltAndHash(params.password);
     }
 
     // copy params to account and save
@@ -227,8 +227,14 @@ async function getRefreshToken(token) {
     return refreshToken;
 }
 
-function hash(password) {
-    return bcrypt.hashSync(password, 10);
+/**
+ * Function which salts and hashes a string input
+ * @see https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
+ * @param {string} password 
+ * @returns        A salted hash (with the length of the salt being equal to 30) of the input string
+ */
+function saltAndHash(password) {
+    return bcrypt.hashSync(password, 30);
 }
 
 function generateJwtToken(account) {
