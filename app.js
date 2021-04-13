@@ -9,7 +9,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var morgan = require('morgan');
-
+var winston = require('./config/winston');
 //test
 // les models
 //const Resources = require('./models/ressourceModel');
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(morgan('combined'));
+app.use(morgan('combined', { stream: winston.stream }));
 
 mongoose.connect('mongodb://localhost:27017',
   { useNewUrlParser: true,
