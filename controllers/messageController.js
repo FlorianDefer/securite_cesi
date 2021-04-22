@@ -1,12 +1,18 @@
 const Message = require('../models/messageModel');
+const sanitize = require('mongo-sanitize');
 
 
 
   //message
 
   exports.getAllUserMessage = (req, res, next) => {
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.params.id);
+
     Message.find({
-      _userId: req.params.id //a faire
+      _userId: cleanUserId //a faire
     }).then(
       (user) => {
         res.status(200).json(user); 
@@ -20,9 +26,16 @@ const Message = require('../models/messageModel');
     );
   };
   exports.getMessageDiscussion = (req, res, next) => {
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.params.id);
+  const cleanUserIdTarget = sanitize(req.params.userIdTarget);
+
+
     Message.find({
-      _userId: req.params.id, //a faire
-      _userIdTarget: req.params.userIdTarget//a faire
+      _userId: cleanUserId, //a faire
+      _userIdTarget: cleanUserIdTarget//a faire
     }).then(
       (user) => {
         res.status(200).json(user); 

@@ -1,6 +1,7 @@
 const Comment = require('../models/commentModel');
 const Category = require('../models/categoryModel');
 const User = require('../models/userModel');
+const sanitize = require('mongo-sanitize');
 
 
 
@@ -29,8 +30,14 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.getOneComment = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanId = sanitize(req.params.id);
+
   Comment.findOne({
-    _id: req.params.id
+    _id: cleanId
   }).then(
     (comment) => {
       res.status(200).json(comment);
@@ -98,7 +105,12 @@ exports.getAllComment = (req, res, next) => {
 };
 
 exports.getByResources = (req, res, next) => {
-    Comment.find({_resourceId: req.params.id}).then(
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanId = sanitize(req.params.id);
+
+    Comment.find({_resourceId: cleanId}).then(
         (things) => {
           res.status(200).json(things);
         }

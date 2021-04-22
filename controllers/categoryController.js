@@ -1,4 +1,5 @@
 const Category = require('../models/categoryModel');
+const sanitize = require('mongo-sanitize');
 
 exports.createCategory = (req, res, next) => {
   const category = new Category({
@@ -20,8 +21,14 @@ exports.createCategory = (req, res, next) => {
 };
 
 exports.getOneCategory = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanId = sanitize(req.params.id);
+
   Category.findOne({
-    _id: req.params.id
+    _id: cleanId
   }).then(
     (category) => {
       res.status(200).json(category);

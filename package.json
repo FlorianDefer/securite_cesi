@@ -27,6 +27,7 @@
     "rootpath": "^0.1.2",
     "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "mongo-sanitize": "1.1.0"
   }
 }
