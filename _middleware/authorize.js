@@ -1,6 +1,7 @@
 const jwt = require('express-jwt');
 const { secret } = require('config.json');
 const db = require('_helpers/db');
+const sanitize = require('mongo-sanitize');
 
 module.exports = authorize;
 
@@ -17,8 +18,14 @@ function authorize(roles = []) {
 
         // authorize based on user role
         async (req, res, next) => {
-            const account = await db.Account.findById(req.user.id);
-            const refreshTokens = await db.RefreshToken.find({ account: account.id });
+            // The sanitize function will strip out any keys that start with '$' in the input,
+            // so you can pass it to MongoDB without worrying about malicious users overwriting
+            // query selectors.
+            const cleanUserId = sanitize(req.user.id);
+            const cleanAccountId = sanitize(account.id);
+
+            const account = await db.Account.findById(cleanUserId);
+            const refreshTokens = await db.RefreshToken.find({ account: cleanAccountId });
 
             if (!account || (roles.length && !roles.includes(account.role))) {
                 // account no longer exists or role not authorized

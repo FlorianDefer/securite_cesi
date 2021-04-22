@@ -7,6 +7,7 @@ const { FavouriteResource } = require('./favouriteResource.model');
 const { SeenResource } = require('./seenResource.model');
 const { Role } = require('./role');
 const { ActivationStatus, ActivatedStatus } = require('./activatedStatus');
+const sanitize = require('mongo-sanitize');
 
 
 
@@ -162,20 +163,33 @@ UserSchema.statics.findByIdAndToken = function (_id, token) {
 
     const User = this;
 
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanUserId = sanitize(_id);
+    const cleanToken = sanitize(token);
+
     return User.findOne({
-        _id,
-        'sessions.token': token
+        cleanUserId,
+        'sessions.token': cleanToken
     });
 }
 
 
 UserSchema.statics.findByCredentials = function (email, password) {
+
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize(email);
+    const cleanPassword = sanitize(password);
+
     let User = this;
-    return User.findOne({ email }).then((user) => {
+    return User.findOne({ cleanEmail }).then((user) => {
         if (!user) return Promise.reject();
 
         return new Promise((resolve, reject) => {
-            bcrypt.compare(password, user.password, (err, res) => {
+            bcrypt.compare(cleanPassword, user.password, (err, res) => {
                 if (res) {
                     resolve(user);
                 }

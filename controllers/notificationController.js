@@ -1,7 +1,7 @@
 const Notification = require('../models/notificationModel');
 //const Category = require('../models/favoriteModel');
 //const User = require('../models/userModel');
-
+const sanitize = require('mongo-sanitize');
 
 
 exports.createNotification = (req, res, next) => {
@@ -43,7 +43,13 @@ exports.deleteNotification = (req, res, next) => {
 };
 
 exports.getAllNotification = (req, res, next) => {
-  Notification.find({_userId: req.user.id}).then(
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
+  Notification.find({_userId: cleanUserId}).then(
     (things) => {
       res.status(200).json(things);
     }

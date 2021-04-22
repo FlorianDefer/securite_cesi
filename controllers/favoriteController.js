@@ -1,6 +1,7 @@
 const Favorite = require('../models/favoriteModel');
 //const Category = require('../models/favoriteModel');
 //const User = require('../models/userModel');
+const sanitize = require('mongo-sanitize');
 
 
 
@@ -43,7 +44,12 @@ exports.deleteFavorite = (req, res, next) => {
 };
 
 exports.getAllFavorite = (req, res, next) => {
-  Favorite.find({_userId: req.user.id}).then(
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
+  Favorite.find({_userId: cleanUserId}).then(
     (things) => {
       res.status(200).json(things);
     }
@@ -56,7 +62,14 @@ exports.getAllFavorite = (req, res, next) => {
   );
 };
 exports.isFavorite = (req, res, next) => {
-    Favorite.find({_userId: req.user.id,_resourceId:req.params.id}).then(
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+  const cleanResourceId = sanitize(req.params.id);
+
+
+    Favorite.find({_userId: cleanUserId,_resourceId:cleanResourceId}).then(
       (things) => {
         res.status(200).json(things);
       }
