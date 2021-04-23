@@ -82,10 +82,10 @@ align-content: center;
 				<div id="myModal" class="modal"></div>
 					<div class="form-group">
 						<h5>Email</h5>
-						<input type="text" class="form-control" name="email" id="email"  >
+						<input type="text" class="form-control" name="email" id="email" required >
 					</div>
 					<div class="form-group">
-						<h5>Mot de Passe</h5>
+						<h5>Nouveau mot de Passe (non obligatoire)</h5>
 						<input type="text" class="form-control" name="password" id="password"  >
 					</div>
 					<!--<div class="form-group">
@@ -94,11 +94,11 @@ align-content: center;
 					</div> -->
 					<div class="form-group">
 						<h5>Prénom</h5>
-						<input type="text" class="form-control" name="surname" id="surname"  >
+						<input type="text" class="form-control" name="surname" id="surname" required  >
 					</div>
 					<div class="form-group">
 						<h5>Nom</h5>
-						<input type="text" class="form-control" name="name" id="name"  >
+						<input type="text" class="form-control" name="name" id="name" required >
 					</div>
 					<!--<div class="form-group">
 						<h5>Situation Social</h5>
@@ -317,6 +317,8 @@ function delete_user(email, id) {
        			 }
     }
 		}
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.setRequestHeader('authorization', 'Bearer '+Cookies.get('access_token'));
 		xhr.send(null);
 	}
 }
@@ -426,7 +428,7 @@ function submit_account(id=""){
   // Définissez ce qui se passe en cas de succès de soumission de données
   XHR.addEventListener('load', function(event) {
     if (XHR.readyState === XHR.DONE) {
-        data = JSON.parse(XHR.response).message;
+        data = XHR.response;
         if (data.search('Utilisateur créé !') != -1 || data.search('User updated successfully!') != -1) {
             
             document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';

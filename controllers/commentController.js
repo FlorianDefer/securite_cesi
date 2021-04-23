@@ -53,12 +53,14 @@ exports.getOneComment = (req, res, next) => {
 
 exports.modifyComment = (req, res, next) => {
   const comment = new Comment({
+    _id: req.params.id,
     content: req.body.content,
     dateCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
     userName : req.user.firstName,
     _resourceId: req.body._resourceId,
     _userId: req.user.id,
   });
+  console.log(comment)
   Comment.updateOne({_id: req.params.id}, comment).then(
     () => {
       res.status(201).json({

@@ -13,8 +13,7 @@ var winston = require('./config/winston');
 //test
 // les models
 //const Resources = require('./models/ressourceModel');
-
- 
+//Brute force protection
 
 const resourcesRoutes = require('./routes/ressourcesRoute');
 const commentRoute = require('./routes/commentRoute');
@@ -25,8 +24,37 @@ const historicRoutes  = require('./routes/historicRoute');
 const notificationRoutes  = require('./routes/notificationRoute');
 const app = express();
 const errorHandler = require('_middleware/error-handler');
+/**  Force HTTPS 
+app.use(function(request, response, next) {
+
+  if (process.env.NODE_ENV != 'development' && !request.secure) {
+     return response.redirect("https://" + request.headers.host + request.url);
+  }
+
+  next();
+})
+
+*/
 
 
+/* FORCE BRUTE PROTECTION */
+
+ 
+app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc) 
+const rateLimit = require("express-rate-limit");
+
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+// app.set('trust proxy', 1);
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100
+});
+
+// only apply to requests that begin with /api/
+app.use( apiLimiter);
+/* FORCE BRUTE PROTECTION */
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -90,6 +118,9 @@ app.get('/get_resource.html', function(req, res){
 });
 app.get('/test_api.html', function(req, res){
   res.render('test_api.html');
+});
+app.get('/reset-password.html', function(req, res){
+  res.render('reset-password.html');
 });
 
 //les fichiers js : 

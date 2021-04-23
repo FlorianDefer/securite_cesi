@@ -104,8 +104,7 @@ align-content: center;
 
  <script  src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
    <script src="http://cdn.datatables.net/plug-ins/1.10.20/api/fnPagingInfo.js"></script>
-   <script src="js/add_resources.js"></script>
-   <script src="js/connexion.js"></script>
+
  
  
  <script>
@@ -177,7 +176,7 @@ waiting_resources.forEach(element => {
 	body +='		 ';
 	body +='	</button>';
 	body +='	<div class="dropdown-menu">';
-	body +='<a class="dropdown-item" href="service" >voir ressource</a>';
+	body +='<a class="dropdown-item" href="get_resource.html?id='+element._id+'" >voir ressource</a>';
 	body +='<a class="dropdown-item" onclick="to_public(\''+element.title+'\',\''+element._id+'\'  ,\'waiting\' )"href="#" >Passer en Public</a>';
 	body +='<a class="dropdown-item" onclick="to_private(\''+element.title+'\',\''+element._id+'\' ,\'waiting\' )"href="#" >Passer en privée</a>';
 	body +='	</div>';
@@ -267,7 +266,7 @@ public_resources.forEach(element => {
 	body +='		 ';
 	body +='	</button>';
 	body +='	<div class="dropdown-menu">';
-	body +='<a class="dropdown-item" href="service" >voir ressource</a>';
+	body +='<a class="dropdown-item" href="get_resource.html?id='+element._id+'" >voir ressource</a>';
 	body +='<a class="dropdown-item" onclick="to_waiting(\''+element.title+'\',\''+element._id+'\',\'public\' )" href="#" >Passer en attente</a>';
 	body +='<a class="dropdown-item" onclick="to_private(\''+element.title+'\',\''+element._id+'\',\'public\' )" href="#" >Passer en privée</a>';
 	body +='	</div>';

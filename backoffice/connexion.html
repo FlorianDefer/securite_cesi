@@ -17,19 +17,109 @@
         <!-- navbar -->
        
                         
-        <h3>connexion </h3>
-        <div class="container">   
-                          <div class="form-group">
-                                        <h5>Email </h5>
-                                        <input type="text" class="form-control" name="email" id="email"  >
-                        </div>
-                        <div class="form-group">
+        
+        <h4>
+        <div class="">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="connexion-tab"   data-toggle="tab" href="#connexion" role="tab" aria-controls="connexion" aria-selected="true">Connexion</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="creation-tab"  data-toggle="tab" href="#creation" role="tab" aria-controls="creation" aria-selected="false">Créer un compte</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="oublier-tab"  data-toggle="tab" href="#oublier" role="tab" aria-controls="oublier" aria-selected="false">Mot de passe oublié ?</a>
+                </li>
+            </ul>
+        </h4>
+            <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="connexion" role="tabpanel" aria-labelledby="connexion-tab">
+             <br/>
+                <div class="container">   
+                     <div class="form-group">
+                              <h5>Email </h5>
+                              <input type="text" class="form-control" name="email" id="email"  >
+                    </div>
+                    <div class="form-group">
                             <h5>Mot de passe </h5>
                             <input type="text" class="form-control" name="password" id="password"  >
+                    </div>
+                     <button class="btn btn-success" onclick="submit_connexion()" id="start_connxion">Terminer</button>
+                </div> 
+            
+            </div>
+            <div class="tab-pane fade" id="creation" role="tabpanel" aria-labelledby="creation-tab">
+            <br/>
+            <div class="container">
+                <div class="form-group">
+                    <h5>Sexe</h5>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="title" id="creation_title1" value="Mr" checked>
+                        <label class="form-check-label" for="title1">
+                          masculin
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="title" id="creation_title2" value="mme">
+                        <label class="form-check-label" for="title2">
+                          feminin
+                        </label>
+                      </div>
                 </div>
-                    <button class="btn btn-success" onclick="submit_connexion()" >Terminer</button>
-                    <button class="btn btn-success" onclick="submit_registertest()" >Terminer</button>
-        </div> 
+                <div class="form-group">
+                    <h5>Email</h5>
+                    <input type="text" class="form-control" name="creation_email" id="creation_email" required >
+                </div>
+                <div class="form-group">
+                    <h5>Mot de Passe</h5>
+                    <input type="text" class="form-control" name="creation_password" id="creation_password"  >
+                </div>
+                <div class="form-group">
+                    <h5>Comfirmer le Mot de Passe</h5>
+                    <input type="text" class="form-control" name="creation_confirmPassword" id="creation_confirmPassword"  >
+                </div>
+                
+                <!--<div class="form-group">
+                    <h5>Pseudo</h5>
+                    <input type="text" class="form-control" name="nickname" id="nickname"  >
+                </div> -->
+                <div class="form-group">
+                    <h5>Prénom</h5>
+                    <input type="text" class="form-control" name="creation_firstName" id="creation_firstName" required  >
+                </div>
+                <div class="form-group">
+                    <h5>Nom</h5>
+                    <input type="text" class="form-control" name="creation_lastName" id="creation_lastName" required >
+                </div>
+            
+            <div class="row">
+              <button class="btn btn-success"id="user_form_btn" onclick="submit_register()" >Terminer</button>
+           
+            </div>
+                
+            </div>
+            </div>
+            <div class="tab-pane fade" id="oublier" role="tabpanel" aria-labelledby="oublier-tab">
+                <br/>
+                <div class="container">
+                   
+                    <div class="form-group">
+                        <h5>Email </h5>
+                        <input type="text" class="form-control" name="oublier_email" id="oublier_email"  >
+              </div>
+              
+               <button class="btn btn-success" onclick="submit_email()" id="start_connxion">Terminer</button>
+          </div> 
+                </div>
+                </div>
+                
+            
+            
+            
+            </div>
+        </div>
+
+
         <!-- Lib -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -135,7 +225,7 @@ function submit_connexion(){
 	
 }
  
-function submit_registertest(){
+function submit_register(){
 	var XHR = new XMLHttpRequest();
 	var urlEncodedData = "";
 	var urlEncodedDataPairs = [];
@@ -145,12 +235,12 @@ function submit_registertest(){
 	//urlEncodedDataPairs.push(encodeURIComponent('email') + '=' + encodeURIComponent($('#email').val()));
 	//urlEncodedDataPairs.push(encodeURIComponent('password') + '=' + encodeURIComponent($('#password').val()));
 
-    urlEncodedDataPairs.push(encodeURIComponent('title') + '=' + encodeURIComponent("Mr"));
-    urlEncodedDataPairs.push(encodeURIComponent('firstName') + '=' + encodeURIComponent( "Andres"));
-    urlEncodedDataPairs.push(encodeURIComponent('lastName') + '=' + encodeURIComponent("Igea"));
-    urlEncodedDataPairs.push(encodeURIComponent('email') + '=' + encodeURIComponent("andres.igea@gmail.com"));
-    urlEncodedDataPairs.push(encodeURIComponent('password') + '=' + encodeURIComponent("password"));
-    urlEncodedDataPairs.push(encodeURIComponent('confirmPassword') + '=' + encodeURIComponent("password"));
+    urlEncodedDataPairs.push(encodeURIComponent('title') + '=' + encodeURIComponent($('input[name=title]:checked').val()));
+    urlEncodedDataPairs.push(encodeURIComponent('firstName') + '=' + encodeURIComponent( $('#creation_firstName').val()));
+    urlEncodedDataPairs.push(encodeURIComponent('lastName') + '=' + encodeURIComponent($('#creation_lastName').val()));
+    urlEncodedDataPairs.push(encodeURIComponent('email') + '=' + encodeURIComponent($('#creation_email').val()));
+    urlEncodedDataPairs.push(encodeURIComponent('password') + '=' + encodeURIComponent($('#creation_password').val()));
+    urlEncodedDataPairs.push(encodeURIComponent('confirmPassword') + '=' + encodeURIComponent($('#creation_confirmPassword').val()));
     urlEncodedDataPairs.push(encodeURIComponent('acceptTerms') + '=' + encodeURIComponent(true));
 	
   
@@ -165,13 +255,12 @@ function submit_registertest(){
 			data = XHR.response;
             if (isJson(data)) {
                 info = JSON.parse(data)
-			    if (info.message == undefined) {
-                    Cookies.set('access_token', info.jwtToken, { expires: 7 })
-                    Cookies.set('id_account', info.id, { expires: 7 })
-                    
-			    	document.location.href='index.html';
-			    }else {
-			    	document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.mesage+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+			    if (info.message == "Registration successful.") {
+
+                    document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Votre compte a été créé avec succès</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                    setTimeout(document.location.reload(), 3000)
+                }else {
+			    	document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.message+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
 			    					// document.getElementById("myModal").style.display = "block"
 			    }
 		}
@@ -181,11 +270,10 @@ function submit_registertest(){
         }
         }
         else {
-				document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.mesage+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.message+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
             
         }
-	};
-  
+    }
 	// Définissez ce qui arrive en cas d'erreur
 	XHR.addEventListener('error', function(event) {
 	  alert('Oups! Quelque chose s\'est mal passé.');
@@ -202,6 +290,65 @@ function submit_registertest(){
 	
 }
 
+
+function submit_email(){
+	var XHR = new XMLHttpRequest();
+	var urlEncodedData = "";
+	var urlEncodedDataPairs = [];
+	var name;
+  
+	
+	//urlEncodedDataPairs.push(encodeURIComponent('email') + '=' + encodeURIComponent($('#email').val()));
+	//urlEncodedDataPairs.push(encodeURIComponent('password') + '=' + encodeURIComponent($('#password').val()));
+
+
+    urlEncodedDataPairs.push(encodeURIComponent('email') + '=' + encodeURIComponent($('#oublier_email').val()));
+    
+	// Combinez les paires en une seule chaîne de caractères et remplacez tous
+	// les espaces codés en % par le caractère'+' ; cela correspond au comportement
+	// des soumissions de formulaires de navigateur.
+	urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+  
+	// Définissez ce qui se passe en cas de succès de soumission de données
+	XHR.onload = function () {
+		if (XHR.readyState === XHR.DONE) {
+			data = XHR.response;
+            if (isJson(data)) {
+                info = JSON.parse(data)
+			    if (info.message == "Please check your email for password reset instructions") {
+
+                    document.getElementById("retour_data").innerHTML = '<div class="alert alert-success" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>Votre compte a été créé avec succès</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+                    setTimeout(document.location.reload(), 3000)
+                }else {
+			    	document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.message+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+			    					// document.getElementById("myModal").style.display = "block"
+			    }
+		}
+        else {
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+data+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            
+        }
+        }
+        else {
+				document.getElementById("retour_data").innerHTML = '<div class="alert alert-danger" style="margin-bottom:0px;width:'+window.innerWidth+'px"><div class="row"><div class="col-md-11 "><center>'+info.message+'</center></div><div class="col-md-1"><span onclick="document.getElementById(\'retour_data\').innerHTML = \'\'">&times;</span>	</div></div></div>';
+            
+        }
+    }
+	// Définissez ce qui arrive en cas d'erreur
+	XHR.addEventListener('error', function(event) {
+	  alert('Oups! Quelque chose s\'est mal passé.');
+	});
+  
+	// Configurez la requêtes
+	XHR.open('POST', 'http://localhost:3000/accounts/forgot-password');
+  
+	// Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
+	XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  
+	// Finalement, envoyez les données.
+	XHR.send(urlEncodedData);
+	
+}
     
     
     </script>
