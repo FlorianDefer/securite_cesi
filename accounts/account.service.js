@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const sendEmail = require('_helpers/send-email');
 const db = require('_helpers/db');
 const Role = require('_helpers/role');
+const sanitize = require('mongo-sanitize');
 
 module.exports = {
     authenticate,
@@ -23,7 +24,11 @@ module.exports = {
 };
 
 async function authenticate({ email, password, ipAddress }) {
-    const account = await db.Account.findOne({ email });
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize(email);
+    const account = await db.Account.findOne({ cleanEmail });
 
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
         throw 'Email or password is incorrect';
@@ -77,13 +82,36 @@ async function revokeToken({ token, ipAddress }) {
 }
 
 async function register(params, origin = 'origin') {
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize(params.email);
     // validate
-    if (await db.Account.findOne({ email: params.email })) {
+    if (await db.Account.findOne({ email: cleanEmail })) {
         throw 'Email "' + params.email + '" is already registered';
         // send already registered error in email to prevent account enumeration //
 
         // return await sendAlreadyRegisteredEmail(params.email, origin);
     }
+
+    // Validate For **Strong Password**
+    let intendedPassword = params.password;
+    let intendedPasswordLength = intendedPassword.length;
+
+    if (intendedPasswordLength <= 10) {
+      throw 'The Input Password is less than or equal to 10 characters long. ' + 
+      'Please choose a password of more than 10 characters.';
+    }
+
+    var regex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{11,}$');
+    // Test to see if intendedPassword follows the regex pattern
+    if (regex.test(intendedPassword)) {
+       console.log("Valid");
+    } else {
+        throw 'The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
+        + 'at least one lowercase letter, at least one number and at least one special character. ' + 
+        'Please choose a password that fulfills the above criteria for maximum password protection.';;
+}
 
     // create account object
     const account = new db.Account(params);
@@ -96,8 +124,8 @@ async function register(params, origin = 'origin') {
     // if (isFirstAccount) {account.role = Role.SuperAdmin;}
     // account.verificationToken = randomTokenString();
 
-    // hash password
-    account.passwordHash = hash(params.password);
+    // salt and hash password
+    account.passwordHash = saltAndHash(params.password);
 
     // save account
     await account.save();
@@ -108,7 +136,12 @@ async function register(params, origin = 'origin') {
 }
 
 async function verifyEmail({ token }) {
-    const account = await db.Account.findOne({ verificationToken: token });
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanToken = sanitize(token);
+
+    const account = await db.Account.findOne({ verificationToken: cleanToken });
 
     if (!account) throw 'Verification failed';
 
@@ -118,7 +151,13 @@ async function verifyEmail({ token }) {
 }
 
 async function forgotPassword({ email }, origin) {
-    const account = await db.Account.findOne({ email });
+
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize({ email });
+
+    const account = await db.Account.findOne(cleanEmail);
 
     // always return ok response to prevent email enumeration
     if (!account) return;
@@ -135,8 +174,13 @@ async function forgotPassword({ email }, origin) {
 }
 
 async function validateResetToken({ token }) {
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanToken = sanitize(token);
+
     const account = await db.Account.findOne({
-        'resetToken.token': token,
+        'resetToken.token': cleanToken,
         'resetToken.expires': { $gt: Date.now() }
     });
 
@@ -144,15 +188,20 @@ async function validateResetToken({ token }) {
 }
 
 async function resetPassword({ token, password }) {
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanToken = sanitize(token);
+
     const account = await db.Account.findOne({
-        'resetToken.token': token,
+        'resetToken.token': cleanToken,
         'resetToken.expires': { $gt: Date.now() }
     });
 
     if (!account) throw 'Invalid token';
 
     // update password and remove reset token
-    account.passwordHash = hash(password);
+    account.passwordHash = saltAndHash(password);
     account.passwordReset = Date.now();
     account.resetToken = undefined;
     await account.save();
@@ -169,16 +218,21 @@ async function getById(id) {
 }
 
 async function create(params) {
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize(params.email);
+
     // validate
-    if (await db.Account.findOne({ email: params.email })) {
+    if (await db.Account.findOne({ email: cleanEmail })) {
         throw 'Email "' + params.email + '" is already registered';
     }
 
     const account = new db.Account(params);
     account.verified = Date.now();
 
-    // hash password
-    account.passwordHash = hash(params.password);
+    // salt and hash password
+    account.passwordHash = saltAndHash(params.password);
 
     // save account
     await account.save();
@@ -189,14 +243,19 @@ async function create(params) {
 async function update(id, params) {
     const account = await getAccount(id);
 
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanEmail = sanitize(params.email);
+
     // validate (if email was changed)
-    if (params.email && account.email !== params.email && await db.Account.findOne({ email: params.email })) {
+    if (params.email && account.email !== params.email && await db.Account.findOne({ email: cleanEmail })) {
         throw 'Email "' + params.email + '" is already taken';
     }
 
-    // hash password if it was entered
+    // salt and hash password if it was entered
     if (params.password) {
-        params.passwordHash = hash(params.password);
+        params.passwordHash = saltAndHash(params.password);
     }
 
     // copy params to account and save
@@ -215,20 +274,37 @@ async function _delete(id) {
 // helper functions
 
 async function getAccount(id) {
-    if (!db.isValidId(id)) throw 'Account not found';
-    const account = await db.Account.findById(id);
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanId = sanitize(id);
+
+
+    if (!db.isValidId(cleanId)) throw 'Account not found';
+    const account = await db.Account.findById(cleanId);
     if (!account) throw 'Account not found';
     return account;
 }
 
 async function getRefreshToken(token) {
-    const refreshToken = await db.RefreshToken.findOne({ token }).populate('account');
+    // The sanitize function will strip out any keys that start with '$' in the input,
+    // so you can pass it to MongoDB without worrying about malicious users overwriting
+    // query selectors.
+    const cleanToken = sanitize(token);
+
+    const refreshToken = await db.RefreshToken.findOne({ cleanToken }).populate('account');
     if (!refreshToken || !refreshToken.isActive) throw 'Invalid token';
     return refreshToken;
 }
 
-function hash(password) {
-    return bcrypt.hashSync(password, 10);
+/**
+ * Function which salts and hashes a string input
+ * @see https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
+ * @param {string} password 
+ * @returns        A salted hash (with the length of the salt being equal to 30) of the input string
+ */
+function saltAndHash(password) {
+    return bcrypt.hashSync(password, 30);
 }
 
 function generateJwtToken(account) {

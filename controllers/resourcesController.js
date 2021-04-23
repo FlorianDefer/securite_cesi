@@ -10,6 +10,7 @@ const accountService = require('../accounts/account.service');
 //test
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const sanitize = require('mongo-sanitize');
 
 
  exports.createResources = (req, res, next) => {
@@ -52,8 +53,13 @@ const Schema = mongoose.Schema;
 
  exports.getOneResources = (req, res, next) => {
 
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanResourceId = sanitize(req.params.id);
+
   Resources.
-  findOne({_id: req.params.id}).
+  findOne({_id: cleanResourceId}).
   populate('account').
   exec(function (err, resources) {
     if (err) return handleError(err);
@@ -151,10 +157,15 @@ exports.getWaitingResources = (req, res, next) => {
 };
 
 exports.toPublicResources = (req, res, next) => {
-  Resources.findOne({_id: req.params.id}).then(
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanResourceId = sanitize(req.params.id);
+
+  Resources.findOne({_id: cleanResourceId}).then(
     (resources) => {
       resources.status='public'
-      Resources.updateOne({_id: req.params.id}, resources).then(
+      Resources.updateOne({_id: cleanResourceId}, resources).then(
         () => {
           res.status(201).json({
             message: 'modification de la ressource '+resources.title+' réussie'
@@ -181,12 +192,18 @@ exports.toPublicResources = (req, res, next) => {
 };
 
 exports.toPrivateResources = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanResourceId = sanitize(req.params.id);
+
   Resources.findOne({
-    _id: req.params.id
+    _id: cleanResourceId
   }).then(
     (resources) => {
       resources.status='private'
-      Resources.updateOne({_id: req.params.id}, resources).then(
+      Resources.updateOne({_id: cleanResourceId}, resources).then(
         () => {
           res.status(201).json({
             message: 'modification de la ressource '+resources.title+' réussie'
@@ -213,12 +230,18 @@ exports.toPrivateResources = (req, res, next) => {
 };
 
 exports.toWaitingResources = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanResourceId = sanitize(req.params.id);
+
   Resources.findOne({
-    _id: req.params.id
+    _id: cleanResourceId
   }).then(
     (resources) => {
       resources.status='waiting'
-      Resources.updateOne({_id: req.params.id}, resources).then(
+      Resources.updateOne({_id: cleanResourceId}, resources).then(
         () => {
           res.status(201).json({
             message: 'modification de la ressource '+resources.title+' réussie'
@@ -246,9 +269,14 @@ exports.toWaitingResources = (req, res, next) => {
 
 
 exports.getMyPublicResources = (req, res, next) => {
- 
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
     Resources
-    .find({status:'public', account: req.user.id}).
+    .find({status:'public', account: cleanUserId}).
     populate('account').
     exec(function (err, resources) {
       if (err) return handleError(err);
@@ -258,8 +286,14 @@ exports.getMyPublicResources = (req, res, next) => {
 };
 
 exports.getMyPrivateResources = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
   Resources
-    .find({status:'private', account: req.user.id}).
+    .find({status:'private', account: cleanUserId}).
     populate('account').
     exec(function (err, resources) {
       if (err) return handleError(err);
@@ -281,8 +315,14 @@ exports.getMyPrivateResources = (req, res, next) => {
 //};
 
 exports.getMyWaitingResources = (req, res, next) => {
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
     Resources.
-    find({status:'waiting', account: req.user.id}).
+    find({status:'waiting', account: cleanUserId}).
     populate('account').
     exec(function (err, resources) {
       if (err) return handleError(err);

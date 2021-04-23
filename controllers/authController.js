@@ -1,10 +1,11 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sanitize = require('mongo-sanitize');
 
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password, 30)
       .then(hash => {
         const user = new User({
           email: req.body.email,
@@ -18,7 +19,13 @@ exports.signup = (req, res, next) => {
   };
 
   exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
+
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanEmail = sanitize(req.body.email);
+
+    User.findOne({ email: cleanEmail })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });

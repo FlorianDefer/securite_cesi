@@ -1,6 +1,7 @@
 const Historic = require('../models/historicModel');
 //const Category = require('../models/favoriteModel');
 //const User = require('../models/userModel');
+const sanitize = require('mongo-sanitize');
 
 
 
@@ -43,7 +44,12 @@ exports.deleteHistoric = (req, res, next) => {
 };
 
 exports.getAllHistoric = (req, res, next) => {
-  Historic.find({_userId: req.user.id}).then(
+  // The sanitize function will strip out any keys that start with '$' in the input,
+  // so you can pass it to MongoDB without worrying about malicious users overwriting
+  // query selectors.
+  const cleanUserId = sanitize(req.user.id);
+
+  Historic.find({_userId: cleanUserId}).then(
     (things) => {
       res.status(200).json(things);
     }
