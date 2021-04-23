@@ -28,8 +28,9 @@ async function authenticate({ email, password, ipAddress }) {
     // so you can pass it to MongoDB without worrying about malicious users overwriting
     // query selectors.
     const cleanEmail = sanitize(email);
-    const account = await db.Account.findOne({ cleanEmail });
-
+    const account = await db.Account.findOne({ email });
+    //const account = await db.Account.findOne({ cleanEmail });
+    
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
         throw 'Email or password is incorrect';
     }
@@ -103,19 +104,16 @@ async function register(params, origin = 'origin') {
       'Please choose a password of more than 10 characters.';
     }
 
-    var regex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{11,}$');
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{11,}$/g;
     // Test to see if intendedPassword follows the regex pattern
-    if (regex.test(intendedPassword)) {
-       console.log("Valid");
+    if (intendedPassword.match(regex) != null) {
     } else {
         throw 'The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
         + 'at least one lowercase letter, at least one number and at least one special character. ' + 
         'Please choose a password that fulfills the above criteria for maximum password protection.';;
-}
-
+    }
     // create account object
     const account = new db.Account(params);
-
     // first registered account is a superadmin //
 
     // account.role = Role.SuperAdmin;
@@ -126,10 +124,8 @@ async function register(params, origin = 'origin') {
 
     // salt and hash password
     account.passwordHash = saltAndHash(params.password);
-
     // save account
     await account.save();
-
     // send email //
 
     // await sendVerificationEmail(account, origin);
@@ -304,7 +300,7 @@ async function getRefreshToken(token) {
  * @returns        A salted hash (with the length of the salt being equal to 30) of the input string
  */
 function saltAndHash(password) {
-    return bcrypt.hashSync(password, 30);
+    return bcrypt.hashSync(password, 12);
 }
 
 function generateJwtToken(account) {

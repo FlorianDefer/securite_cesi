@@ -22,9 +22,12 @@ function authorize(roles = []) {
             // so you can pass it to MongoDB without worrying about malicious users overwriting
             // query selectors.
             const cleanUserId = sanitize(req.user.id);
-            const cleanAccountId = sanitize(account.id);
+            
 
             const account = await db.Account.findById(cleanUserId);
+
+            const cleanAccountId = sanitize(account.id);
+
             const refreshTokens = await db.RefreshToken.find({ account: cleanAccountId });
 
             if (!account || (roles.length && !roles.includes(account.role))) {
