@@ -28,7 +28,7 @@ async function authenticate({ email, password, ipAddress }) {
     // so you can pass it to MongoDB without worrying about malicious users overwriting
     // query selectors.
     const cleanEmail = sanitize(email);
-    const account = await db.Account.findOne({ email });
+    const account = await db.Account.findOne({ cleanEmail });
     //const account = await db.Account.findOne({ cleanEmail });
     
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
