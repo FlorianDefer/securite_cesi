@@ -49,8 +49,10 @@ align-content: center;
 		<br/><br/>
 		<div class="d-flex bd-highlight">
 			<div class="p-2 flex-grow-1 bd-highlight">
-				<button class="btn btn-outline-secondary" onclick="remove_favorite()" id="is_not_favorite_btn"> Retirer des Favories</button>
+				<h3 id="title"></h3><br/><br/>
+			<!--	<button class="btn btn-outline-secondary" onclick="remove_favorite()" id="is_not_favorite_btn"> Retirer des Favories</button>
 				<button class="btn btn-outline-secondary" onclick="add_favorite()" id="is_favorite_btn"> Ajouter aux favories</button>
+			-->
 			</div>
 				<div class="p-2 bd-highlight">
 					auteur :  <b id="auteur"> </b>
@@ -60,7 +62,7 @@ align-content: center;
 					date de création <b id="date"></b>
 				</div>
 		</div>
-		<h3 id="title"></h3><br/><br/>
+	
 		<div id="description"></div>
 		<div id="form_add_comment">	
 			Ecrire un commentaire <br/>		
@@ -72,7 +74,7 @@ align-content: center;
 			Modifier mon commentaire <br/>		
 			
 				<textarea type="text" class="form-control" id="input_update_comment"></textarea> 
-				<button class="btn btn-outline-warning" onclick="refresh_form_comment()">Annuler</button>
+				<button class="btn btn-outline-danger" onclick="refresh_form_comment()">Annuler</button>
 				<button class="btn btn-outline-success" id="send_modif_btn" onclick="send_comment()">Modifier</button>
 		</div>
 		<div class="container" id="comment_container">
@@ -172,6 +174,7 @@ function get_resource() {
 				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
 		
 		}	}).done(function(resource){
+			$("#loader_container").html('')
 			console.log(resource)
 			$("#title").html(resource.title)
 			$("#description").html()
@@ -231,10 +234,10 @@ function get_comment() {
 				html += '<div id="'+comment._id+'"> <b>'+comment.userName+'</b> '+element_date+' <div id="content" ><testarea disabled>'+comment.content.replace('\n' , '<br/>')+'</testarea></div> </div><br/>'
 				if (comment._userId == Cookies.get('id_account') ) {
 					html += '<button class="btn btn-outline-success" onclick="get_my_comment(\''+comment._id+'\')">Modifier</button>'
-					html += '<button class="btn btn-warning" onclick="delete_my_comment(\''+comment._id+'\')">Supprimer</button><br/>'
+					html += '<button class="btn btn-danger" onclick="delete_my_comment(\''+comment._id+'\')">Supprimer</button><br/>'
 				}
 			})
-			
+			$("#loader_container").html('')
 			$("#comment_container").html(html)
 
 	});	
@@ -250,6 +253,7 @@ function get_my_comment(id){
 		
 		}	}).done(function(comment){
 			console.log(comment)
+			$("#loader_container").html('')
 			html = ''
 			$('#send_modif_btn').attr('onclick' , 'send_comment(\''+comment._id+'\')')
 			$('#input_add_comment').val('')

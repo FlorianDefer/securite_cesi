@@ -32,6 +32,8 @@ function authenticateSchema(req, res, next) {
 }
 
 function authenticate(req, res, next) {
+
+
     const { email, password } = req.body;
     const ipAddress = req.ip;
     accountService.authenticate({ email, password, ipAddress })
@@ -176,7 +178,7 @@ function createSchema(req, res, next) {
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-        role: Joi.string().valid(Role.Admin, Role.User).required()
+        role: Joi.string().valid(Role.Admin, Role.User, Role.SuperAdmin,Role.Moderator,Role.ConnectedCitizen).required()
     });
     validateRequest(req, next, schema);
 }
@@ -208,7 +210,7 @@ function updateSchema(req, res, next) {
 
 function update(req, res, next) {
     // users can update their own account and admins/superadmins can update any account
-    if (req.params.id !== req.user.id && (req.user.role !== Role.Admin) || (req.user.role !== Role.SuperAdmin)) {
+    if (req.params.id !== req.user.id && (req.user.role !== Role.Admin && req.user.role !== Role.SuperAdmin)) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
@@ -218,8 +220,15 @@ function update(req, res, next) {
 }
 
 function _delete(req, res, next) {
+    console.log('je suis dans delete')
+    console.log(req.user.id)
+    console.log(req.user.role)
+    console.log(Role.SuperAdmin)
+    console.log(Role.Admin)
+    console.log('je suis dans delete')
+    
     // users can delete their own account and superadmins can delete any account
-    if (req.params.id !== req.user.id && req.user.role !== Role.SuperAdmin) {
+     if (req.params.id !== req.user.id && (req.user.role !== Role.SuperAdmin && req.user.role !== Role.Admin)) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
@@ -238,3 +247,5 @@ function setTokenCookie(res, token) {
     };
     res.cookie('refreshToken', token, cookieOptions);
 }
+
+

@@ -1,6 +1,6 @@
 const http = require('http');
 const app = require('./app');
-
+//app.enable('trust proxy');
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
