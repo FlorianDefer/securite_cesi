@@ -7,6 +7,7 @@ const db = require('_helpers/db');
 const Role = require('_helpers/role');
 const sanitize = require('mongo-sanitize');
 
+const logger = require('config/winston');
 module.exports = {
     authenticate,
     refreshToken,
@@ -23,6 +24,8 @@ module.exports = {
     delete: _delete
 };
 
+var throwText = '';
+
 async function authenticate({ email, password, ipAddress }) {
     // The sanitize function will strip out any keys that start with '$' in the input,
     // so you can pass it to MongoDB without worrying about malicious users overwriting
@@ -32,7 +35,9 @@ async function authenticate({ email, password, ipAddress }) {
     //const account = await db.Account.findOne({ cleanEmail });
     
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
-        throw 'Email or password is incorrect';
+        throwtext= 'Email or password is incorrect';
+        logger.error(throwText);
+        throw throwText;
     }
 
     // authentication successful so generate jwt and refresh tokens
@@ -88,8 +93,10 @@ async function register(params, origin = 'origin') {
     // query selectors.
     const cleanEmail = sanitize(params.email);
     // validate
-    if (await db.Account.findOne({ email: cleanEmail })) {
-        throw 'Email "' + params.email + '" is already registered';
+    if (await db.Account.findOne({ email: params.email })) {
+        throwText = 'Email "' + params.email + '" is already registered';
+        logger.error(throwText);
+        throw throwText;
         // send already registered error in email to prevent account enumeration //
 
         // return await sendAlreadyRegisteredEmail(params.email, origin);
@@ -100,18 +107,23 @@ async function register(params, origin = 'origin') {
     let intendedPasswordLength = intendedPassword.length;
 
     if (intendedPasswordLength <= 10) {
-      throw 'The Input Password is less than or equal to 10 characters long. ' + 
-      'Please choose a password of more than 10 characters.';
+        throwText ='The Input Password is less than or equal to 10 characters long. ' + 
+        'Please choose a password of more than 10 characters.';
+        logger.error(throwText);
+        throw throwText;
     }
 
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{11,}$/g;
     // Test to see if intendedPassword follows the regex pattern
     if (intendedPassword.match(regex) != null) {
     } else {
-        throw 'The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
+        throwText = 'The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
         + 'at least one lowercase letter, at least one number and at least one special character. ' + 
-        'Please choose a password that fulfills the above criteria for maximum password protection.';;
-    }
+        'Please choose a password that fulfills the above criteria for maximum password protection.';
+        logger.error(throwText);
+        throw throwText;
+}
+
     // create account object
     const account = new db.Account(params);
     // first registered account is a superadmin //
@@ -139,8 +151,12 @@ async function verifyEmail({ token }) {
 
     const account = await db.Account.findOne({ verificationToken: cleanToken });
 
-    if (!account) throw 'Verification failed';
-
+    if (!account) 
+    {
+        throwText = 'Verification failed';
+        logger.error(throwText);
+        throw throwText;
+    }
     account.verified = Date.now();
     account.verificationToken = undefined;
     await account.save();
@@ -180,7 +196,12 @@ async function validateResetToken({ token }) {
         'resetToken.expires': { $gt: Date.now() }
     });
 
-    if (!account) throw 'Invalid token';
+    if (!account)
+    {
+        throwText = 'Invalid token';
+        logger.error(throwText);
+        throw throwText;
+    }
 }
 
 async function resetPassword({ token, password }) {
@@ -194,7 +215,12 @@ async function resetPassword({ token, password }) {
         'resetToken.expires': { $gt: Date.now() }
     });
 
-    if (!account) throw 'Invalid token';
+    if (!account)
+    {
+        throwText = 'Invalid token';
+        logger.error(throwText);
+        throw throwText;
+    }
 
     // update password and remove reset token
     account.passwordHash = saltAndHash(password);
@@ -220,8 +246,10 @@ async function create(params) {
     const cleanEmail = sanitize(params.email);
 
     // validate
-    if (await db.Account.findOne({ email: cleanEmail })) {
-        throw 'Email "' + params.email + '" is already registered';
+    if (await db.Account.findOne({ email: params.email })) {
+        throwText = 'Email "' + params.email + '" is already registered';
+        logger.error(throwText);
+        throw throwText;
     }
 
     const account = new db.Account(params);
@@ -245,8 +273,10 @@ async function update(id, params) {
     const cleanEmail = sanitize(params.email);
 
     // validate (if email was changed)
-    if (params.email && account.email !== params.email && await db.Account.findOne({ email: cleanEmail })) {
-        throw 'Email "' + params.email + '" is already taken';
+    if (params.email && account.email !== params.email && await db.Account.findOne({ email: params.email })) {
+        throwText = 'Email "' + params.email + '" is already taken';
+        logger.error(throwText);
+        throw throwText;
     }
 
     // salt and hash password if it was entered
