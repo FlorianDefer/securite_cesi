@@ -3,7 +3,7 @@ console.log("file mongoose")
 const mongoose = require('mongoose');
 const connectionOptions = { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false };
 console.log("try to connect")
-mongoose.connect(process.env.MONGODB_URI || config.connectionString, connectionOptions).then(() => {
+mongoose.connect("mongodb://localhost:27017/test", connectionOptions).then(() => {
     console.log("Connected to MongoDB successfully :)");
 }).catch((e) => {
     console.log("Error while attempting to connect to MongoDB");

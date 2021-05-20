@@ -299,3 +299,45 @@ RangeError [ERR_SOCKET_BAD_PORT]: options.port should be >= 0 and < 65536. Recei
     at Function.Module._load (internal/modules/cjs/loader.js:769:14)
     at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
     at internal/main/run_main_module.js:17:47
+2021-05-20T12:23:23.345Z [winstonperso] info: ::1 - - [20/May/2021:12:23:23 +0000] "GET /user_account.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:23:23.664Z [winstonperso] info: ::1 - - [20/May/2021:12:23:23 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:23:23.915Z [winstonperso] info: ::1 - - [20/May/2021:12:23:23 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:24:46.621Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:24:46.625Z [winstonperso] info: ::1 - - [20/May/2021:12:24:46 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:25:05.802Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:25:05.803Z [winstonperso] info: ::1 - - [20/May/2021:12:25:05 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:25:07.553Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:25:07.555Z [winstonperso] info: ::1 - - [20/May/2021:12:25:07 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:25:08.685Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:25:08.686Z [winstonperso] info: ::1 - - [20/May/2021:12:25:08 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:25:41.014Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:25:41.015Z [winstonperso] info: ::1 - - [20/May/2021:12:25:41 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:26:00.730Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:26:00.732Z [winstonperso] info: ::1 - - [20/May/2021:12:26:00 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:26:23.137Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:26:23.138Z [winstonperso] info: ::1 - - [20/May/2021:12:26:23 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:27:12.927Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:27:12.928Z [winstonperso] info: ::1 - - [20/May/2021:12:27:12 +0000] "POST /accounts/register HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:27:18.503Z [winstonperso] info: ::1 - - [20/May/2021:12:27:18 +0000] "POST /accounts/authenticate HTTP/1.1" 500 192 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:27:21.335Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:27:21.336Z [winstonperso] info: ::1 - - [20/May/2021:12:27:21 +0000] "POST /accounts/authenticate HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T12:27:37.008Z [winstonperso] error: The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection.
+2021-05-20T12:27:37.009Z [winstonperso] info: ::1 - - [20/May/2021:12:27:37 +0000] "POST /accounts/authenticate HTTP/1.1" 500 401 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T13:26:39.532Z [winstonperso] info: ::1 - - [20/May/2021:13:26:39 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T13:26:40.670Z [winstonperso] info: ::1 - - [20/May/2021:13:26:40 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
