@@ -31,15 +31,19 @@ async function authenticate({ email, password, ipAddress }) {
     // so you can pass it to MongoDB without worrying about malicious users overwriting
     // query selectors.
     const cleanEmail = sanitize(email);
+
     const account = await db.Account.findOne({ cleanEmail });
     //const account = await db.Account.findOne({ cleanEmail });
-    
+    console.log('dans le service')
+    console.log(cleanEmail)
+    console.log(account)
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
+        console.log('c mort ')
         throwtext= 'Email or password is incorrect';
         logger.error(throwText);
         throw throwText;
     }
-
+    console.log('dans le service 2')
     // authentication successful so generate jwt and refresh tokens
     const jwtToken = generateJwtToken(account);
     const refreshToken = generateRefreshToken(account, ipAddress);

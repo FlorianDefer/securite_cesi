@@ -19,3 +19,40 @@
 {"message":"Non je ne crois pas","level":"error"}
 {"message":"The Input Password is less than or equal to 10 characters long. Please choose a password of more than 10 characters.","level":"error"}
 {"message":"Non je ne crois pas","level":"error"}
+2021-05-18T09:51:30.730Z [winstonperso] error: 
+2021-05-18T09:51:39.314Z [winstonperso] error: 
+2021-05-18T09:52:12.145Z [winstonperso] error: 
+2021-05-18T09:53:18.232Z [winstonperso] error: 
+2021-05-18T09:54:22.697Z [winstonperso] error: 
+2021-05-18T09:54:23.812Z [winstonperso] error: 
+2021-05-18T09:54:24.160Z [winstonperso] error: 
+2021-05-18T09:54:30.131Z [winstonperso] error: 
+2021-05-18T09:58:22.484Z [winstonperso] error: 
+2021-05-18T09:59:11.737Z [winstonperso] error: 
+2021-05-18T09:59:32.033Z [winstonperso] error: 
+2021-05-18T10:02:43.858Z [winstonperso] error: 
+2021-05-18T10:03:07.683Z [winstonperso] error: 
+2021-05-18T10:03:21.779Z [winstonperso] error: 
+2021-05-18T10:04:26.436Z [winstonperso] error: 
+2021-05-18T10:06:23.637Z [winstonperso] error: 
+2021-05-20T11:30:35.884Z [winstonperso] error: uncaughtException: Listen method has been called more than once without closing.
+Error [ERR_SERVER_ALREADY_LISTEN]: Listen method has been called more than once without closing.
+    at Server.listen (net.js:1404:11)
+    at Object.<anonymous> (C:\Users\flori\Desktop\github\last_test\securite_cesi\server.js:49:8)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+    at internal/main/run_main_module.js:17:47
+2021-05-20T11:32:49.278Z [winstonperso] error: uncaughtException: options.port should be >= 0 and < 65536. Received 333333333333.
+RangeError [ERR_SOCKET_BAD_PORT]: options.port should be >= 0 and < 65536. Received 333333333333.
+    at validatePort (internal/validators.js:211:11)
+    at Server.listen (net.js:1444:5)
+    at Object.<anonymous> (C:\Users\flori\Desktop\github\last_test\securite_cesi\server.js:49:8)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+    at internal/main/run_main_module.js:17:47

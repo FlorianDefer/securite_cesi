@@ -212,3 +212,90 @@
 {"message":"The Input Password is less than or equal to 10 characters long. Please choose a password of more than 10 characters.","level":"error"}
 {"message":"::1 - - [22/Apr/2021:16:57:46 +0000] \"POST /accounts/register HTTP/1.1\" 500 243 \"http://localhost:3000/connexion.html\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36\"\n","level":"info"}
 {"message":"Non je ne crois pas","level":"error"}
+2021-05-18T09:51:26.879Z [winstonperso] info: ::1 - - [18/May/2021:09:51:26 +0000] "GET /user_account.html HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:51:27.160Z [winstonperso] info: ::1 - - [18/May/2021:09:51:27 +0000] "GET /connexion.html HTTP/1.1" 200 17728 "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:51:27.300Z [winstonperso] info: ::1 - - [18/May/2021:09:51:27 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:51:30.730Z [winstonperso] error: 
+2021-05-18T09:51:30.731Z [winstonperso] info: ::1 - - [18/May/2021:09:51:30 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:51:39.314Z [winstonperso] error: 
+2021-05-18T09:51:39.315Z [winstonperso] info: ::1 - - [18/May/2021:09:51:39 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:52:12.145Z [winstonperso] error: 
+2021-05-18T09:52:12.146Z [winstonperso] info: ::1 - - [18/May/2021:09:52:12 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:53:04.447Z [winstonperso] info: ::1 - - [18/May/2021:09:53:04 +0000] "POST /accounts/register HTTP/1.1" 200 38 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:53:04.460Z [winstonperso] info: ::1 - - [18/May/2021:09:53:04 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:53:18.232Z [winstonperso] error: 
+2021-05-18T09:53:18.233Z [winstonperso] info: ::1 - - [18/May/2021:09:53:18 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:54:22.697Z [winstonperso] error: 
+2021-05-18T09:54:22.697Z [winstonperso] info: ::1 - - [18/May/2021:09:54:22 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:54:23.812Z [winstonperso] error: 
+2021-05-18T09:54:23.813Z [winstonperso] info: ::1 - - [18/May/2021:09:54:23 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:54:24.160Z [winstonperso] error: 
+2021-05-18T09:54:24.161Z [winstonperso] info: ::1 - - [18/May/2021:09:54:24 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:54:30.131Z [winstonperso] error: 
+2021-05-18T09:54:30.131Z [winstonperso] info: ::1 - - [18/May/2021:09:54:30 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:55:12.846Z [winstonperso] info: ::1 - - [18/May/2021:09:55:12 +0000] "GET /accounts/authenticate HTTP/1.1" 401 2373 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:58:22.484Z [winstonperso] error: 
+2021-05-18T09:58:22.490Z [winstonperso] info: ::1 - - [18/May/2021:09:58:22 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:59:11.737Z [winstonperso] error: 
+2021-05-18T09:59:11.742Z [winstonperso] info: ::1 - - [18/May/2021:09:59:11 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T09:59:32.033Z [winstonperso] error: 
+2021-05-18T09:59:32.034Z [winstonperso] info: ::1 - - [18/May/2021:09:59:32 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:02:43.858Z [winstonperso] error: 
+2021-05-18T10:02:43.859Z [winstonperso] info: ::1 - - [18/May/2021:10:02:43 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:02:52.590Z [winstonperso] info: ::1 - - [18/May/2021:10:02:52 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:03:07.683Z [winstonperso] error: 
+2021-05-18T10:03:07.685Z [winstonperso] info: ::1 - - [18/May/2021:10:03:07 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:03:21.779Z [winstonperso] error: 
+2021-05-18T10:03:21.781Z [winstonperso] info: ::1 - - [18/May/2021:10:03:21 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:04:26.436Z [winstonperso] error: 
+2021-05-18T10:04:26.441Z [winstonperso] info: ::1 - - [18/May/2021:10:04:26 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:06:09.157Z [winstonperso] info: ::1 - - [18/May/2021:10:06:09 +0000] "POST /accounts/register HTTP/1.1" 200 38 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:06:09.190Z [winstonperso] info: ::1 - - [18/May/2021:10:06:09 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-18T10:06:23.637Z [winstonperso] error: 
+2021-05-18T10:06:23.640Z [winstonperso] info: ::1 - - [18/May/2021:10:06:23 +0000] "POST /accounts/authenticate HTTP/1.1" 404 161 "http://localhost:3000/connexion.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+
+2021-05-20T11:30:35.884Z [winstonperso] error: uncaughtException: Listen method has been called more than once without closing.
+Error [ERR_SERVER_ALREADY_LISTEN]: Listen method has been called more than once without closing.
+    at Server.listen (net.js:1404:11)
+    at Object.<anonymous> (C:\Users\flori\Desktop\github\last_test\securite_cesi\server.js:49:8)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+    at internal/main/run_main_module.js:17:47
+2021-05-20T11:32:49.278Z [winstonperso] error: uncaughtException: options.port should be >= 0 and < 65536. Received 333333333333.
+RangeError [ERR_SOCKET_BAD_PORT]: options.port should be >= 0 and < 65536. Received 333333333333.
+    at validatePort (internal/validators.js:211:11)
+    at Server.listen (net.js:1444:5)
+    at Object.<anonymous> (C:\Users\flori\Desktop\github\last_test\securite_cesi\server.js:49:8)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+    at internal/main/run_main_module.js:17:47

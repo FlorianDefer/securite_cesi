@@ -12,9 +12,10 @@ const normalizePort = val => {
   }
   return false;
 };
+console.log('1')
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
+console.log('2')
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -34,14 +35,19 @@ const errorHandler = error => {
       throw error;
   }
 };
-
+console.log('3')
 const server = http.createServer(app);
-
+console.log('4')
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);
 });
+console.log('5')
+//server.listen();
+server.listen(port, function(err) {
+  if(err) console.log( err);
+  
 
-server.listen(port);
+})
