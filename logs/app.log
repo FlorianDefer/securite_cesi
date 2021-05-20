@@ -341,3 +341,5 @@ RangeError [ERR_SOCKET_BAD_PORT]: options.port should be >= 0 and < 65536. Recei
 
 2021-05-20T13:26:40.670Z [winstonperso] info: ::1 - - [20/May/2021:13:26:40 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
 
+2021-05-20T13:53:11.928Z [winstonperso] info: ::1 - - [20/May/2021:13:53:11 +0000] "GET /connexion.html HTTP/1.1" 304 - "http://localhost:3000/user_account.html" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+

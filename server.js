@@ -1,5 +1,8 @@
+console.log('start1')
 const http = require('http');
+console.log('start2')
 const app = require('./app');
+console.log('start3')
 //app.enable('trust proxy');
 const normalizePort = val => {
   const port = parseInt(val, 10);
