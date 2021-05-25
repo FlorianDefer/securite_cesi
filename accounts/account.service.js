@@ -8,21 +8,6 @@ const Role = require('_helpers/role');
 const sanitize = require('mongo-sanitize');
 
 const logger = require('config/winston');
-module.exports = {
-    authenticate,
-    refreshToken,
-    revokeToken,
-    register,
-    verifyEmail,
-    forgotPassword,
-    validateResetToken,
-    resetPassword,
-    getAll,
-    getById,
-    create,
-    update,
-    delete: _delete
-};
 
 var throwText = '';
 
@@ -416,3 +401,20 @@ async function sendPasswordResetEmail(account, origin) {
                ${message}`
     });
 }
+
+module.exports = {
+    authenticate,
+    saltAndHash,
+    refreshToken,
+    revokeToken,
+    register,
+    verifyEmail,
+    forgotPassword,
+    validateResetToken,
+    resetPassword,
+    getAll,
+    getById,
+    create,
+    update,
+    delete: _delete
+};
