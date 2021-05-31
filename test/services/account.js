@@ -9,7 +9,7 @@ describe('Test Account Service', function() {
   });
 
   describe('Testing the hashing and salting of a password', function() {
-    it('should hash the password', function(done) {
+    it('Should hash the password', function(done) {
 
         const password = 'Hello';
 
@@ -29,7 +29,7 @@ describe('Test Account Service', function() {
           }
         );
 
-        it('should salt the passwords with different salts', function(done) {
+        it('Should salt passwords (with the same string value) with different salts', function(done) {
 
           const password = 'Hello';
   
