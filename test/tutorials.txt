@@ -1,0 +1,5 @@
+https://itnext.io/mocking-expressjs-request-and-response-objects-63405e9c58ff
+
+https://stackabuse.com/using-mocks-for-testing-in-javascript-with-sinon-js
+
+https://blog.logrocket.com/unit-testing-node-js-applications-using-mocha-chai-and-sinon/
