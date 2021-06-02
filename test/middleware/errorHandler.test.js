@@ -10,6 +10,8 @@ chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
 
+describe('Test Error Handler', function() {
+
 describe('Test Error Handler from Middleware', function() {
 
   });
@@ -122,3 +124,5 @@ describe('Test Error Handler from Middleware', function() {
     );
 
     });
+
+});
