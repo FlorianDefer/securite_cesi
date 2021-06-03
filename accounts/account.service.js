@@ -413,6 +413,7 @@ module.exports = {
     validateResetToken,
     resetPassword,
     getAll,
+    getAccount,
     getById,
     create,
     update,
