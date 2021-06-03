@@ -67,7 +67,7 @@ request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
     const body = res.body;
-    expect(body.errors.text.name).to.equal('ValidatorError');
+    expect(body.errors).to.equal('ValidatorError');
     done();
   })
   .catch((err) => done(err));
