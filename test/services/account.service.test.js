@@ -35,21 +35,21 @@ describe('Test Account Service', function() {
           }
         );
 
-        it('Should salt passwords (with the same string value) with different salts', function(done) {
+      it('Should salt passwords (with the same string value) with different salts', function(done) {
 
-          const password = 'Hello';
+        const password = 'Hello';
   
-          const hashedAndSaltedPassword = accountService.saltAndHash(password);
+        const hashedAndSaltedPassword = accountService.saltAndHash(password);
   
-          const passwordDuplicate = 'Hello';
+        const passwordDuplicate = 'Hello';
   
-          const hashedAndSaltedPasswordOfDuplicate = accountService.saltAndHash(passwordDuplicate);
+        const hashedAndSaltedPasswordOfDuplicate = accountService.saltAndHash(passwordDuplicate);
   
-          expect(hashedAndSaltedPasswordOfDuplicate).to.not.equal(hashedAndSaltedPassword);
+        expect(hashedAndSaltedPasswordOfDuplicate).to.not.equal(hashedAndSaltedPassword);
 
-          done();
-            }
-        );
+        done();
+          }
+      );
 
     });
 
@@ -96,7 +96,6 @@ describe('Test Account Service', function() {
             role: 'ConnectedCitizen',
             password: 'YsiteProvoka!342'
           };
-  
 
           const accountCreated = await accountService.create(accountMock);
 
@@ -122,11 +121,17 @@ describe('Test Account Service', function() {
             role: 'ConnectedCitizen',
             password: 'YsiteProvoka!342'
           };
+
+          //Special code for throwing errors in asynchronous functions:
+          // async function foo() {throw new Error("Foo");}
+          // it("`foo` throws an async error (rejected Promise)", () => {
+          // return foo().catch(error => expect(error).to.be.an('error').with.property('message', 'Foo'))
+          //});
       
-    
           //const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw(new Error('Account not found'));
+          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
+          //expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw(new Error('Account not found'));
           }
         );
 
@@ -142,10 +147,10 @@ describe('Test Account Service', function() {
             password: 'omghsiuehoteal'
           };
       
-    
           const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw(new Error('Account not found'));
+          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
+          //expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw(new Error('Account not found'));
           }
         );
 
