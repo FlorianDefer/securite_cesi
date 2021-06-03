@@ -126,7 +126,7 @@ describe('Test Account Service', function() {
     
           //const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw('Account not found');
+          expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw(new Error('Account not found'));
           }
         );
 
@@ -145,7 +145,7 @@ describe('Test Account Service', function() {
     
           const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw('Account not found');
+          expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw(new Error('Account not found'));
           }
         );
 
