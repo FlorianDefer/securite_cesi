@@ -169,7 +169,11 @@ describe('Test Account Service', function() {
               password: 'Ykldjsnbakl738ji!LKF'
             };
 
+            console.log(accountService.getAll());
+
             numberOfAccountsBefore = accountService.getAll().length;
+
+            console.log(numberOfAccountsBefore);
 
             //length of accounts in database increases by 1.
             await accountService.register(accountMock);
