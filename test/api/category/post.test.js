@@ -46,9 +46,7 @@ request(app).post('/category/create')
   .then((res) => {
     const body = res.body;
     expect(body).to.contain.property('message');
-    done();
   })
-  .catch((err) => done(err));
 });
 
 it('Should not create a category for an unauthenticated user', (done) => {
@@ -56,6 +54,7 @@ request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
     const body = res.body;
+    console.log(res);
     expect(res.statusCode).to.equal(401);
     expect(res.statusMessage).to.equal('Unauthorized');
     done();
