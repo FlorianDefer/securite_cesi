@@ -114,7 +114,7 @@ describe('Test Account Service', function() {
         it('Should throw "Account not found" when id format is not correct', async function() {
   
           const accountMockWithFaultyID = {
-            id: 93197129,
+            id: 'geeks',
             title: 'Mr',
             fistName: 'Giovanni',
             lastName: 'Giorgio',
@@ -134,12 +134,12 @@ describe('Test Account Service', function() {
   
           const accountMock = {
             id: 93197129,
-            title: 'Mr',
-            fistName: 'Giovanni',
-            lastName: 'Giorgio',
-            email: 'givonanni.giorgio@gmail.com',
+            title: 'Ms',
+            fistName: 'Luy',
+            lastName: 'Araz',
+            email: 'araz.luy@gmail.com',
             role: 'ConnectedCitizen',
-            password: 'YsiteProvoka!342'
+            password: 'omghsiuehoteal'
           };
       
     
