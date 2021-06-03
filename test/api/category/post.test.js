@@ -56,8 +56,8 @@ request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
     const body = res.body;
-    expect(body.statusCode).to.equal(401);
-    expect(body.statusMessage).to.equal('Unauthorized');
+    expect(res.statusCode).to.equal(401);
+    expect(res.statusMessage).to.equal('Unauthorized');
     done();
   })
   .catch((err) => done(err));
