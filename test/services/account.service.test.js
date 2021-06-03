@@ -156,5 +156,72 @@ describe('Test Account Service', function() {
 
         });
 
+        describe('Testing the register function', function() {
+          it('Should correctly register an account', async function() {
+    
+            const accountMock = {
+              id: '524cad02ed315b3b045243c1',
+              title: 'X',
+              fistName: 'Neutral',
+              lastName: 'Name',
+              email: 'neutral.name@yahoo.com',
+              role: 'ConnectedCitizen',
+              password: 'Ykldjsnbakl738ji!LKF'
+            };
+
+            numberOfAccountsBefore = accountService.getAll().length;
+
+            //length of accounts in database increases by 1.
+            await accountService.register(accountMock);
+
+            numberOfAccountsAfter = accountService.getAll().length;
+
+            expect(numberOfAccountsAfter).to.equal(numberOfAccountsBefore + 1);
+
+            //Same id cannot be re-registered
+            return accountService.register(accountMock).catch(error => expect(error).equal('Email "' + accountMock.email + '" is already registered'));
+  
+                }
+              );
+  
+          it('Should throw "The Input Password is less than or equal to 10 characters long. Please choose a password of more than 10 characters." when password is less than 11 characters long', async function() {
+    
+            const accountWithShortPassword = {
+              id: '524cad32ed315b3c045243c1',
+              title: 'Mr',
+              fistName: 'Giovanni',
+              lastName: 'Giorgio',
+              email: 'givonannissimo.giorgio@gmail.com',
+              role: 'ConnectedCitizen',
+              password: 'TooShort'
+            };
+
+            return accountService.register(accountWithShortPassword).catch(error => expect(error).equal('The Input Password is less than or equal to 10 characters long. ' + 
+            'Please choose a password of more than 10 characters.'));
+  
+            }
+          );
+  
+          it('Should throw "The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, at least one lowercase letter, at least one number and at least one special character. Please choose a password that fulfills the above criteria for maximum password protection." when the password does not fulfill the desired format', async function() {
+    
+            const accountWithNotSecurePassword = {
+              id: '514ced02ed335b2b049122c5',
+              title: 'Ms',
+              fistName: 'Luy',
+              lastName: 'Araz',
+              email: 'arazidsa.luy@gmail.com',
+              role: 'ConnectedCitizen',
+              password: 'IamNotASecurePasswordDespiteBeingLong'
+            };
+        
+            return accountService.register(accountWithNotSecurePassword).catch(error => expect(error).equal('The Input Password does not have: a minimum of eleven characters, at least one uppercase letter, '
+            + 'at least one lowercase letter, at least one number and at least one special character. ' + 
+            'Please choose a password that fulfills the above criteria for maximum password protection.'));
+
+            }
+          );
+  
+          });
+
 
   });
