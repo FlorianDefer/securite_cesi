@@ -33,12 +33,12 @@ const accountAdminCreated = await accountService.create(accountAdmin);
 
 //{ email, password, ipAddress }
 //Then authenticate
-request(app).post('accounts/authenticate')
-  .send({ email: accountAdminCreated.email, password: accountAdmin.password})
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => done(err));
+// request(app).post('accounts/authenticate')
+//   .send({ email: accountAdminCreated.email, password: accountAdmin.password})
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((err) => done(err));
 
 
 request(app).post('/category/create')
@@ -63,7 +63,7 @@ request(app).post('/category/create')
 });
 
 
-it('Fail, category requires user ID', async () => {
+it('Should not create a category wihtout a user ID', async () => {
 request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
