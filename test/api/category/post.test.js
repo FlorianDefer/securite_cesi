@@ -13,9 +13,6 @@ const expect = chai.expect;
 
 describe('Integration test for: POST /category/create', () => {
 
-//statusCode: 401,
-//statusMessage: 'Unauthorized',
-
 it('Should Create a new category',  async () => {
 
 //First create admin account
@@ -33,21 +30,19 @@ const accountAdminCreated = await accountService.create(accountAdmin);
 
 //{ email, password, ipAddress }
 //Then authenticate
-// request(app).post('accounts/authenticate')
-//   .send({ email: accountAdminCreated.email, password: accountAdmin.password})
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => done(err));
+request(app).post('accounts/authenticate')
+  .send({ email: accountAdminCreated.email, password: accountAdmin.password})
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => done(err));
 
-
+//Create category
 request(app).post('/category/create')
   .send({ name: 'Health', _userId: 1 })
   .then((res) => {
     const body = res.body;
     expect(body).to.contain.property('message');
-    expect(body).to.contain.property('dsaiufdaioefd');
-    expect(body).to.contain.property('supercalifirigalfean');
   })
 });
 
@@ -65,7 +60,7 @@ request(app).post('/category/create')
 });
 
 
-it('Should not create a category wihtout a user ID', async () => {
+it('Should not create a category without a user ID', async () => {
 request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
