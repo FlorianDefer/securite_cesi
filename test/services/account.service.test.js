@@ -68,11 +68,11 @@ describe('Test Account Service', function() {
 
         
         //const userRepo = new UserRepository();
-        const stub = sinon.stub(db.Account, "findOne").returns(false);
+        //const stub = sinon.stub(db.Account, "findOne").returns(false);
         //const userService = new UserService(userRepo);
         const account = await accountService.create(stubValue)
         //Service.create(stubValue.name, stubValue.email);
-        expect(stub.calledOnce).to.be.true;
+        //expect(stub.calledOnce).to.be.true;
         //expect(account.id).to.equal(stubValue.id);
         expect(account.title).to.equal(stubValue.title);
         //expect(account.firstName).to.equal(stubValue.firstName);
