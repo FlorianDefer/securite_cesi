@@ -1,15 +1,11 @@
 process.env.NODE_ENV = 'test';
 
 const accountService = require('../../accounts/account.service');
-const db = require('../../_helpers/db');
 
 const chai = require('chai');
-const sinon = require('sinon');
 chai.use(require('sinon-chai'));
 
 const expect = chai.expect;
-
-
 
 
 describe('Test Account Service', function() {
