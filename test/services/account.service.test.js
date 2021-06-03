@@ -97,22 +97,12 @@ describe('Test Account Service', function() {
             password: 'YsiteProvoka!342'
           };
   
-          
-          //const userRepo = new UserRepository();
-          //const stub = sinon.stub(db.Account, "findOne").returns(false);
-          //const userService = new UserService(userRepo);
 
           const accountCreated = await accountService.create(accountMock);
-          //Service.create(stubValue.name, stubValue.email);
-
-          console.log(accountCreated);
 
           // Call the getAccount function
           const accountRetrieved = await accountService.getAccount(accountCreated.id);
 
-
-          //expect(stub.calledOnce).to.be.true;
-          //expect(account.id).to.equal(stubValue.id);
           expect(accountRetrieved.id).to.equal(accountCreated.id);
           expect(accountRetrieved.firstName).to.equal(accountCreated.firstName);
           expect(accountRetrieved.lastName).to.equal(accountCreated.lastName);
@@ -120,6 +110,45 @@ describe('Test Account Service', function() {
           expect(accountRetrieved.role).to.equal(accountCreated.role);
               }
             );
+
+        it('Should throw "Account not found" when id format is not correct', async function() {
+  
+          const accountMockWithFaultyID = {
+            id: 93197129,
+            title: 'Mr',
+            fistName: 'Giovanni',
+            lastName: 'Giorgio',
+            email: 'givonanni.giorgio@gmail.com',
+            role: 'ConnectedCitizen',
+            password: 'YsiteProvoka!342'
+          };
+      
+    
+          //const accountCreated = await accountService.create(accountMock);
+          // Call the getAccount function
+          expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw('Account not found');
+          }
+        );
+
+        it('Should throw "Account not found" when there is no account in the database with the provided id', async function() {
+  
+          const accountMock = {
+            id: 93197129,
+            title: 'Mr',
+            fistName: 'Giovanni',
+            lastName: 'Giorgio',
+            email: 'givonanni.giorgio@gmail.com',
+            role: 'ConnectedCitizen',
+            password: 'YsiteProvoka!342'
+          };
+      
+    
+          const accountCreated = await accountService.create(accountMock);
+          // Call the getAccount function
+          expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw('Account not found');
+          }
+        );
+
         });
 
 
