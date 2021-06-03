@@ -49,13 +49,13 @@ request(app).post('/category/create')
   })
 });
 
-it('Should not create a category for an unauthenticated user', (done) => {
+it('Should not create a category for an unauthenticated user', async () => {
 request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
     const body = res.body;
     console.log(res);
-    expect(res.body.status).to.equal(401);
+    expect(body.status).to.equal(401);
     //expect(res.statusMessage).to.equal('Unauthorized');
     done();
   })
