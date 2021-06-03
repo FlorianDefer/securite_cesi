@@ -24,6 +24,7 @@ describe('POST /category/create', () => {
 // })
 
 it('OK, creating a new category works', (done) => {
+
 request(app).post('/category/create')
   .send({ name: 'Health', _userId: 1 })
   .then((res) => {
@@ -35,12 +36,11 @@ request(app).post('/category/create')
 });
 
 it('Fail, category requires user ID', (done) => {
-request(app).post('/notes')
+request(app).post('/category/create')
   .send({ name: 'Health' })
   .then((res) => {
     const body = res.body;
-    expect(body.errors.text.name)
-      .to.equal('ValidatorError')
+    expect(body.errors.text.name).to.equal('ValidatorError');
     done();
   })
   .catch((err) => done(err));
