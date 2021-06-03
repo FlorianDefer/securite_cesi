@@ -59,7 +59,7 @@ describe('Test Account Service', function() {
         const stubValue = {
           id: 1232,
           title: 'Mr',
-          fistName: 'Andy',
+          firstName: 'Andy',
           lastName: 'Mijo',
           email: 'pendejue@hotmail.com',
           role: 'ConnectedCitizen',
@@ -90,7 +90,7 @@ describe('Test Account Service', function() {
           const accountMock = {
             id: 1983,
             title: 'Mr',
-            fistName: 'Giovanni',
+            firstName: 'Giovanni',
             lastName: 'Giorgio',
             email: 'givonanni.giorgio@gmail.com',
             role: 'ConnectedCitizen',
@@ -115,7 +115,7 @@ describe('Test Account Service', function() {
           const accountMockWithFaultyID = {
             id: 'geeks',
             title: 'Mr',
-            fistName: 'Giovanni',
+            firstName: 'Giovanni',
             lastName: 'Giorgio',
             email: 'givonanni.giorgio@gmail.com',
             role: 'ConnectedCitizen',
@@ -140,7 +140,7 @@ describe('Test Account Service', function() {
           const accountMock = {
             id: '594ced02ed345b2b049222c5',
             title: 'Ms',
-            fistName: 'Luy',
+            firstName: 'Luy',
             lastName: 'Araz',
             email: 'araz.luy@gmail.com',
             role: 'ConnectedCitizen',
@@ -162,7 +162,7 @@ describe('Test Account Service', function() {
             const accountMock = {
               id: '524cad02ed315b3b045243c1',
               title: 'X',
-              fistName: 'Neutral',
+              firstName: 'Neutral',
               lastName: 'Name',
               email: 'neutral.name@yahoo.com',
               role: 'ConnectedCitizen',
@@ -193,7 +193,7 @@ describe('Test Account Service', function() {
             const accountWithShortPassword = {
               id: '524cad32ed315b3c045243c1',
               title: 'Mr',
-              fistName: 'Giovanni',
+              firstName: 'Giovanni',
               lastName: 'Giorgio',
               email: 'givonannissimo.giorgio@gmail.com',
               role: 'ConnectedCitizen',
@@ -211,7 +211,7 @@ describe('Test Account Service', function() {
             const accountWithNotSecurePassword = {
               id: '514ced02ed335b2b049122c5',
               title: 'Ms',
-              fistName: 'Luy',
+              firstName: 'Luy',
               lastName: 'Araz',
               email: 'arazidsa.luy@gmail.com',
               role: 'ConnectedCitizen',
