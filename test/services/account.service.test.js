@@ -130,7 +130,7 @@ describe('Test Account Service', function() {
       
           //const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
+          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).equal('Account not found'));
           //expect(await accountService.getAccount(accountMockWithFaultyID.id)).to.throw(new Error('Account not found'));
           }
         );
@@ -149,7 +149,7 @@ describe('Test Account Service', function() {
       
           const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
+          return accountService.getAccount(accountMock.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
           //expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw(new Error('Account not found'));
           }
         );
