@@ -11,23 +11,12 @@ chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
 
-describe('POST /category/create', () => {
-// before((done) => {
-// conn.connect()
-//   .then(() => done())
-//   .catch((err) => done(err));
-// })
-
-// after((done) => {
-// conn.close()
-//   .then(() => done())
-//   .catch((err) => done(err));
-// })
+describe('Integration test for: POST /category/create', () => {
 
 //statusCode: 401,
 //statusMessage: 'Unauthorized',
 
-it('OK, creating a new category works',  async () => {
+it('Should Create a new category',  async () => {
 
 //First create admin account
 const accountAdmin = {
@@ -61,6 +50,19 @@ request(app).post('/category/create')
   })
   .catch((err) => done(err));
 });
+
+it('Should not create a category for an unauthenticated user', (done) => {
+request(app).post('/category/create')
+  .send({ name: 'Health' })
+  .then((res) => {
+    const body = res.body;
+    expect(body.statusCode).to.equal(401);
+    expect(body.statusMessage).to.equal('Unauthorized');
+    done();
+  })
+  .catch((err) => done(err));
+});
+
 
 // it('Fail, category requires user ID', (done) => {
 // request(app).post('/category/create')
