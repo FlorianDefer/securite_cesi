@@ -52,26 +52,26 @@ request(app).post('accounts/authenticate')
   .catch((err) => done(err));
 
 
-request(app).post('/category/create')
-  .send({ name: 'Health', _userId: 1 })
-  .then((res) => {
-    console.log(res);
-    const body = res.body;
-    expect(body).to.contain.property('message');
-    done();
-  })
-  .catch((err) => done(err));
+// request(app).post('/category/create')
+//   .send({ name: 'Health', _userId: 1 })
+//   .then((res) => {
+//     console.log(res);
+//     const body = res.body;
+//     expect(body).to.contain.property('message');
+//     done();
+//   })
+//   .catch((err) => done(err));
 });
 
-it('Fail, category requires user ID', (done) => {
-request(app).post('/category/create')
-  .send({ name: 'Health' })
-  .then((res) => {
-    console.log(res);
-    const body = res.body;
-    expect(body.errors.text.name).to.equal('ValidatorError');
-    done();
-  })
-  .catch((err) => done(err));
-});
+// it('Fail, category requires user ID', (done) => {
+// request(app).post('/category/create')
+//   .send({ name: 'Health' })
+//   .then((res) => {
+//     console.log(res);
+//     const body = res.body;
+//     expect(body.errors.text.name).to.equal('ValidatorError');
+//     done();
+//   })
+//   .catch((err) => done(err));
+// });
 })
