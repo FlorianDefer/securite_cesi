@@ -138,7 +138,7 @@ describe('Test Account Service', function() {
         it('Should throw "Account not found" when there is no account in the database with the provided id', async function() {
   
           const accountMock = {
-            id: 93197129,
+            id: '594ced02ed345b2b049222c5',
             title: 'Ms',
             fistName: 'Luy',
             lastName: 'Araz',
@@ -149,7 +149,7 @@ describe('Test Account Service', function() {
       
           const accountCreated = await accountService.create(accountMock);
           // Call the getAccount function
-          return accountService.getAccount(accountMock.id).catch(error => expect(error).to.be.an('error').with.property('message', 'Account not found'));
+          return accountService.getAccount(accountMockWithFaultyID.id).catch(error => expect(error).equal('Account not found'));
           //expect(await accountService.getAccount('6jhr32shfds41nfd213')).to.throw(new Error('Account not found'));
           }
         );
