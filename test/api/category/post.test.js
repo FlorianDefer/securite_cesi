@@ -55,8 +55,8 @@ request(app).post('/category/create')
   .then((res) => {
     const body = res.body;
     console.log(res);
-    expect(res.statusCode).to.equal(401);
-    expect(res.statusMessage).to.equal('Unauthorized');
+    expect(res.body.status).to.equal(401);
+    //expect(res.statusMessage).to.equal('Unauthorized');
     done();
   })
   .catch((err) => done(err));
