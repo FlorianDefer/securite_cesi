@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 const app = require('../../../app.js');
-const accountService = require('../../accounts/account.service');
+const accountService = require('../../../accounts/account.service');
 //const conn = require('../../../db/index.js');
 const request = require('supertest');
 
