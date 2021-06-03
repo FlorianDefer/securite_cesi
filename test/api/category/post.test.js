@@ -40,7 +40,7 @@ const accountAdmin = {
   password: 'YsiteProvoka!342'
 };
 
-const accountAdminCreated = await accountService.create(accountAdmin);
+const accountAdminCreated = accountService.create(accountAdmin);
 
 //{ email, password, ipAddress }
 //Then authenticate
