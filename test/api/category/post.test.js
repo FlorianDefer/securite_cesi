@@ -63,15 +63,15 @@ request(app).post('/category/create')
   .catch((err) => done(err));
 });
 
-// it('Fail, category requires user ID', (done) => {
-// request(app).post('/category/create')
-//   .send({ name: 'Health' })
-//   .then((res) => {
-//     console.log(res);
-//     const body = res.body;
-//     expect(body.errors.text.name).to.equal('ValidatorError');
-//     done();
-//   })
-//   .catch((err) => done(err));
-// });
+it('Fail, category requires user ID', (done) => {
+request(app).post('/category/create')
+  .send({ name: 'Health' })
+  .then((res) => {
+    console.log(res);
+    const body = res.body;
+    expect(body.errors.text.name).to.equal('ValidatorError');
+    done();
+  })
+  .catch((err) => done(err));
+});
 })
