@@ -169,16 +169,16 @@ describe('Test Account Service', function() {
               password: 'Ykldjsnbakl738ji!LKF'
             };
 
-            console.log(await accountService.getAll());
+            accountsBefore = await accountService.getAll()
 
-            numberOfAccountsBefore = accountService.getAll().length;
-
-            console.log(numberOfAccountsBefore);
+            numberOfAccountsBefore = accountsBefore.length;
 
             //length of accounts in database increases by 1.
             await accountService.register(accountMock);
 
-            numberOfAccountsAfter = accountService.getAll().length;
+            accountsAfter = await accountService.getAll();
+
+            numberOfAccountsAfter = accountsAfter.length;
 
             expect(numberOfAccountsAfter).to.equal(numberOfAccountsBefore + 1);
 
