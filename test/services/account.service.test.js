@@ -101,21 +101,21 @@ describe('Test Account Service', function() {
           //const userRepo = new UserRepository();
           //const stub = sinon.stub(db.Account, "findOne").returns(false);
           //const userService = new UserService(userRepo);
-          const accountCreated = await accountService.create(accountMock);
+          const accountRegistered = await accountService.register(accountMock);
           //Service.create(stubValue.name, stubValue.email);
 
 
           // Call the getAccount function
-          const accountRetrieved = await accountService.getAccount(accountCreated.id);
+          const accountRetrieved = await accountService.getAccount(accountRegistered.id);
 
 
           //expect(stub.calledOnce).to.be.true;
           //expect(account.id).to.equal(stubValue.id);
-          expect(accountRetrieved.id).to.equal(accountCreated.id);
-          expect(accountRetrieved.firstName).to.equal(accountCreated.firstName);
-          expect(accountRetrieved.lastName).to.equal(accountCreated.lastName);
-          expect(accountRetrieved.email).to.equal(accountCreated.email);
-          expect(accountRetrieved.role).to.equal(accountCreated.role);
+          expect(accountRetrieved.id).to.equal(accountRegistered.id);
+          expect(accountRetrieved.firstName).to.equal(accountRegistered.firstName);
+          expect(accountRetrieved.lastName).to.equal(accountRegistered.lastName);
+          expect(accountRetrieved.email).to.equal(accountRegistered.email);
+          expect(accountRetrieved.role).to.equal(accountRegistered.role);
               }
             );
         });
