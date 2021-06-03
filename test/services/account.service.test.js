@@ -14,19 +14,6 @@ const expect = chai.expect;
 
 describe('Test Account Service', function() {
 
-  // before((done) => {
-  //  // db.connect();
-  //  // done();
-  //  //   .then(() => done())
-  //  //   .catch((err) => done(err));
-  // })
-
-  // after((done) => {
-  //  // db.close()
-  //  //   .then(() => done())
-  //  //   .catch((err) => done(err));
-  // })
-
   describe('Testing the hashing and salting of a password', function() {
     it('Should hash the password', function(done) {
 
@@ -66,7 +53,7 @@ describe('Test Account Service', function() {
 
     });
 
-    describe('Testing the create method', function() {
+    describe('Testing the create function', function() {
       it('Should create a new account', async function() {
 
         const stubValue = {
@@ -92,39 +79,46 @@ describe('Test Account Service', function() {
         expect(account.lastName).to.equal(stubValue.lastName);
         expect(account.role).to.equal(stubValue.role);
   
-          // const password = 'Hello';
-  
-          // const hashedPassword = accountService.saltAndHash(password);
-  
-          // expect(hashedPassword).to.not.equal(password);
-  
-          // //Verifier la longueur du hachage
-  
-          // const passwordDuplicate = 'Hello';
-  
-          // const hashedPasswordOfDuplicate = accountService.saltAndHash(passwordDuplicate);
-  
-          // expect(hashedPasswordOfDuplicate).to.not.equal(hashedPassword);
-  
             }
           );
-  
-          it('Should salt passwords (with the same string value) with different salts', function(done) {
-  
-            const password = 'Hello';
-    
-            const hashedAndSaltedPassword = accountService.saltAndHash(password);
-    
-            const passwordDuplicate = 'Hello';
-    
-            const hashedAndSaltedPasswordOfDuplicate = accountService.saltAndHash(passwordDuplicate);
-    
-            expect(hashedAndSaltedPasswordOfDuplicate).to.not.equal(hashedAndSaltedPassword);
-  
-            done();
-              }
-          );
-  
       });
+
+
+      describe('Testing the getAccount function', function() {
+        it('Should correctly retrieve an account by its id', async function() {
+  
+          const accountMock = {
+            id: 1983,
+            title: 'Mr',
+            fistName: 'Giovanni',
+            lastName: 'Giorgio',
+            email: 'givonanni.giorgio@gmail.com',
+            role: 'ConnectedCitizen',
+            password: 'YsiteProvoka!342'
+          };
+  
+          
+          //const userRepo = new UserRepository();
+          //const stub = sinon.stub(db.Account, "findOne").returns(false);
+          //const userService = new UserService(userRepo);
+          const accountCreated = await accountService.create(accountMock);
+          //Service.create(stubValue.name, stubValue.email);
+
+
+          // Call the getAccount function
+          const accountRetrieved = await accountService.getAccount(accountCreated.id);
+
+
+          //expect(stub.calledOnce).to.be.true;
+          //expect(account.id).to.equal(stubValue.id);
+          expect(accountRetrieved.id).to.equal(accountCreated.id);
+          expect(accountRetrieved.firstName).to.equal(accountCreated.firstName);
+          expect(accountRetrieved.lastName).to.equal(accountCreated.lastName);
+          expect(accountRetrieved.email).to.equal(accountCreated.email);
+          expect(accountRetrieved.role).to.equal(accountCreated.role);
+              }
+            );
+        });
+
 
   });
