@@ -27,7 +27,7 @@ describe('POST /category/create', () => {
 //statusCode: 401,
 //statusMessage: 'Unauthorized',
 
-it('OK, creating a new category works', (done) => {
+it('OK, creating a new category works',  async () => {
 
 //First create admin account
 const accountAdmin = {
@@ -40,7 +40,7 @@ const accountAdmin = {
   password: 'YsiteProvoka!342'
 };
 
-const accountAdminCreated = accountService.create(accountAdmin);
+const accountAdminCreated = await accountService.create(accountAdmin);
 
 //{ email, password, ipAddress }
 //Then authenticate
