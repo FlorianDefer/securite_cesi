@@ -169,7 +169,7 @@ describe('Test Account Service', function() {
               password: 'Ykldjsnbakl738ji!LKF'
             };
 
-            console.log(accountService.getAll());
+            console.log(await accountService.getAll());
 
             numberOfAccountsBefore = accountService.getAll().length;
 
