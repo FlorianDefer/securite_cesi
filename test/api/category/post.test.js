@@ -46,6 +46,8 @@ request(app).post('/category/create')
   .then((res) => {
     const body = res.body;
     expect(body).to.contain.property('message');
+    expect(body).to.contain.property('dsaiufdaioefd');
+    expect(body).to.contain.property('supercalifirigalfean');
   })
 });
 
