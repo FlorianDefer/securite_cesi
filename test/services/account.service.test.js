@@ -240,7 +240,7 @@ describe('Test Account Service', function() {
   
               await accountService.register(accountMock);
               
-              const output = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' }).resolve();
+              const output = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' });
               
               console.log(output);
     
