@@ -225,6 +225,7 @@ describe('Test Account Service', function() {
 
 
           describe('Testing the authenticate function', function() {
+
             it('Should correctly authenticate a user of the application', async function() {
       
               const accountMock = {
@@ -239,7 +240,7 @@ describe('Test Account Service', function() {
   
               await accountService.register(accountMock);
               
-              const output = accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' })
+              const output = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' })
               
               console.log(output);
     
