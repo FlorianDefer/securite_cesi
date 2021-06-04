@@ -255,19 +255,19 @@ describe('Test Account Service', function() {
                 lastName: 'Gonzalez',
                 email: 'carlos.gonzalez@yahoo.com',
                 role: 'ConnectedCitizen',
-                password: 'Ysk93738GIdkasnl21UER0?'
+                password: 'Ysk93738GIdkasnl21UER0!'
               };
 
               await accountService.register(accountMock);
 
-              return accountService.authenticate({ email: accountMock.email, password: 'MaliciousPassword', ipAddress: '192.128.3.58' }).catch(error => expect(error).equal('Email or password is incorrect'));
+              return accountService.authenticate({ email: accountMock.email, password: 'Mdosk9373d8GILGUER0?', ipAddress: '192.128.3.58' }).catch(error => expect(error).equal('Email or password is incorrect'));
     
               }
             );
     
             it('Should throw "Email or password is incorrect" when the credentials provided for an account (email - the UID) are not found in the database (to prevent information leakage to an attacker)', async function() {
           
-              return accountService.authenticate({ email: 'pepito.juanitogonzales@gmail.com', password: 'hijueLachingarda!fds23', ipAddress: '192.147.5.16' }).catch(error => expect(error).equal('Email or password is incorrect'));
+              return accountService.authenticate({ email: 'pepito.juanitogonzales@gmail.com', password: 'hijUEeLachingarda!', ipAddress: '192.147.5.16' }).catch(error => expect(error).equal('Email or password is incorrect'));
   
               }
             );
