@@ -242,9 +242,20 @@ describe('Test Account Service', function() {
 
               //const account = await accountService.create(accountMock);
               
-              const output = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' });
+              const authenticationOutput = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' });
               
-              console.log(output);
+              expect(authenticationOutput.title).to.equal(accountMock.title);
+              expect(authenticationOutput.firstName).to.equal(accountMock.firstName);
+              expect(authenticationOutput.lastName).to.equal(accountMock.lastName);
+              expect(authenticationOutput.email).to.equal(accountMock.email);
+              expect(authenticationOutput.role).to.equal(accountMock.role);
+              expect(authenticationOutput.isVerified).to.be.false;
+
+              expect(authenticationOutput).to.contain.property('id');
+              expect(authenticationOutput).to.contain.property('created');
+              expect(authenticationOutput).to.contain.property('updated');
+              expect(authenticationOutput).to.contain.property('jwtToken');
+              expect(authenticationOutput).to.contain.property('refreshToken');
     
                   }
                 );
