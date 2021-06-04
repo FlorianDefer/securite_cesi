@@ -19,7 +19,7 @@ async function authenticate({ email, password, ipAddress }) {
 
     console.log(cleanEmail);
 
-    const account = await db.Account.findOne( cleanEmail );
+    const account = await db.Account.findOne({ cleanEmail });
     //const account = await db.Account.findOne({ cleanEmail });
     //console.log('dans le service')
     //console.log(cleanEmail)
