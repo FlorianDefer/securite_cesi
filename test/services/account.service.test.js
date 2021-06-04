@@ -224,4 +224,56 @@ describe('Test Account Service', function() {
           });
 
 
+          describe('Testing the authenticate function', function() {
+            it('Should correctly authenticate a user of the application', async function() {
+      
+              const accountMock = {
+                id: '214cad02ed315b3b045243c1',
+                title: 'Ms',
+                firstName: 'Mamsifsa',
+                lastName: 'Uah',
+                email: 'mamsifsa.uah@gmail.com',
+                role: 'ConnectedCitizen',
+                password: 'Ydammfeosk93738GILGUER0?'
+              };
+  
+              await accountService.register(accountMock);
+              
+              const output = accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' })
+              
+              console.log(output);
+    
+                  }
+                );
+    
+            it('Should throw "Email or password is incorrect" when the hash of the salted password provided by the user does not match the hashed salted password in the database (to prevent information leakage to an attacker)', async function() {
+      
+              const accountMock = {
+                id: '272cah02ed313b0452813c1',
+                title: 'Mr',
+                firstName: 'Carlos',
+                lastName: 'Gonzalez',
+                email: 'carlos.gonzalez@yahoo.com',
+                role: 'ConnectedCitizen',
+                password: 'Ysk93738GIdkasnl21UER0?'
+              };
+
+              await accountService.register(accountMock);
+
+              return accountService.authenticate({ email: accountMock.email, password: 'MaliciousPassword', ipAddress: '192.128.3.58' }).catch(error => expect(error).equal('Email or password is incorrect'));
+    
+              }
+            );
+    
+            it('Should throw "Email or password is incorrect" when the credentials provided for an account (email - the UID) are not found in the database (to prevent information leakage to an attacker)', async function() {
+          
+              return accountService.authenticate({ email: 'pepito.juanitogonzales@gmail.com', password: 'hijueLachingarda!fds23', ipAddress: '192.147.5.16' }).catch(error => expect(error).equal('Email or password is incorrect'));
+  
+              }
+            );
+    
+            });
+  
+
+
   });
