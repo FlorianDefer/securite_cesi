@@ -20,25 +20,6 @@ async function authenticate({ email, password, ipAddress }) {
     console.log(cleanEmail);
 
     const account = await db.Account.findOne({ email });
-    //const account = await db.Account.findOne({ cleanEmail });
-    //console.log('dans le service')
-    //console.log(cleanEmail)
-    //console.log(account)
-    
-    // if (!account ) {
-    //     //console.log('c mort ')
-    //     throwtext= 'Email is incorrect';
-    //     logger.error(throwtext);
-    //     throw throwtext;
-    // }
-
-    // if (!bcrypt.compareSync(password, account.passwordHash) ) {
-    //     //console.log('c mort ')
-    //     throwtext= 'Password is incorrect';
-    //     logger.error(throwtext);
-    //     throw throwtext;
-    // }
-
 
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
         //console.log('c mort ')
@@ -46,7 +27,7 @@ async function authenticate({ email, password, ipAddress }) {
         logger.error(throwtext);
         throw throwtext;
     }
-    console.log('dans le service 2')
+
     // authentication successful so generate jwt and refresh tokens
     const jwtToken = generateJwtToken(account);
     const refreshToken = generateRefreshToken(account, ipAddress);

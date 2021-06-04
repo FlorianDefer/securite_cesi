@@ -238,11 +238,11 @@ describe('Test Account Service', function() {
                 password: 'Ydammfeosk93738GILGUER0?'
               };
   
-              //await accountService.register(accountMock);
+              await accountService.register(accountMock);
 
-              const account = await accountService.create(accountMock);
+              //const account = await accountService.create(accountMock);
               
-              const output = await accountService.authenticate({ email: account.email, password: 'Ydammfeosk93738GILGUER0?', ipAddress: '192.158.1.38' });
+              const output = await accountService.authenticate({ email: accountMock.email, password: accountMock.password, ipAddress: '192.158.1.38' });
               
               console.log(output);
     
