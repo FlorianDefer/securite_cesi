@@ -19,24 +19,25 @@ async function authenticate({ email, password, ipAddress }) {
 
     console.log(cleanEmail);
 
-    const account = await db.Account.findOne({ cleanEmail });
+    const account = await db.Account.findOne({ email });
     //const account = await db.Account.findOne({ cleanEmail });
     //console.log('dans le service')
     //console.log(cleanEmail)
     //console.log(account)
-    if (!account ) {
-        //console.log('c mort ')
-        throwtext= 'Email is incorrect';
-        logger.error(throwtext);
-        throw throwtext;
-    }
+    
+    // if (!account ) {
+    //     //console.log('c mort ')
+    //     throwtext= 'Email is incorrect';
+    //     logger.error(throwtext);
+    //     throw throwtext;
+    // }
 
-    if (!bcrypt.compareSync(password, account.passwordHash) ) {
-        //console.log('c mort ')
-        throwtext= 'Password is incorrect';
-        logger.error(throwtext);
-        throw throwtext;
-    }
+    // if (!bcrypt.compareSync(password, account.passwordHash) ) {
+    //     //console.log('c mort ')
+    //     throwtext= 'Password is incorrect';
+    //     logger.error(throwtext);
+    //     throw throwtext;
+    // }
 
 
     if (!account || !bcrypt.compareSync(password, account.passwordHash)) {
