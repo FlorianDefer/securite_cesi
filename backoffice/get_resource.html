@@ -158,7 +158,7 @@ function parseURL(url) {
     };
 }
 
-//jQuery.ajax({ url : 'http://localhost:3000/resources/mytest/',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+//jQuery.ajax({ url : 'resources/mytest/',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
 //	beforeSend: function(){
 //			console.log($('#table').html());
 //				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
@@ -169,7 +169,7 @@ function parseURL(url) {
 
 
 function get_resource() {
-	jQuery.ajax({ url : 'http://localhost:3000/resources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	jQuery.ajax({ url : 'resources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
 	beforeSend: function(){
 				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
 		
@@ -202,7 +202,7 @@ function get_resource() {
             
         
         });
-		jQuery.ajax({ url : 'http://localhost:3000/favorite/'+$_GET('id'), headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}
+		jQuery.ajax({ url : 'favorite/'+$_GET('id'), headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}
 	}).done(function(favorite){
 		console.log('favorite' , favorite);
            if (favorite[0] == undefined) {
@@ -220,7 +220,7 @@ function get_resource() {
 	});	
 }
 function get_comment() {
-	jQuery.ajax({ url : 'http://localhost:3000/comment/byResources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	jQuery.ajax({ url : 'comment/byResources/'+$_GET('id'),headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
 	beforeSend: function(){
 				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
 		
@@ -247,7 +247,7 @@ get_resource();
 get_comment();
 
 function get_my_comment(id){
-	jQuery.ajax({ url : 'http://localhost:3000/comment/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	jQuery.ajax({ url : 'comment/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
 	beforeSend: function(){
 				$("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
 		
@@ -272,11 +272,11 @@ function send_comment(id ="") {
     // Configurez la requêtes
     if (id == ""){
 		content = $('#input_add_comment').val()
-        XHR.open('POST', 'http://localhost:3000/comment/');
+        XHR.open('POST', 'comment/');
     }
     else {
 		content = $('#input_update_comment').val()
-        XHR.open('PUT' ,'http://localhost:3000/comment/'+id);
+        XHR.open('PUT' ,'comment/'+id);
     }
 	console.log(content)
 	my_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
@@ -331,7 +331,7 @@ function refresh_form_comment() {
 }
 function delete_my_comment(id) {
 	if (confirm('êtes vous sur de vouloir supprimer ce commentaire')) {
-		var url = "http://localhost:3000/comment/"+id;
+		var url = "comment/"+id;
 		var xhr = new XMLHttpRequest();
 		xhr.open("DELETE", url);
 		xhr.onload = function () {
@@ -359,7 +359,7 @@ function add_favorite() {
 	var urlEncodedDataPairs = [];
     var name;
     // Configurez la requêtes
-    XHR.open('POST', "http://localhost:3000/favorite/"+$_GET('id'));
+    XHR.open('POST', "favorite/"+$_GET('id'));
    
 	console.log(content)
 	my_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
@@ -403,7 +403,7 @@ function add_favorite() {
 }
 function remove_favorite() {
 	if (confirm('êtes vous sur de vouloir enlever la ressource des favories')) {
-		var url = "http://localhost:3000/favorite/"+$_GET('id');
+		var url = "favorite/"+$_GET('id');
 		var xhr = new XMLHttpRequest();
 		xhr.open("DELETE", url);
 		xhr.onload = function () {

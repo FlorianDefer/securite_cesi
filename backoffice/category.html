@@ -207,7 +207,7 @@ function deconnection(){
     
         
     function refresh_table(){
-        jQuery.ajax({ url : 'http://localhost:3000/category/table',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+        jQuery.ajax({ url : 'category/table',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
         beforeSend: function(){
                             console.log($('#table').html());
                             if ($('#table').html() == ""){
@@ -264,7 +264,7 @@ function deconnection(){
     }
     function delete_category(email, id) {
         if (confirm('êtes vous sur de vouloir supprimer le comptes : '+email)) {
-            var url = "http://localhost:3000/category/remove/"+id;
+            var url = "category/remove/"+id;
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", url);
             xhr.onload = function () {
@@ -302,7 +302,7 @@ function update_category(id) {
     $('#new_category_Modal').modal('show')
 
 
-    jQuery.ajax({ url : 'http://localhost:3000/category/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
+    jQuery.ajax({ url : 'category/'+id , headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
         console.log(data)	
         $('#name').val(data.name)
     });
@@ -358,10 +358,10 @@ function submit_category(id=""){
     var name;
     // Configurez la requêtes
     if (id == ""){
-        XHR.open('POST', 'http://localhost:3000/category/create');
+        XHR.open('POST', 'category/create');
     }
     else {
-        XHR.open('PUT' ,'http://localhost:3000/category/get/'+id);
+        XHR.open('PUT' ,'category/get/'+id);
     }
 	
 	urlEncodedDataPairs.push(encodeURIComponent('name') + '=' + encodeURIComponent($('#name').val()));

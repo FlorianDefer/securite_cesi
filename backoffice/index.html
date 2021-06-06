@@ -212,7 +212,7 @@ function parseURL(url) {
 
 	
 function refresh_table(){
-	jQuery.ajax({ url : 'http://localhost:3000/accounts/',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+	jQuery.ajax({ url : 'accounts/',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
 	beforeSend: function(){
 						console.log($('#table').html());
 						if ($('#table').html() == ""){
@@ -299,7 +299,7 @@ document.getElementById("retour_data").innerHTML == ""
 }
 function delete_user(email, id) {
 	if (confirm('êtes vous sur de vouloir supprimer le comptes : '+email)) {
-		var url = "http://localhost:3000/accounts/"+id;
+		var url = "accounts/"+id;
 		var xhr = new XMLHttpRequest();
 		xhr.open("DELETE", url);
 		xhr.onload = function () {
@@ -342,7 +342,7 @@ function update_user(id) {
     $('#new_account_Modal').modal('show')
 
 
-    jQuery.ajax({ url : 'http://localhost:3000/accounts/'+id,headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
+    jQuery.ajax({ url : 'accounts/'+id,headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
         console.log(data)	
         $('#email').val(data.email)
         $('#password').val("")
@@ -402,10 +402,10 @@ function submit_account(id=""){
     var name;
     // Configurez la requêtes
     if (id == ""){
-        XHR.open('POST', 'http://localhost:3000/accounts/');
+        XHR.open('POST', 'accounts/');
     }
     else {
-        XHR.open('PUT' ,'http://localhost:3000/accounts/'+id);
+        XHR.open('PUT' ,'accounts/'+id);
     }
 	
 	urlEncodedDataPairs.push(encodeURIComponent('title') + '=' + encodeURIComponent('Mr'));

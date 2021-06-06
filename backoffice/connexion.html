@@ -215,7 +215,7 @@ function submit_connexion(){
 	});
   
 	// Configurez la requêtes
-	XHR.open('POST', 'http://localhost:3000/accounts/authenticate');
+	XHR.open('POST', 'accounts/authenticate');
   
 	// Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
 	XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -280,7 +280,7 @@ function submit_register(){
 	});
   
 	// Configurez la requêtes
-	XHR.open('POST', 'http://localhost:3000/accounts/register');
+	XHR.open('POST', 'accounts/register');
   
 	// Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
 	XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -340,7 +340,7 @@ function submit_email(){
 	});
   
 	// Configurez la requêtes
-	XHR.open('POST', 'http://localhost:3000/accounts/forgot-password');
+	XHR.open('POST', 'accounts/forgot-password');
   
 	// Ajoutez l'en-tête HTTP requise pour requêtes POST de données de formulaire
 	XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
