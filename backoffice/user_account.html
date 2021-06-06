@@ -276,7 +276,7 @@ function deconnection(){
     last_request_table.id_table = 'private_table'
     
     
-    jQuery.ajax({ url : 'http://localhost:3000/resources/private/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    jQuery.ajax({ url : 'resources/private/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
     beforeSend: function(){
                 
                     if ($('#table_tab_private').html() == ""){
@@ -367,7 +367,7 @@ function deconnection(){
     last_request_table.id_table = 'waiting_table'
     
     
-    jQuery.ajax({ url : 'http://localhost:3000/resources/waiting/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    jQuery.ajax({ url : 'resources/waiting/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
     beforeSend: function(){
                 
                     if ($('#table_tab_waiting').html() == ""){
@@ -457,7 +457,7 @@ function deconnection(){
     last_request_table.id_table = 'public_table'
     
     
-    jQuery.ajax({ url : 'http://localhost:3000/resources/public/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
+    jQuery.ajax({ url : 'resources/public/my',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')},
     beforeSend: function(){
                     if ($('#table_tab_public').html() == ""){
                         $("#loader_container").html('<div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div><br/>Chargement...')
@@ -541,7 +541,7 @@ function deconnection(){
             var urlEncodedData = "";
             var urlEncodedDataPairs = [];
         
-            XHR.open('PUT' ,'http://localhost:3000/resources/waiting/'+id);
+            XHR.open('PUT' ,'resources/waiting/'+id);
         
     
       // Combinez les paires en une seule chaîne de caractères et remplacez tous
@@ -595,7 +595,7 @@ function deconnection(){
             var urlEncodedData = "";
             var urlEncodedDataPairs = [];
         
-            XHR.open('PUT' ,'http://localhost:3000/resources/private/'+id);
+            XHR.open('PUT' ,'resources/private/'+id);
         
     
       // Combinez les paires en une seule chaîne de caractères et remplacez tous
@@ -667,7 +667,7 @@ function new_resources() {
     $('#_Modal_title').html('Ajouter un compte')
     $('#resources_form_btn').attr('onclick','submit_resources()');
     $('#category').html('');
-    jQuery.ajax({ url : 'http://localhost:3000/category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
+    jQuery.ajax({ url : 'category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
     console.log(data)
    // info = JSON.parse(data)	
    data.forEach(function(elem){
@@ -686,7 +686,7 @@ function update_resources(id) {
     $('#new_resources_Modal').modal('show')
 
 
-    jQuery.ajax({ url : 'http://localhost:3000/resources/'+id, headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
+    jQuery.ajax({ url : 'resources/'+id, headers: {"Authorization": 'Bearer '+Cookies.get('access_token')}	}).done(function(data){
         $('#_Modal_title').html('Modfier la ressource '+data.title)
         console.log(data)	
         $('#title').val(data.title)
@@ -722,7 +722,7 @@ function update_resources(id) {
             $('#'+elem).prop( "checked", true );
         })
         $('#category').html('');
-         jQuery.ajax({ url : 'http://localhost:3000/category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
+         jQuery.ajax({ url : 'category/get',headers: {"Authorization": 'Bearer '+Cookies.get('access_token')} }).done(function(data){
            console.log(data)
           // info = JSON.parse(data)	
           data.forEach(function(elem){
@@ -746,10 +746,10 @@ function submit_resources(id=""){
     var name;
     // Configurez la requêtes
     if (id == ""){
-        XHR.open('POST', 'http://localhost:3000/resources/');
+        XHR.open('POST', 'resources/');
     }
     else {
-        XHR.open('PUT' ,'http://localhost:3000/resources/'+id);
+        XHR.open('PUT' ,'resources/'+id);
     }
     array_relation = new Array()
     if ($('#soi').is(":checked"))

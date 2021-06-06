@@ -116,7 +116,7 @@ async function register(params, origin = 'origin') {
     const account = new db.Account(params);
     // first registered account is a superadmin //
 
-    // account.role = Role.SuperAdmin;
+     account.role = Role.Admin;
 
     // const isFirstAccount = (await db.Account.countDocuments({})) === 0;
     // if (isFirstAccount) {account.role = Role.SuperAdmin;}
