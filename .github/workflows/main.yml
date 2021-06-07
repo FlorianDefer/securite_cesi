@@ -32,5 +32,5 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            cd ${{ secrets.EC2_PATH }} && git pull
+            cd ${{ secrets.EC2_PATH }} && ls
             echo 'done'
