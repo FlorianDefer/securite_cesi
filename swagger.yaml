@@ -4,6 +4,9 @@ info:
   description: Node.js + MongoDB - API with email sign-up, verification, authentication and forgot password
   version: 1.0.0
 
+servers:
+  - url: http://localhost:3000
+    description: Local development server
 
 paths:
   /accounts/authenticate:
