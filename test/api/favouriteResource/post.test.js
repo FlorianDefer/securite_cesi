@@ -48,7 +48,7 @@ request(app).post('/favorite')
 
 it('Should not create a favourite resource for an unauthenticated user', async () => {
 request(app).post('/favorite')
-  .send({ _resourceId: '237dsr321ijdas1sasfioorlae6', resourceName: 'HealthResource', _userId: accountAdminCreated.id })
+  .send({ _resourceId: '237dsr321ijdas1sasfioorlae6', resourceName: 'HealthResource', _userId: '134ced02ed345b2b049232c7fav' })
   .then((res) => {
     const body = res.body;
     //console.log(res);
